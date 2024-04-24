@@ -1,0 +1,52 @@
+<div
+  class="animate-fade-up animate-duration-500 duration-500 animate-ease-in-out overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex"
+>
+  <div class="relative w-auto my-6 mx-auto max-w-6xl">
+    <div
+      class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+    >
+      <div
+        class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t"
+      >
+        <h3 class="text-3xl font-semibold">Reserveer werkplek</h3>
+      </div>
+
+
+      <div id="modal-body" class="relative p-6 flex-auto overflow-x-scroll">
+            <h2 class="text-black text-center text-xl font-semibold mb-5">Favoriete Locatie: {{userPrefs.favoriteLocation}}</h2>
+            <ul class="flex ">
+                <li *ngFor="let location of locations" class="px-2">
+                    <div class="flex">
+                        <div class="flex items-center h-5">
+                            <input id="{{location}}-radio" type="radio" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        </div>
+                        <div class="ms-2 text-sm">
+                            <label for="{{location}}-radio" class="font-medium text-black">{{location}}</label>
+                            <p id="{{location}}-radio-text" class="text-xs font-normal text-black">xxx werkplekken beschikbaar</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>            
+      </div>
+      <div
+        class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b"
+      >
+        <button
+          class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          type="button"
+          (click)="toggleModal()"
+        >
+          Sluit
+        </button>
+        <button
+          class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          type="button"
+          (click)="toggleModal()"
+        >
+          Volgende stap
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="opacity-25 fixed inset-0 z-40 bg-black"></div>

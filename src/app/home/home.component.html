@@ -1,1 +1,5 @@
 <p>home works!</p>
+
+
+<button (click)="showModal = !showModal">Show Modal</button>
+<create-reservation [showModal]="showModal" (disableModal)="updateModal($event)" *ngIf="showModal"></create-reservation>

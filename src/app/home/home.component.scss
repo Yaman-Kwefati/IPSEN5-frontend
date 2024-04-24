@@ -1,0 +1,5 @@
+.out {
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+}
