@@ -1,27 +1,27 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {Router, RouterModule} from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
 import {AuthService} from "../shared/service/auth.service";
+import { NavbarItemComponent } from './navbar-item/navbar-item.component';
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, LucideAngularModule],
+  imports: [CommonModule, LucideAngularModule, NavbarItemComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent {
-  public search: boolean = false;
+export class NavbarComponent{
+  collapsed = true;
 
   constructor(private authService: AuthService) {}
 
-  signout() {
-    this.authService.signout();
+  toggleCollapse(){
+    this.collapsed = !this.collapsed;
   }
 
-  onSearchClick() {
-    this.search = !this.search;
+  signout() {
+    this.authService.signout();
   }
 }
