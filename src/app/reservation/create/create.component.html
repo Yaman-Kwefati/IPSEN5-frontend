@@ -1,145 +1,339 @@
 <div
-  class="animate-fade-up animate-duration-500 duration-500 animate-ease-in-out overflow-x-hidden overflow-y-hidden max-h-screen fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex max-w-screen-lg mx-auto"
+  class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none m-5"
 >
-  <div class="relative w-auto my-6 mx-auto max-w-6xl">
-    <div
-      class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+  <div
+    class="flex items-start justify-between p-5 border-b border-solid border-blue-200 rounded-t"
+  >
+    <h3 class="text-3xl font-semibold">Reserveer werkplek</h3>
+  </div>
+
+  <div id="modal-body" class="relative p-6 flex-auto overflow-x-visible">
+    <ol
+      class="flex items-center w-full text-sm font-medium text-center text-gray-500 sm:text-base mb-6 p-2 border-b border-solid border-gray-200"
     >
-      <div
-        class="flex items-start justify-between p-5 border-b border-solid border-blue-200 rounded-t"
-      >
-        <h3 class="text-3xl font-semibold">Reserveer werkplek</h3>
-      </div>
-
-
-      <div id="modal-body" class="relative p-6 flex-auto overflow-x-visible max-w-screen-lg">
-        <ol class="flex items-center w-full text-sm font-medium text-center text-gray-500 sm:text-base mb-6 p-2 border-b border-solid border-gray-200">
-          <ng-container *ngFor="let step of wizardSteps; let i = index">
-              <li class="flex md:w-full items-center"
-                  [ngClass]="{
+      <ng-container *ngFor="let step of wizardSteps; let i = index">
+        <li
+          class="flex md:w-full items-center"
+          [ngClass]="{
                       'text-blue-600': i <= wizardStep,
                       'after\:border-gray-200': i === wizardStep,
                       'after\:border-b': i === wizardStep,
                       'after\:border-1': i === wizardStep,
                       'after\:hidden': i !== wizardStep,
                       'sm\:after\:inline-block': i !== wizardStep,
-                  }">
-                  <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200">
-                      <svg *ngIf="i === wizardStep" class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                      </svg>
-                      <span *ngIf="i !== wizardStep" class="me-2">{{ i + 1 }}</span>
-                      {{ step }}
-                  </span>
-              </li>
-          </ng-container>
-      </ol>
+                  }"
+        >
+          <span
+            class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200"
+          >
+            <svg
+              *ngIf="i === wizardStep"
+              class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+              />
+            </svg>
+            <span *ngIf="i !== wizardStep" class="me-2">{{ i + 1 }}</span>
+            {{ step }}
+          </span>
+        </li>
+      </ng-container>
+    </ol>
+    <form [formGroup]="reservationForm">
       <div [ngSwitch]="wizardStep">
-          <!-- Wizard step 1: Location selection -->
-          <div *ngSwitchCase="0">
-            <ul class="grid grid-flow-col overflow-x-scroll">
-                <li *ngFor="let location of locations" class="px-2 w-full min-w-96 mb-4">
-                  <div class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2" (click)="selectedLocation = location.city">
-                    <img class="rounded-t-lg w-full h-auto aspect-square object-cover" [src]="('./assets/locations/' + location.city.toLowerCase() + '.png') || './assets/CGI_logo.png'" alt="" />
-                      <h5 class="text-2xl font-bold tracking-tight text-gray-900 mb-2">{{ location.city }}</h5>
-                      <p class="text-sm font-thin text-gray-600 mb-2">{{ location.address }} {{location.zip}} </p>
-                      <a (click)="nextWizardStep()" class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                        Kies deze locatie
-                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                        </svg>
-                      </a>
-                      <h6 *ngIf="userPrefs.favoriteLocation == this.location.city" class="text-red-400 text-sm font-thin">Dit is je favoriete locatie ❤️</h6>
-                    </div>
-                </li>
-            </ul>     
-          </div>
-          <!-- Wizard step 2: Type selectering (Werkplek of Vergaderruimte) -->
-          <div *ngSwitchCase="1">
-            <div class="">
-              <div class="flex flex-col mb-5">
-                <label for="amount" class="text-sm font-medium text-gray-700">Aantal personen</label>
-                <input
-                  type="number"
-                  id="amount"
-                  name="amount"
-                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        <!-- Wizard step 1: Location selection -->
+        <div *ngSwitchCase="0">
+          <ul class="grid grid-flow-col overflow-x-scroll">
+            <li
+              *ngFor="let location of locations"
+              class="px-2 w-full min-w-96 mb-4"
+            >
+              <div
+                class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2"
+                (click)="selectedLocation = location.city"
+              >
+                <img
+                  class="rounded-t-lg w-full h-auto aspect-square object-cover"
+                  [src]="
+                    './assets/locations/' +
+                      location.city.toLowerCase() +
+                      '.png' || './assets/CGI_logo.png'
+                  "
+                  alt=""
                 />
+                <h5
+                  class="text-2xl font-bold tracking-tight text-gray-900 mb-2"
+                >
+                  {{ location.city }}
+                </h5>
+                <p class="text-sm font-thin text-gray-600 mb-2">
+                  {{ location.address }} {{ location.zip }}
+                </p>
+                <a
+                  (click)="this.reservationForm.patchValue({ location: location.city })"
+                  (click)="nextWizardStep()"
+                  class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                >
+                  Kies deze locatie
+                  <svg
+                    class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 10"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M1 5h12m0 0L9 1m4 4L9 9"
+                    />
+                  </svg>
+                </a>
+                <h6
+                  *ngIf="userPrefs.favoriteLocation == this.location.city"
+                  class="text-red-400 text-sm font-thin"
+                >
+                  Dit is je favoriete locatie ❤️
+                </h6>
               </div>
-              <div class="flex flex-row gap-4 mx-auto h-auto">
-                <!-- 2 cards with an image in each with the text underneath it -->
-                <div class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2 mx-auto" (click)="selectedType = 'Werkplek'">
-                  <img class="rounded-t-lg w-full h-auto aspect-square object-cover" src="./assets/locations/workplace.png" alt="" />
-                  <h5 class="text-2xl font-bold tracking-tight text-gray-900 mb-2">Werkplek</h5>
-                  <p class="text-sm font-thin text-gray-600 mb-2">Een werkplek voor een dagdeel of een hele dag.</p>
-                  <a (click)="nextWizardStep()" class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                    Kies deze werkplek
-                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                    </svg>
-                  </a>
-                  </div>
-                  <div class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2" (click)="selectedType = 'Werkplek'">
-                    <img class="rounded-t-lg w-full h-auto aspect-square object-cover" src="./assets/locations/workplace.png" alt="" />
-                    <h5 class="text-2xl font-bold tracking-tight text-gray-900 mb-2">Vergaderruimte</h5>
-                    <p class="text-sm font-thin text-gray-600 mb-2">Een vergaderruimte voor een dagdeel of een hele dag.</p>
-                    <a (click)="nextWizardStep()" class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                      Kies deze werkplek
-                      <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                      </svg>
-                    </a>
-                    </div>
+            </li>
+          </ul>
+        </div>
+        <!-- Wizard step 2: Type selectering (Werkplek of Vergaderruimte) -->
+        <div *ngSwitchCase="1">
+          <div class="">
+            <div class="flex flex-col mb-5">
+              <label for="amount" class="text-sm font-medium text-gray-700"
+                >Aantal personen</label
+              >
+              <input
+                formControlName="numberOfPeople"
+                type="number"
+                id="amount"
+                name="amount"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
+            </div>
+            <div class="flex flex-row gap-4 mx-auto h-auto">
+              <!-- 2 cards with an image in each with the text underneath it -->
+              <div
+                class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2 mx-auto"
+                (click)="selectedType = 'Werkplek'"
+              >
+                <h5
+                  class="text-2xl font-bold tracking-tight text-gray-900 mb-2"
+                >
+                  Werkplek
+                </h5>
+                <a
+                (click)="this.reservationForm.patchValue({ type: 'werkplek' })"
+                  (click)="nextWizardStep()"
+                  class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                >
+                  Kies een werkplek
+                  <svg
+                    class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 10"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M1 5h12m0 0L9 1m4 4L9 9"
+                    />
+                  </svg>
+                </a>
               </div>
-              </div>  
-              </div>
-
-
-
-            <!-- Wizard step 3: Date selection -->
-            <div *ngSwitchCase="2">
-              <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div class="flex flex-col">
-                  <label for="date" class="text-sm font-medium text-gray-700 ">Datum</label>
-                  <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  />
-                </div>
-                <div class="flex flex-col">
-                  <label for="time" class="text-sm font-medium text-gray-700 ">Tijd</label>
-                  <input
-                    type="time"
-                    id="time"
-                    name="time"
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  />
-                </div>
+              <div
+                class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2"
+                (click)="selectedType = 'Werkplek'"
+              >
+                <h5
+                  class="text-2xl font-bold tracking-tight text-gray-900 mb-2"
+                >
+                  Vergaderruimte
+                </h5>
+                <a
+                (click)="this.reservationForm.patchValue({ type: 'vergaderruimte' })"
+                  (click)="nextWizardStep()"
+                  class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                >
+                  Kies een vergaderruimte
+                  <svg
+                    class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 10"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M1 5h12m0 0L9 1m4 4L9 9"
+                    />
+                  </svg>
+                </a>
               </div>
             </div>
           </div>
-
-      </div>
-      <!-- Footer -->
-      <div class="flex items-center justify-between p-6 border-t border-solid border-gray-200 rounded-b">
-        <button
-          class="text-gray-400 bg-transparent hover:text-gray-200 bg-slate-300 hover:bg-slate-700 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-          type="button"
-          (click)="returnWizardStep()"
-        >
-          Vorige
-        </button>
-        <button
-          class="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-          type="button"
-          (click)="nextWizardStep()"
-        >
-          Volgende
-        </button>
         </div>
-    </div>
+
+        <!-- Wizzard step 3: Select wing for workspace and wing and room -->
+        <div *ngSwitchCase="2">
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div class="flex flex-col">
+              <label for="wing" class="text-sm font-medium text-gray-700"
+                >Vleugel</label
+              >
+              <select
+                formControlName="wing"
+                id="wing"
+                name="wing"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              >
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+              </select>
+            </div>
+            <div class="flex flex-col">
+              <label for="room" class="text-sm font-medium text-gray-700"
+                >Ruimte</label
+              >
+              <select
+                formControlName="room"
+                id="room"
+                name="room"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wizard step 4: Date selection -->
+        <div *ngSwitchCase="3">
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div class="flex flex-col">
+              <label for="date" class="text-sm font-medium text-gray-700"
+                >Datum</label
+              >
+              <input
+                formControlName="date"
+                type="date"
+                id="date"
+                name="date"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
+            </div>
+            <div class="flex flex-col">
+              <label for="time" class="text-sm font-medium text-gray-700"
+                >Tijd</label
+              >
+              <input
+                formControlName="time"
+                type="time"
+                id="time"
+                name="time"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Wizard Step 5: Overview -->
+        <div *ngSwitchCase="4">
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div
+              class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2"
+            >
+              <h5
+                class="text-2xl font-bold tracking-tight text-gray-900 mb-2"
+              >
+                Je reservering voor: {{ this.reservationForm.get('date')?.value }}
+              </h5>
+              <p class="text-sm font-thin text-gray-600 mb-2">
+                Locatie: {{ this.reservationForm.get('location')?.value }}
+              </p>
+              <p class="text-sm font-thin text-gray-600 mb-2">
+                Vleugel en ruimte: {{ this.reservationForm.get('wing')?.value }} - {{ this.reservationForm.get('room')?.value }}
+              </p>
+              <p class="text-sm font-thin text-gray-600 mb-2">
+                Datum: {{ this.reservationForm.get('date')?.value }} om {{ this.reservationForm.get('time')?.value }}
+              </p>
+              <p class="text-sm font-thin text-gray-600 mb-2">Type: {{ this.reservationForm.get('type')?.value }}</p>
+              <p class="text-sm font-thin text-gray-600 mb-2">
+                Aantal personen: {{ this.reservationForm.get('numberOfPeople')?.value }}
+              </p>
+              <a
+                (click)="submitReservation()"
+                class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+              >
+                Bevestig reservering
+                <svg
+                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                  />
+                </svg>
+              </a>
+            
+            </div>
+          </div>
+        </div>
+
+        <div *ngSwitchDefault>
+          <h1>Not yet implemented</h1>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- Footer -->
+  <div
+    class="flex items-center justify-between p-6 border-t border-solid border-gray-200 rounded-b"
+  >
+    <button
+      *ngIf="wizardStep > 0"
+      class="text-gray-400 bg-transparent hover:text-gray-200 bg-slate-300 hover:bg-slate-700 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+      type="button"
+      (click)="returnWizardStep()"
+    >
+      Vorige
+    </button>
+    <button
+      *ngIf="wizardStep < wizardSteps.length - 1"
+      class="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+      type="button"
+      (click)="nextWizardStep()"
+    >
+      Volgende
+    </button>
   </div>
 </div>
-<div class="opacity-25 fixed inset-0 z-40 bg-black"></div>
