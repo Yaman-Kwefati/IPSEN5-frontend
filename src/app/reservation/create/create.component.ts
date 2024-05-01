@@ -51,6 +51,6 @@ export class CreateReservationComponent {
   }
 
   submitReservation() {
-    throw new Error('Method not implemented.');
+    this.createReservationService.createReservation(this.reservationForm.value);
   }
 }
