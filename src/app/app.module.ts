@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import {AuthService} from "./shared/service/auth.service";
 import {ApiService} from "./shared/service/api.service";
+import {FullCalendarModule} from "@fullcalendar/angular";
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +33,7 @@ import {ApiService} from "./shared/service/api.service";
     MatNativeDateModule,
     ToastrModule.forRoot(),
     HttpClientModule,
+    FullCalendarModule
   ],
   providers: [
     HttpClientModule,
@@ -39,6 +41,6 @@ import {ApiService} from "./shared/service/api.service";
     AuthService, ApiService,
     DatePipe
 
-  ],  bootstrap: [AppComponent],
+  ], bootstrap: [AppComponent],
 })
 export class AppModule {}

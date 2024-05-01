@@ -28,3 +28,43 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+//Section for styling the calendar properties
+.fc .fc-button-primary {
+  @apply bg-secondary-purple-light text-black rounded;
+  @apply hover:bg-secondary-purple-light hover:text-gray-600;
+  box-shadow: none;
+}
+
+.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr .fc-button.fc-button-primary.fc-button-active {
+  @apply bg-secondary-purple border-none;
+  outline: none;
+  box-shadow: none;
+}
+
+.fc .fc-button-primary:focus{
+  box-shadow: none;
+}
+.fc .fc-scrollgrid-liquid{
+  border-radius: 12px;
+}
+
+.fc-day-today {
+  background: #ECE9F6 !important;
+  border: none !important;
+}
+
+.fc-theme-standard td:last-child{
+  border-radius: 12px 0px 12px 12px;
+}
+.fc .fc-scrollgrid-section-header>*{
+  border-radius: 12px 12px 0px 12px;
+}
+
+#fc-dom-1{
+  @apply font-bold;
+}
+
+.fc .fc-toolbar.fc-header-toolbar{
+  @apply flex flex-col-reverse md:flex-row;
+}
