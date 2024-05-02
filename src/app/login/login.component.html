@@ -1,0 +1,25 @@
+<div class="login-container">
+
+  <div class="login-box">
+
+    <div class="logo-section">
+      CGI
+    </div>
+
+    <div class="form-section">
+      <form (ngSubmit)="onSubmit()">
+        <div class="input-group">
+          <label for="username">Gebruikersnaam</label>
+          <input type="text" id="username" [(ngModel)]="username" name="username" required>
+        </div>
+        <div class="input-group">
+          <label for="password">Wachtwoord</label>
+          <input type="password" id="password" [(ngModel)]="password" name="password" required>
+          <p class="forgot-password">Wachtwoord vergeten?</p>
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+
+  </div>
+</div>
