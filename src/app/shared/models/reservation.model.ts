@@ -8,19 +8,17 @@ export class ReservationModel {
     floor: number;
     room: string;
     type: string;
-    startTime: Time;
-    date: Date;
+    startDateTime: Date;
 
     constructor(id: string, location: locationsModel, wing: string, floor: number, room: string,
-                type: string, startTime: Time, date: Date) {
+                type: string, dateAndStartTime: Date) {
         this.id = id;
         this.location = location;
         this.wing = wing;
         this.floor = floor;
         this.room = room;
         this.type = type;
-        this.startTime = startTime;
-        this.date = date;
+        this.startDateTime = dateAndStartTime;
     }
 
 }
