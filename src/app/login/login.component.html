@@ -1,25 +1,21 @@
-<div class="flex justify-center items-center h-screen bg-gray-100">
-
-  <div class="border border-black flex w-[700px] h-[500px] shadow-md rounded-lg overflow-hidden">
-
-    <div class="bg-gradient-to-b from-pink-500 to-indigo-500 text-white flex justify-center items-center w-1/3 text-5xl p-8">
+<div class="flex justify-center items-center h-screen bg-gray-100 login-container">
+  <div class="max-sm:flex-row border border-black flex w-[700px] h-[500px] shadow-lg rounded-lg overflow-hidden login-box">
+    <div class="bg-gradient-to-b from-pink-500 to-blue-600 text-white flex justify-center items-center w-1/3 text-7xl p-8 font-semibold logo-section">
       CGI
     </div>
-
-    <div class="flex flex-col justify-center bg-white w-2/3 p-8">
+    <div class="flex flex-col justify-center bg-white w-2/3 p-8 form-section">
       <form (ngSubmit)="onSubmit()">
         <div class="mb-4">
-          <label for="username">Gebruikersnaam</label>
-          <input type="text" id="username" [(ngModel)]="username" name="username" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500" required>
+          <label for="username" class="block">Gebruikersnaam</label>
+          <input type="text" id="username" [(ngModel)]="username" name="username" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-600" required>
         </div>
         <div class="mb-4">
-          <label for="password">Wachtwoord</label>
-          <input type="password" id="password" [(ngModel)]="password" name="password" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500" required>
+          <label for="password" class="block">Wachtwoord</label>
+          <input type="password" id="password" [(ngModel)]="password" name="password" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-600" required>
           <p class="text-sm text-gray-600 mt-2">Wachtwoord vergeten?</p>
         </div>
-        <button type="submit" class="w-full bg-indigo-500 text-white p-2 rounded cursor-pointer hover:bg-indigo-700">Login</button>
+        <button type="submit" class="w-full text-white p-2 rounded cursor-pointer bg-purple-800 hover:bg-purple-900">Login</button>
       </form>
     </div>
-
   </div>
 </div>
