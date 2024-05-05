@@ -1,1 +1,13 @@
-<p>notification works!</p>
+<div class="pl-2 bg-gradient-to-b from-primary-red to-primary-dark-purple rounded-lg border-2 border-secondary-purple-light">
+  <li class="bg-white rounded-md p-5 pb-4 space-y-4">
+    <div class="flex justify-between items-center">
+      <h4>{{ notification.title }}</h4>
+      <p class="text-gray-500 text-sm">{{ notification.date | date:'short' }}</p>
+    </div>
+    <p class="text-sm">{{ notification.message }}</p>
+    <div *ngIf="notification.type === 'request'" class="flex space-x-2 justify-end text-sm">
+      <button class="bg-secondary-purple-light rounded-lg p-2">Afwijzen</button>
+      <button class="bg-primary-dark-purple rounded-lg p-2 text-white">Accepteren</button>
+    </div>
+  </li>
+</div>
