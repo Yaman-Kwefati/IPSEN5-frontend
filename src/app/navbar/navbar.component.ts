@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import {AuthService} from "../shared/service/auth.service";
@@ -12,16 +12,23 @@ import { NavbarItemComponent } from './navbar-item/navbar-item.component';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent{
-  collapsed = true;
+export class NavbarComponent {
+  public collapsed: boolean = true;
 
   constructor(private authService: AuthService) {}
 
-  toggleCollapse(){
+  @HostListener('window:resize', ['$event'])
+  onResize(): void {
+    if(window.innerWidth <= 768){
+      this.collapsed = true;
+    }
+  }
+
+  toggleCollapse(): void{
     this.collapsed = !this.collapsed;
   }
 
-  signout() {
+  signout(): void {
     this.authService.signout();
   }
 }
