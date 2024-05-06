@@ -14,7 +14,7 @@ export const routes: Routes = [
         component: HomeComponent
       },
       // TODO add id of reservation in path
-      {path: 'details',
+      {path: 'reservation/details',
       component: ReservationDetailsComponent
       },
       {
