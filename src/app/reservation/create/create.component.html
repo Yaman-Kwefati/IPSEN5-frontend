@@ -61,8 +61,14 @@
             >
               <div
                 class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2 duration-300 animate-fade-in hover:shadow-lg hover:border-gray-300 cursor-pointer"
-                [ngClass]="{'bg-gray-300': this.reservationForm.get('location')?.value === location.city}"
-                (click)="this.reservationForm.patchValue({ location: location.city })"
+                [ngClass]="{
+                  'bg-gray-300':
+                    this.reservationForm.get('location')?.value ===
+                    location.city
+                }"
+                (click)="
+                  this.reservationForm.patchValue({ location: location.city })
+                "
               >
                 <img
                   class="rounded-t-lg w-full h-auto aspect-square object-cover"
@@ -82,30 +88,6 @@
                 <p class="text-sm font-thin text-gray-600 mb-2">
                   {{ location.address }} {{ location.zip }}
                 </p>
-                <a
-                  (click)="
-                    this.reservationForm.patchValue({ location: location.city })
-                  "
-                  (click)="nextWizardStep()"
-                  class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
-                >
-                  Kies deze locatie
-                  <svg
-                    class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 10"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M1 5h12m0 0L9 1m4 4L9 9"
-                    />
-                  </svg>
-                </a>
                 <h6
                   *ngIf="userPrefs.favoriteLocation == this.location.city"
                   class="text-red-400 text-sm font-thin"
@@ -128,42 +110,26 @@
             <div class="flex flex-row gap-4 mx-auto h-auto">
               <!-- 2 cards with an image in each with the text underneath it -->
               <div
-                class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2 mx-auto"
-                (click)="selectedType = 'Werkplek'"
+                class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2 mx-auto duration-300"
+                [ngClass]="{
+                  'bg-gray-300':
+                    this.reservationForm.get('type')?.value === 'werkplek'
+                }"
+                (click)="this.reservationForm.patchValue({ type: 'werkplek' })"
               >
                 <h5
                   class="text-2xl font-bold tracking-tight text-gray-900 mb-2"
                 >
                   Werkplek
                 </h5>
-                <a
-                  (click)="
-                    this.reservationForm.patchValue({ type: 'werkplek' })
-                  "
-                  (click)="nextWizardStep()"
-                  class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
-                >
-                  Kies een werkplek
-                  <svg
-                    class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 10"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M1 5h12m0 0L9 1m4 4L9 9"
-                    />
-                  </svg>
-                </a>
               </div>
               <div
-                class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2"
-                (click)="selectedType = 'Werkplek'"
+                class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2 duration-300"
+                [ngClass]="{
+                  'bg-gray-300':
+                    this.reservationForm.get('type')?.value === 'vergaderruimte'
+                }"
+                (click)="this.reservationForm.patchValue({ type: 'vergaderruimte' })"
               >
                 <h5
                   class="text-2xl font-bold tracking-tight text-gray-900 mb-2"
@@ -183,37 +149,13 @@
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   />
                   <div
-                    *ngIf="!reservationForm.get('numberOfPeople')?.valid"
+                    *ngIf="reservationForm.get('numberOfPeople')?.value < 1 && reservationForm.get('type')?.value == 'vergaderruimte'"
                     class="text-red-600 text-sm font-medium mt-1"
                   >
                     Dit veld is nog niet ingevuld, vul dit veld in om door te
                     gaan.
                   </div>
                 </div>
-                <a
-                  (click)="
-                    this.reservationForm.patchValue({ type: 'vergaderruimte' })
-                  "
-                  (click)="nextWizardStep()"
-                  class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
-                >
-                  Kies een vergaderruimte
-                  <svg
-                    class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 10"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M1 5h12m0 0L9 1m4 4L9 9"
-                    />
-                  </svg>
-                </a>
               </div>
             </div>
           </div>
@@ -318,75 +260,60 @@
             class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2"
           >
             <h5 class="text-2xl font-bold tracking-tight text-gray-900 mb-2">
-              Je reservering voor:
-              {{ this.reservationForm.get("date")?.value }}
-            </h5>
+                Je reservering voor:
+                {{ reservationForm.get("date")?.value | date:'EEEE d MMMM yyyy \'om\'' }} {{ reservationForm.get("time")?.value | date:'HH:mm' }}
+              </h5>
             <p
               class="text-sm font-thin text-gray-600 mb-2"
-              *ngIf="!reservationForm.get('location')?.valid"
+              *ngIf="reservationForm.get('location')?.valid"
             >
               Locatie: {{ this.reservationForm.get("location")?.value }}
-              <span class="text-red-600"
-                >Dit veld is nog niet ingevuld, vul dit veld in om door te
-                gaan.</span
-              >
             </p>
             <p
               class="text-sm font-thin text-gray-600 mb-2"
               *ngIf="
-                !reservationForm.get('wing')?.valid ||
-                !reservationForm.get('room')?.valid
+                reservationForm.get('wing')?.valid ||
+                reservationForm.get('room')?.valid
               "
             >
               Vleugel en ruimte:
               {{ this.reservationForm.get("wing")?.value }} -
               {{ this.reservationForm.get("room")?.value }}
-              <span class="text-red-600"
-                >Dit veld is nog niet ingevuld, vul dit veld in om door te
-                gaan.</span
-              >
             </p>
             <p
               class="text-sm font-thin text-gray-600 mb-2"
               *ngIf="
-                !reservationForm.get('date')?.valid ||
-                !reservationForm.get('time')?.valid
+                reservationForm.get('date')?.valid ||
+                reservationForm.get('time')?.valid
               "
             >
-              Datum: {{ this.reservationForm.get("date")?.value }} om
-              {{ this.reservationForm.get("time")?.value }}
-              <span class="text-red-600"
-                >Dit veld is nog niet ingevuld, vul dit veld in om door te
-                gaan.</span
-              >
+              Datum: {{ reservationForm.get("date")?.value | date:'EEEE d MMMM yyyy \'om\'' }} {{ reservationForm.get("time")?.value | date:'HH:mm' }}
             </p>
             <p
               class="text-sm font-thin text-gray-600 mb-2"
-              *ngIf="!reservationForm.get('type')?.valid"
+              *ngIf="reservationForm.get('type')?.valid"
             >
               Type: {{ this.reservationForm.get("type")?.value }}
-              <span class="text-red-600"
-                >Dit veld is nog niet ingevuld, vul dit veld in om door te
-                gaan.</span
-              >
             </p>
             <p
               class="text-sm font-thin text-gray-600 mb-2"
-              *ngIf="!reservationForm.get('numberOfPeople')?.valid"
+              *ngIf="reservationForm.get('numberOfPeople')?.valid"
             >
               Aantal personen:
-              {{ this.reservationForm.get("numberOfPeople")?.value && this.reservationForm.get("type")?.value == 'vergaderruimte' ? this.reservationForm.get("numberOfPeople")?.value : 'Niet van toepassing'}}
-              <span class="text-red-600"
-                >Dit veld is nog niet ingevuld, vul dit veld in om door te
-                gaan.</span
-              >
+              {{
+                this.reservationForm.get("numberOfPeople")?.value &&
+                this.reservationForm.get("type")?.value == "vergaderruimte"
+                  ? this.reservationForm.get("numberOfPeople")?.value
+                  : "Niet van toepassing"
+              }}
+             
             </p>
-              <button
-                (click)="submitReservation()"
-                class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:bg-slate-500 disabled:color-slate-300 disabled:cursor-not-allowed"
-              >
-                Bevestig reservering
-                <svg
+            <button
+              (click)="submitReservation()"
+              class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:bg-slate-500 disabled:color-slate-300 disabled:cursor-not-allowed"
+            >
+              Bevestig reservering
+              <svg
                 class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
@@ -401,7 +328,7 @@
                   d="M1 5h12m0 0L9 1m4 4L9 9"
                 />
               </svg>
-              </button>
+            </button>
           </div>
         </div>
 

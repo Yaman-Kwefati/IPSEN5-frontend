@@ -14,6 +14,7 @@ import { CreateReservationModule } from './create.module';
 
 export class CreateReservationComponent {
   reservationForm!: FormGroup;
+new: any;
 
   constructor(
     private createReservationService: CreateReservationService,
@@ -23,12 +24,12 @@ export class CreateReservationComponent {
   ngOnInit() {
     this.reservationForm = this.formBuilder.group({
       location: [this.userPrefs.favoriteLocation, Validators.required],
-      numberOfPeople: ['Niet van toepassing', Validators.required],
-      type: ['', Validators.required],
+      numberOfPeople: [0, Validators.required],
+      type: ['werkplek', Validators.required],
       wing: ['', Validators.required],
       room: ['', Validators.required],
-      date: ['', [Validators.required, Validators.min(parseInt(new Date().toISOString().split('T')[0]))]],
-      time: ['', [Validators.required, Validators.min(parseInt(new Date().toISOString().split('T')[1]))]],
+      date: [new Date(), [Validators.required, Validators.min(parseInt(new Date().toISOString().split('T')[0]))]],
+      time: [new Date().getTime(), [Validators.required, Validators.min(parseInt(new Date().toISOString().split('T')[1]))]],
     });
   }
 
