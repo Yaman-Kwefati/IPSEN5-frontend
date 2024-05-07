@@ -1,0 +1,372 @@
+<div
+  class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none m-5"
+>
+  <div
+    class="flex items-start justify-between p-5 border-b border-solid border-blue-200 rounded-t"
+  >
+    <h3 class="text-3xl font-semibold">Reserveer werkplek</h3>
+  </div>
+
+  <div id="modal-body" class="relative p-6 flex-auto overflow-x-visible">
+    <ol
+      class="flex items-center w-full text-sm font-medium text-center text-gray-500 sm:text-base mb-6 p-2 border-b border-solid border-gray-200"
+    >
+      <ng-container *ngFor="let step of wizardSteps; let i = index">
+        <li
+          class="flex md:w-full items-center"
+          [ngClass]="{
+                      'text-blue-600': i <= wizardStep,
+                      'after\:border-gray-200': i === wizardStep,
+                      'after\:border-b': i === wizardStep,
+                      'after\:border-1': i === wizardStep,
+                      'after\:hidden': i !== wizardStep,
+                      'sm\:after\:inline-block': i !== wizardStep,
+                  }"
+        >
+          <span
+            class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200"
+          >
+            <svg
+              *ngIf="i === wizardStep"
+              class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+              />
+            </svg>
+            <span *ngIf="i !== wizardStep" class="me-2">{{ i + 1 }}</span>
+            {{ step }}
+          </span>
+        </li>
+      </ng-container>
+    </ol>
+    <form [formGroup]="reservationForm">
+      <div [ngSwitch]="wizardStep">
+        <!-- Wizard step 1: Location selection -->
+        <div *ngSwitchCase="0">
+          <div
+            *ngIf="!this.reservationForm.get('location')?.valid"
+            class="bg-red-600 text-white p-2 mb-2 rounded-lg shadow-sm"
+          >
+            Dit veld is nog niet ingevuld, vul dit veld in om door te gaan.
+          </div>
+          <ul class="grid grid-flow-col overflow-x-scroll">
+            <li
+              *ngFor="let location of locations"
+              class="px-2 w-full min-w-96 mb-4"
+            >
+              <div
+                [ngClass]="{
+                  'bg-gray-300':
+                    this.reservationForm.get('location')?.value ===
+                    location.city
+                }"
+                
+                (click)="
+                  this.reservationForm.patchValue({ location: location.city })
+                "
+                class="border border-gray-200 rounded-lg shadow h-full w-full p-2 duration-300 animate-fade-in hover:shadow-lg hover:border-gray-300 cursor-pointer"
+              >
+                <img
+                  class="rounded-t-lg w-full h-auto aspect-square object-cover"
+                  [src]="
+                    './assets/locations/' +
+                      location.city.toLowerCase() +
+                      '.png' || './assets/CGI_logo.png'
+                  "
+                  alt=""
+                  onerror="this.src = './assets/CGI_logo.png'; this.onerror = null;"
+                />
+                <h5
+                  class="text-2xl font-bold tracking-tight text-gray-900 mb-2"
+                >
+                  {{ location.city }}
+                </h5>
+                <p class="text-sm font-thin text-gray-600 mb-2">
+                  {{ location.address }} {{ location.zip }}
+                </p>
+                <h6
+                  *ngIf="userPrefs.favoriteLocation == this.location.city"
+                  class="text-red-400 text-sm font-thin"
+                >
+                  Dit is je favoriete locatie ❤️
+                </h6>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- Wizard step 2: Type selectering (Werkplek of Vergaderruimte) -->
+        <div *ngSwitchCase="1">
+          <div class="">
+            <div
+              *ngIf="!this.reservationForm.get('type')?.valid"
+              class="bg-red-600 text-white p-2 mb-2 rounded-lg shadow-sm"
+            >
+              Dit veld is nog niet ingevuld, vul dit veld in om door te gaan.
+            </div>
+            <div class="flex flex-row gap-4 mx-auto h-auto">
+              <!-- 2 cards with an image in each with the text underneath it -->
+              <div
+                class="border border-gray-200 rounded-lg shadow h-full w-full p-2 mx-auto duration-300"
+                [ngClass]="{
+                  'bg-gray-300':
+                    this.reservationForm.get('type')?.value === 'werkplek'
+                }"
+                (click)="this.reservationForm.patchValue({ type: 'werkplek' })"
+              >
+                <h5
+                  class="text-2xl font-bold tracking-tight text-gray-900 mb-2"
+                >
+                  Werkplek
+                </h5>
+              </div>
+              <div
+                class="border border-gray-200 rounded-lg shadow h-full w-full p-2 duration-300"
+                [ngClass]="{
+                  'bg-gray-300':
+                    this.reservationForm.get('type')?.value === 'vergaderruimte'
+                }"
+                (click)="this.reservationForm.patchValue({ type: 'vergaderruimte' })"
+              >
+                <h5
+                  class="text-2xl font-bold tracking-tight text-gray-900 mb-2"
+                >
+                  Vergaderruimte
+                </h5>
+                <div class="flex flex-col mb-5">
+                  <label for="amount" class="text-sm font-medium text-gray-700"
+                    >Aantal personen</label
+                  >
+                  <input
+                    formControlName="numberOfPeople"
+                    type="number"
+                    id="amount"
+                    name="amount"
+                    required="required"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                  <div
+                    *ngIf="reservationForm.get('numberOfPeople')?.value < 1 && reservationForm.get('type')?.value == 'vergaderruimte'"
+                    class="text-red-600 text-sm font-medium mt-1"
+                  >
+                    Dit veld is nog niet ingevuld, vul dit veld in om door te
+                    gaan.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wizard step 3: Date selection -->
+        <div *ngSwitchCase="2">
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div class="flex flex-col">
+              <label for="date" class="text-sm font-medium text-gray-700"
+                >Datum</label
+              >
+              <input
+                formControlName="date"
+                type="date"
+                id="date"
+                name="date"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
+              <div
+                *ngIf="!reservationForm.get('date')?.valid"
+                class="text-red-600 text-sm font-medium mt-1"
+              >
+                Dit veld is nog niet ingevuld, vul dit veld in om door te gaan.
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <label for="time" class="text-sm font-medium text-gray-700"
+                >Tijd</label
+              >
+              <input
+                formControlName="time"
+                type="time"
+                id="time"
+                name="time"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                step="900"
+              />
+              <div
+                *ngIf="!reservationForm.get('time')?.valid"
+                class="text-red-600 text-sm font-medium mt-1"
+              >
+                Dit veld is nog niet ingevuld, vul dit veld in om door te gaan.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wizzard step 4: Select wing for workspace and wing and room -->
+        <div *ngSwitchCase="3">
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div class="flex flex-col">
+              <label for="wing" class="text-sm font-medium text-gray-700"
+                >Vleugel</label
+              >
+              <select
+                formControlName="wing"
+                id="wing"
+                name="wing"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              >
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+              </select>
+              <div
+                *ngIf="!reservationForm.get('wing')?.valid"
+                class="text-red-600 text-sm font-medium mt-1"
+              >
+                Dit veld is nog niet ingevuld, vul dit veld in om door te gaan.
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <label for="room" class="text-sm font-medium text-gray-700"
+                >Ruimte</label
+              >
+              <select
+                formControlName="room"
+                id="room"
+                name="room"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+              <div
+                *ngIf="!reservationForm.get('room')?.valid"
+                class="text-red-600 text-sm font-medium mt-1"
+              >
+                Dit veld is nog niet ingevuld, vul dit veld in om door te gaan.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wizard Step 5: Overview -->
+        <div *ngSwitchCase="4">
+          <div
+            class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2"
+          >
+            <!-- If reservation form is not valid show an error with the elements that are not valid -->
+            <div
+              *ngIf="!reservationForm.valid"
+              class="bg-red-600 text-white p-2 mb-2 rounded-lg shadow-sm"
+            >
+              Niet alle velden zijn ingevuld, vul alle velden in om door te gaan.
+            </div>
+            <h5 class="text-2xl font-bold tracking-tight text-gray-900 mb-2">
+                Je reservering voor:
+                {{ reservationForm.get("date")?.value | date:'EEEE d MMMM yyyy \'om\'' }} {{ reservationForm.get("time")?.value | date:'HH:mm' }}
+              </h5>
+            <p
+              class="text-sm font-thin text-gray-600 mb-2"
+              *ngIf="reservationForm.get('location')?.valid"
+            >
+              Locatie: {{ this.reservationForm.get("location")?.value }}
+            </p>
+            <p
+              class="text-sm font-thin text-gray-600 mb-2"
+              *ngIf="
+                reservationForm.get('wing')?.valid ||
+                reservationForm.get('room')?.valid
+              "
+            >
+              Vleugel en ruimte:
+              {{ this.reservationForm.get("wing")?.value }} -
+              {{ this.reservationForm.get("room")?.value }}
+            </p>
+            <p
+              class="text-sm font-thin text-gray-600 mb-2"
+              *ngIf="
+                reservationForm.get('date')?.valid ||
+                reservationForm.get('time')?.valid
+              "
+            >
+              Datum: {{ reservationForm.get("date")?.value | date:'EEEE d MMMM yyyy \'om\'' }} {{ reservationForm.get("time")?.value | date:'HH:mm' }}
+            </p>
+            <p
+              class="text-sm font-thin text-gray-600 mb-2"
+              *ngIf="reservationForm.get('type')?.valid"
+            >
+              Type: {{ this.reservationForm.get("type")?.value }}
+            </p>
+            <p
+              class="text-sm font-thin text-gray-600 mb-2"
+              *ngIf="reservationForm.get('numberOfPeople')?.valid"
+            >
+              Aantal personen:
+              {{
+                this.reservationForm.get("numberOfPeople")?.value &&
+                this.reservationForm.get("type")?.value == "vergaderruimte"
+                  ? this.reservationForm.get("numberOfPeople")?.value
+                  : "Niet van toepassing"
+              }}
+             
+            </p>
+            <button
+              type="button"
+              [disabled]="!reservationForm.valid"
+              (click)="submitReservation()"
+              class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:bg-slate-500 disabled:color-slate-300 disabled:cursor-not-allowed"
+            >
+              Bevestig reservering
+              <svg
+                class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 10"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M1 5h12m0 0L9 1m4 4L9 9"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div *ngSwitchDefault>
+          <h1>Not yet implemented</h1>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- Footer -->
+  <div
+    class="flex items-center justify-between p-6 border-t border-solid border-gray-200 rounded-b"
+  >
+    <button
+      *ngIf="wizardStep > 0"
+      class="text-gray-400 bg-transparent hover:text-gray-200 bg-slate-300 hover:bg-slate-700 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+      type="button"
+      (click)="returnWizardStep()"
+    >
+      Vorige
+    </button>
+    <button
+      *ngIf="wizardStep < wizardSteps.length - 1"
+      class="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+      type="button"
+      (click)="nextWizardStep()"
+    >
+      Volgende
+    </button>
+  </div>
+</div>
