@@ -15,13 +15,11 @@ import {AuthService} from "../shared/service/auth.service";
 export class NavbarComponent {
   public search: boolean = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router,) {}
 
   signout() {
     this.authService.signout();
+    this.router.navigate(["/login"])
   }
 
-  onSearchClick() {
-    this.search = !this.search;
-  }
 }
