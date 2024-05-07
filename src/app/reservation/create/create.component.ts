@@ -40,7 +40,7 @@ export class CreateReservationComponent {
   selectedType!: string;
 
   wizardStep: number = 0;
-  wizardSteps: string[] = ['Gebouw', 'Type', 'Locatie', 'Datum & Tijd', 'Overzicht'];
+  wizardSteps: string[] = ['Gebouw', 'Type', 'Datum & Tijd', 'Locatie', 'Overzicht'];
 
   nextWizardStep() {
     this.wizardStep++;

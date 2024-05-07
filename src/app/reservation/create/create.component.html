@@ -75,7 +75,9 @@
                   {{ location.address }} {{ location.zip }}
                 </p>
                 <a
-                  (click)="this.reservationForm.patchValue({ location: location.city })"
+                  (click)="
+                    this.reservationForm.patchValue({ location: location.city })
+                  "
                   (click)="nextWizardStep()"
                   class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                 >
@@ -109,18 +111,6 @@
         <!-- Wizard step 2: Type selectering (Werkplek of Vergaderruimte) -->
         <div *ngSwitchCase="1">
           <div class="">
-            <div class="flex flex-col mb-5">
-              <label for="amount" class="text-sm font-medium text-gray-700"
-                >Aantal personen</label
-              >
-              <input
-                formControlName="numberOfPeople"
-                type="number"
-                id="amount"
-                name="amount"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-            </div>
             <div class="flex flex-row gap-4 mx-auto h-auto">
               <!-- 2 cards with an image in each with the text underneath it -->
               <div
@@ -133,7 +123,9 @@
                   Werkplek
                 </h5>
                 <a
-                (click)="this.reservationForm.patchValue({ type: 'werkplek' })"
+                  (click)="
+                    this.reservationForm.patchValue({ type: 'werkplek' })
+                  "
                   (click)="nextWizardStep()"
                   class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                 >
@@ -164,8 +156,23 @@
                 >
                   Vergaderruimte
                 </h5>
+                <div class="flex flex-col mb-5">
+                  <label for="amount" class="text-sm font-medium text-gray-700"
+                    >Aantal personen</label
+                  >
+                  <input
+                    formControlName="numberOfPeople"
+                    type="number"
+                    id="amount"
+                    name="amount"
+                    required="required"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
                 <a
-                (click)="this.reservationForm.patchValue({ type: 'vergaderruimte' })"
+                  (click)="
+                    this.reservationForm.patchValue({ type: 'vergaderruimte' })
+                  "
                   (click)="nextWizardStep()"
                   class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                 >
@@ -191,8 +198,39 @@
           </div>
         </div>
 
-        <!-- Wizzard step 3: Select wing for workspace and wing and room -->
+        <!-- Wizard step 3: Date selection -->
         <div *ngSwitchCase="2">
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div class="flex flex-col">
+              <label for="date" class="text-sm font-medium text-gray-700"
+                >Datum</label
+              >
+              <input
+                formControlName="date"
+                type="date"
+                id="date"
+                name="date"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
+            </div>
+            <div class="flex flex-col">
+              <label for="time" class="text-sm font-medium text-gray-700"
+                >Tijd</label
+              >
+              <input
+                formControlName="time"
+                type="time"
+                id="time"
+                name="time"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                step="900"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Wizzard step 4: Select wing for workspace and wing and room -->
+        <div *ngSwitchCase="3">
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div class="flex flex-col">
               <label for="wing" class="text-sm font-medium text-gray-700"
@@ -229,59 +267,34 @@
           </div>
         </div>
 
-        <!-- Wizard step 4: Date selection -->
-        <div *ngSwitchCase="3">
-          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div class="flex flex-col">
-              <label for="date" class="text-sm font-medium text-gray-700"
-                >Datum</label
-              >
-              <input
-                formControlName="date"
-                type="date"
-                id="date"
-                name="date"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-            </div>
-            <div class="flex flex-col">
-              <label for="time" class="text-sm font-medium text-gray-700"
-                >Tijd</label
-              >
-              <input
-                formControlName="time"
-                type="time"
-                id="time"
-                name="time"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-            </div>
-          </div>
-        </div>
-
         <!-- Wizard Step 5: Overview -->
         <div *ngSwitchCase="4">
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div
               class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2"
             >
-              <h5
-                class="text-2xl font-bold tracking-tight text-gray-900 mb-2"
-              >
-                Je reservering voor: {{ this.reservationForm.get('date')?.value }}
+              <h5 class="text-2xl font-bold tracking-tight text-gray-900 mb-2">
+                Je reservering voor:
+                {{ this.reservationForm.get("date")?.value }}
               </h5>
               <p class="text-sm font-thin text-gray-600 mb-2">
-                Locatie: {{ this.reservationForm.get('location')?.value }}
+                Locatie: {{ this.reservationForm.get("location")?.value }}
               </p>
               <p class="text-sm font-thin text-gray-600 mb-2">
-                Vleugel en ruimte: {{ this.reservationForm.get('wing')?.value }} - {{ this.reservationForm.get('room')?.value }}
+                Vleugel en ruimte:
+                {{ this.reservationForm.get("wing")?.value }} -
+                {{ this.reservationForm.get("room")?.value }}
               </p>
               <p class="text-sm font-thin text-gray-600 mb-2">
-                Datum: {{ this.reservationForm.get('date')?.value }} om {{ this.reservationForm.get('time')?.value }}
+                Datum: {{ this.reservationForm.get("date")?.value }} om
+                {{ this.reservationForm.get("time")?.value }}
               </p>
-              <p class="text-sm font-thin text-gray-600 mb-2">Type: {{ this.reservationForm.get('type')?.value }}</p>
               <p class="text-sm font-thin text-gray-600 mb-2">
-                Aantal personen: {{ this.reservationForm.get('numberOfPeople')?.value }}
+                Type: {{ this.reservationForm.get("type")?.value }}
+              </p>
+              <p class="text-sm font-thin text-gray-600 mb-2">
+                Aantal personen:
+                {{ this.reservationForm.get("numberOfPeople")?.value }}
               </p>
               <a
                 (click)="submitReservation()"
@@ -304,7 +317,6 @@
                   />
                 </svg>
               </a>
-            
             </div>
           </div>
         </div>
