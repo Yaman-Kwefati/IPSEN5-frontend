@@ -30,14 +30,18 @@ export class ReservationDetailsComponent implements OnInit {
                 }
             )
         this.reservation = this.reservationService.getReservation();
-        if(this.reservation){
-        this.formatDateTime();}
+        if (this.reservation) {
+             this.formatDateTime();
+        }
     }
 
     private formatDateTime() {
+        if (!this.reservation || !this.reservation.startDateTime ) {
+            return;
+        }
         if (this.reservation && this.reservation.startDateTime) {
             const date = this.reservation.startDateTime;
             this.formattedDateTime = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
         }
     }
-}
+    }

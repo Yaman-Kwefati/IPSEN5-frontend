@@ -1,7 +1,12 @@
 <div class="md:container md:mx-auto">
-  <img src="../../assets/images/maastricht.jpg"
+  <img           [src]="
+                    './assets/locations/' +
+                      reservation.location.city.toLowerCase() +
+                      '.png' || './assets/CGI_logo.png'
+                  "
        class="w-full h-auto aspect-square object-cover"
        id="img" alt="gebouw van CGI in Maastricht">
+
 </div>
 <div class="container mx-auto pt-3 pb-4">
   <h2 class="text-3xl font-bold ps-0">{{ reservation.type }} - {{ formattedDateTime }}</h2>
