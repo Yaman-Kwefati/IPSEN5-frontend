@@ -1,34 +1,21 @@
-h2 {
-  margin: 0;
-  font-size: 16px;
-}
-
 ul {
-  margin: 0;
-  padding: 0 0 0 1.5em;
+  @apply m-0 p-0 pl-6;
 }
 
 li {
-  margin: 1.5em 0;
-  padding: 0;
+  @apply my-6 p-0;
 }
 
 .demo-app {
-  display: flex;
-  min-height: 100%;
-  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-  font-size: 14px;
+  @apply flex min-h-full font-sans text-sm;
 }
 
 .demo-app-sidebar {
-  width: 300px;
-  line-height: 1.5;
-  background: #eaf9ff;
-  border-right: 1px solid #d3e2e8;
+  @apply w-72 leading-normal bg-[#eaf9ff] border-r border-[#d3e2e8];
 }
 
 .demo-app-sidebar-section {
-  padding: 2em;
+  @apply p-8;
 }
 
 @media only screen and (max-width: 720px) {
@@ -38,15 +25,12 @@ li {
 }
 
 .demo-app-main {
-  flex-grow: 1;
-  padding: 3em;
-  @apply h-screen;
+  @apply flex-grow h-screen p-12;
 }
 
 
 .fc {
-  max-width: 1100px;
-  margin: 0 auto;
+  @apply max-w-[1100px] mx-auto;
 }
 
 
