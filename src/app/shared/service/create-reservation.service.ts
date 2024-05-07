@@ -25,8 +25,7 @@ export class CreateReservationService {
 
     setTimeout(() => {
       this.router.navigate(['/home']);
-    }, 5000);
-
+    }, 1500);
     // TODO: Implement this after the API is ready to handle this
 
     return;
