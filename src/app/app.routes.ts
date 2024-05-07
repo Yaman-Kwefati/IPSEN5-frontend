@@ -14,13 +14,13 @@ export const routes: Routes = [
         component: HomeComponent
       },
       {
-        path: 'agenda',
-        title: 'Agenda',
+        path: 'calendar',
+        title: 'Calendar',
         component: CalendarComponent
       },
       {
-        path: 'reserveringen',
-        title: 'Reserveringen',
+        path: 'reservations',
+        title: 'Reservations',
         component: ReservationsComponent
       },
     ]
