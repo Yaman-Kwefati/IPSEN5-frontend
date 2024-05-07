@@ -7,7 +7,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   standalone: true,
   imports: [CommonModule],
   templateUrl: './delete-modal.component.html',
-  styleUrl: './delete-modal.component.less'
+  styleUrl: './delete-modal.component.scss'
 })
 export class DeleteModalComponent {
   @Output() closeModalEvent = new EventEmitter<void>();
