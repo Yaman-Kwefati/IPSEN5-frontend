@@ -3,7 +3,7 @@ import {HomeComponent} from "./home/home.component";
 import {AppLayoutComponent} from "./app-layout/app-layout.component";
 import {LoginComponent} from "./login/login.component";
 import {loginGuard} from "./shared/guard/login.guard";
-import {NotLoginGuard} from "./shared/guard/not-login.guard";
+import {AuthGuard} from "./shared/guard/auth.guard";
 
 
 export const routes: Routes = [
@@ -15,7 +15,7 @@ export const routes: Routes = [
   {
     path: '',
     component: AppLayoutComponent,
-    canActivate: [NotLoginGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'home',
@@ -29,6 +29,8 @@ export const routes: Routes = [
 
     ],
   },
-
-
+  {
+    path: '**',
+    redirectTo: 'home',
+  }
 ];

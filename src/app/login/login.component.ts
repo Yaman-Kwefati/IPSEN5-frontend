@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {ApiService} from "../shared/service/api.service";
-import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {LoginService} from "../shared/service/requests/login.service";
 
 @Component({
   selector: 'app-login',
@@ -14,20 +14,12 @@ import {ToastrService} from "ngx-toastr";
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  username?: string;
-  password?: string;
+  public username?: string;
+  public password?: string;
 
-  constructor(private apiService: ApiService, private router: Router, private toastr: ToastrService) { }
+  constructor(private loginService: LoginService) {}
 
   onSubmit(): void {
-    // TODO: This is mock data and is only temporary
-    if (this.username === 'user' && this.password === 'hallo123') {
-      this.apiService.login(this.username, this.password);
-      this.toastr.success("Login succes", "Succes")
-      this.router.navigate(["/home"])
-    }
-    else {
-      this.toastr.error("Login failed", "Error")
-    }
+    this.loginService.login(this.username!, this.password!);
   }
 }

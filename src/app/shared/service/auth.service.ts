@@ -8,12 +8,7 @@ import {ApiService} from "./api.service";
 export class AuthService {
   constructor(private toastr: ToastrService, private router: Router, private http: HttpClient) {}
 
-
-  parseToken = (token: string) => {
-
-  };
-
-  public isAuthenticated() {
+  public isAuthenticated(): boolean {
     // TODO: This is a temporary implementation. Implement the actual logic after the API is ready to handle this
     if (localStorage.getItem('token')) {
       return true;
@@ -27,26 +22,22 @@ export class AuthService {
   }
 
 
-
-  public getToken() {
-
+  public getToken(): string {
+    return "";
   }
 
-  public validateToken() {
+  public validateToken(): void {
     // Implement this after the API is ready to handle this
   }
 
-  public isLoggedIn() {
-
-  }
 
   public signout() {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
 
-  public getId() {
-
-
+  public getId(): string {
+    return "";
   }
+
 }
