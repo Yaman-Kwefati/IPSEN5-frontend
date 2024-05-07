@@ -259,6 +259,13 @@
           <div
             class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2"
           >
+            <!-- If reservation form is not valid show an error with the elements that are not valid -->
+            <div
+              *ngIf="!reservationForm.valid"
+              class="bg-red-600 text-white p-2 mb-2 rounded-lg shadow-sm"
+            >
+              Niet alle velden zijn ingevuld, vul alle velden in om door te gaan.
+            </div>
             <h5 class="text-2xl font-bold tracking-tight text-gray-900 mb-2">
                 Je reservering voor:
                 {{ reservationForm.get("date")?.value | date:'EEEE d MMMM yyyy \'om\'' }} {{ reservationForm.get("time")?.value | date:'HH:mm' }}
@@ -309,6 +316,8 @@
              
             </p>
             <button
+              type="button"
+              [disabled]="!reservationForm.valid"
               (click)="submitReservation()"
               class="flex my-auto items-center px-3 py-2 mb-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:bg-slate-500 disabled:color-slate-300 disabled:cursor-not-allowed"
             >
