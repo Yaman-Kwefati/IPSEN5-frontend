@@ -23,12 +23,12 @@ export class CreateReservationComponent {
   ngOnInit() {
     this.reservationForm = this.formBuilder.group({
       location: [this.userPrefs.favoriteLocation, Validators.required],
-      numberOfPeople: ['', Validators.required],
-      type: ['', Validators.required],
+      numberOfPeople: [Validators.required, Validators.min(0)],
+      type: ['werkplek', Validators.required],
       wing: ['', Validators.required],
       room: ['', Validators.required],
-      date: ['', [Validators.required, Validators.min(parseInt(new Date().toISOString().split('T')[0]))]],
-      time: ['', [Validators.required, Validators.min(parseInt(new Date().toISOString().split('T')[1]))]],
+      date: [new Date(), [Validators.required, Validators.min(parseInt(new Date().toISOString().split('T')[0]))]],
+      time: [new Date().getTime(), [Validators.required, Validators.min(parseInt(new Date().toISOString().split('T')[1]))]],
     });
   }
 
@@ -40,7 +40,7 @@ export class CreateReservationComponent {
   selectedType!: string;
 
   wizardStep: number = 0;
-  wizardSteps: string[] = ['Gebouw', 'Type', 'Locatie', 'Datum & Tijd', 'Overzicht'];
+  wizardSteps: string[] = ['Gebouw', 'Type', 'Datum & Tijd', 'Locatie', 'Overzicht'];
 
   nextWizardStep() {
     this.wizardStep++;
