@@ -40,6 +40,7 @@ export class CreateReservationService {
   public getUserPrefs(): userPreferencesModel {
     return {
       favoriteLocation: 'Amsterdam',
+      favoriteFloor: 5,
       favoriteWing: 'A',
       favoriteRoom: 'A1',
     };
