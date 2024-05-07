@@ -8,20 +8,12 @@ import {ApiService} from "./api.service";
 export class AuthService {
   constructor(private toastr: ToastrService, private router: Router, private http: HttpClient) {}
 
-
-  parseToken = (token: string) => {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64));
-
-    return JSON.parse(jsonPayload);
-  };
-
   public isAuthenticated(): boolean {
-    const token = sessionStorage.getItem('token');
-    if (!token) return false;
-
-    return true;
+    // TODO: This is a temporary implementation. Implement the actual logic after the API is ready to handle this
+    if (localStorage.getItem('token')) {
+      return true;
+    }
+    return false;
   }
 
   public isAdmin(): boolean {
@@ -29,49 +21,23 @@ export class AuthService {
     return true;
   }
 
-  public setToken(token: string): void {
-    sessionStorage.setItem('token', token);
-  }
 
-  public getToken() {
-    return sessionStorage.getItem('token');
+  public getToken(): string {
+    return "";
   }
 
   public validateToken(): void {
     // Implement this after the API is ready to handle this
   }
 
-  public isLoggedIn(): boolean {
-    const token = sessionStorage.getItem('token');
-    return !!token;
+
+  public signout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 
-  public signout(): void {
-    sessionStorage.removeItem('token');
-
-    // Redirect to the login page
-  }
-
-  public getId() {
-    const token = sessionStorage.getItem('token');
-    if (!token) return '';
-
-    try {
-      // Split the token into parts
-      const parts = token.split('.');
-      if (parts.length !== 3) {
-        throw new Error('Invalid JWT token');
-      }
-      const payload = parts[1];
-      const decodedPayload = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
-      const payloadObj = JSON.parse(decodedPayload);
-      return payloadObj.sub;
-    }
-    catch (error) {
-      console.error('Failed to decode JWT:', error);
-      return null;
-    }
-
+  public getId(): string {
+    return "";
   }
 
 }

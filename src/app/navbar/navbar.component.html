@@ -10,6 +10,9 @@
     <app-navbar-item path="" icon="calendar-days" label="Agenda" [collapsed]="collapsed"></app-navbar-item>
     <app-navbar-item path="" icon="building-2" label="Mijn reserveringen" [collapsed]="collapsed"></app-navbar-item>
     <app-navbar-item class="mt-auto" path="" icon="circle-user-round" label="Profiel" [collapsed]="collapsed"></app-navbar-item>
-    <app-navbar-item class="hidden md:flex" path="" icon="Log-out" label="Log uit" [collapsed]="collapsed"></app-navbar-item>
+    <button (click)="signout()" class="hidden md:flex">
+      <lucide-icon name="Log-out" title="Log uit"></lucide-icon>
+      <span *ngIf="!collapsed">Log uit</span>
+    </button>
   </ul>
 </nav>
