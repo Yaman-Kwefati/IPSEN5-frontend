@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import {HomeComponent} from "./home/home.component";
-import {AppLayoutComponent} from "./app-layout/app-layout.component";
-import {LoginComponent} from "./login/login.component";
-import {loginGuard} from "./shared/guard/login.guard";
-import {AuthGuard} from "./shared/guard/auth.guard";
-
+import { HomeComponent } from "./home/home.component";
+import { AppLayoutComponent } from "./app-layout/app-layout.component";
+import { CreateReservationComponent } from './reservation/create/create.component';
+import { LoginComponent } from "./login/login.component";
+import { loginGuard } from "./shared/guard/login.guard";
+import { AuthGuard } from "./shared/guard/auth.guard";
 
 export const routes: Routes = [
   {
@@ -19,15 +19,18 @@ export const routes: Routes = [
     children: [
       {
         path: 'home',
-        component: HomeComponent,
+        component: HomeComponent
+      },
+      {
+        path: 'reservation/create',
+        component: CreateReservationComponent
       },
       {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full',
-      },
-
-    ],
+      }
+    ]
   },
   {
     path: '**',
