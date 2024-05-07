@@ -16,6 +16,7 @@ import { NavbarComponent } from './navbar/navbar.component'; // Importing Navbar
 import { AuthService } from "./shared/service/auth.service";
 import { ApiService } from "./shared/service/api.service";
 import { DatePipe } from '@angular/common';
+import {ReservationService} from "./shared/service/reservation.service";
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,6 +36,7 @@ import { DatePipe } from '@angular/common';
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     AuthService,
     ApiService,
+    ReservationService,
     DatePipe
   ],
   bootstrap: [AppComponent],
