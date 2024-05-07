@@ -6,6 +6,9 @@ import { Notification } from '../shared/models/notification.model';
 import { LucideAngularModule } from 'lucide-angular';
 import { UpcomingReservationsComponent } from './upcoming-reservations/upcoming-reservations.component';
 import { DefaultLocationComponent } from './default-location/default-location.component';
+import { RouterModule } from '@angular/router';
+import { userPreferencesModel } from '../shared/models/userpreferences.model';
+import { CreateReservationService } from '../shared/service/create-reservation.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +18,8 @@ import { DefaultLocationComponent } from './default-location/default-location.co
     InboxComponent, 
     LucideAngularModule, 
     UpcomingReservationsComponent,
-    DefaultLocationComponent
+    DefaultLocationComponent,
+    RouterModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -36,13 +40,10 @@ export class HomeComponent implements OnInit {
     type: string, 
     startDateTime: Date
   }[] = [];
-  public favoriteLocation!: {
-    location: string,
-    floor: number,
-    wing: string,
-  };
 
-  constructor(private notificationService: NotificationService) {}
+  public favoriteLocation!: userPreferencesModel;
+
+  constructor(private notificationService: NotificationService, private createReservationService: CreateReservationService) {}
 
   ngOnInit(): void {
     this.getNotifications()
@@ -104,13 +105,7 @@ export class HomeComponent implements OnInit {
   }
 
   private getFavoriteLocation(): void {
-    this.favoriteLocation = {
-      location: 'George Hintzenweg 89, 3068 AX Rotterdam',
-      floor: 5,
-      wing: 'Links'
-    }
-    // TODO: connect this to the ReservationService
-      
+    this.favoriteLocation = this.createReservationService.getUserPrefs();
   }
 
 }

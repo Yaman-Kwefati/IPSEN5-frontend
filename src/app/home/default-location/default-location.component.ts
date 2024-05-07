@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { userPreferencesModel } from '../../shared/models/userpreferences.model';
 
 @Component({
   selector: 'app-default-location',
@@ -8,10 +9,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './default-location.component.scss'
 })
 export class DefaultLocationComponent {
-  @Input() defaultLocation!: {
-    location: string,
-    floor: number,
-    wing: string,
-  };
+  @Input() defaultLocation!: userPreferencesModel;
 
 }
