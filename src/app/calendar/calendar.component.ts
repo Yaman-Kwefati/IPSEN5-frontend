@@ -12,14 +12,12 @@ import {FullCalendarModule} from "@fullcalendar/angular";
 import timeGridPlugin from '@fullcalendar/timegrid';
 import nlLocale from '@fullcalendar/core/locales/nl';
 import {CalendarEvent, FRIEND_EVENTS, INITIAL_EVENTS} from "./event-utils";
-import {NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
   imports: [
     FullCalendarModule,
-    NgForOf,
   ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
