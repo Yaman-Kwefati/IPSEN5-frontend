@@ -60,15 +60,16 @@
               class="px-2 w-full min-w-96 mb-4"
             >
               <div
-                class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2 duration-300 animate-fade-in hover:shadow-lg hover:border-gray-300 cursor-pointer"
                 [ngClass]="{
                   'bg-gray-300':
                     this.reservationForm.get('location')?.value ===
                     location.city
                 }"
+                
                 (click)="
                   this.reservationForm.patchValue({ location: location.city })
                 "
+                class="border border-gray-200 rounded-lg shadow h-full w-full p-2 duration-300 animate-fade-in hover:shadow-lg hover:border-gray-300 cursor-pointer"
               >
                 <img
                   class="rounded-t-lg w-full h-auto aspect-square object-cover"
@@ -110,7 +111,7 @@
             <div class="flex flex-row gap-4 mx-auto h-auto">
               <!-- 2 cards with an image in each with the text underneath it -->
               <div
-                class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2 mx-auto duration-300"
+                class="border border-gray-200 rounded-lg shadow h-full w-full p-2 mx-auto duration-300"
                 [ngClass]="{
                   'bg-gray-300':
                     this.reservationForm.get('type')?.value === 'werkplek'
@@ -124,7 +125,7 @@
                 </h5>
               </div>
               <div
-                class="bg-white border border-gray-200 rounded-lg shadow h-full w-full p-2 duration-300"
+                class="border border-gray-200 rounded-lg shadow h-full w-full p-2 duration-300"
                 [ngClass]="{
                   'bg-gray-300':
                     this.reservationForm.get('type')?.value === 'vergaderruimte'
