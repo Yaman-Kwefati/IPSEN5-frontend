@@ -1,0 +1,10 @@
+<div class=''>
+  <div class='demo-app-main'>
+    <full-calendar [options]='calendarOptions()'>
+      <ng-template #eventContent let-arg>
+        <b class="cursor-pointer">{{ arg.timeText }}</b>
+        <i class="cursor-pointer">{{ arg.event.title }}</i>
+      </ng-template>
+    </full-calendar>
+  </div>
+</div>

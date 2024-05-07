@@ -11,6 +11,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import {FullCalendarModule} from "@fullcalendar/angular";
 import { NavbarComponent } from './navbar/navbar.component'; // Importing NavbarComponent
 import { AuthService } from "./shared/service/auth.service";
 import { ApiService } from "./shared/service/api.service";
@@ -29,6 +30,7 @@ import {ReservationService} from "./shared/service/reservation.service";
     MatNativeDateModule,
     ToastrModule.forRoot(),
     HttpClientModule,
+    FullCalendarModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

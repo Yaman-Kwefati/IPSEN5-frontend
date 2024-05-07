@@ -1,0 +1,6 @@
+<li class="whitespace-nowrap">
+  <a [routerLink]="path" class="flex space-x-4" routerLinkActive="text-primary-dark-purple" [routerLinkActiveOptions]="{ exact: true }">
+    <lucide-icon [name]="icon" [title]="label"></lucide-icon>
+    <span *ngIf="!collapsed">{{ label }}</span>
+  </a>
+</li>
