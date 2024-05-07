@@ -2,21 +2,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
-import {CommonModule, DatePipe} from '@angular/common';
-import { NavbarComponent } from './navbar/navbar.component';
+import { CommonModule } from '@angular/common';
 import { LucideAngularModule, icons } from 'lucide-angular';
 import { routes } from './app.routes';
-import {
-  BrowserAnimationsModule,
-  NoopAnimationsModule,
-} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import {AuthService} from "./shared/service/auth.service";
-import {ApiService} from "./shared/service/api.service";
+import { NavbarComponent } from './navbar/navbar.component'; // Importing NavbarComponent
+import { AuthService } from "./shared/service/auth.service";
+import { ApiService } from "./shared/service/api.service";
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,21 +22,19 @@ import {ApiService} from "./shared/service/api.service";
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,
-    NavbarComponent,
     RouterModule.forRoot(routes),
     LucideAngularModule.pick(icons),
-    NoopAnimationsModule,
     MatDatepickerModule,
     MatNativeDateModule,
     ToastrModule.forRoot(),
     HttpClientModule,
   ],
   providers: [
-    HttpClientModule,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    AuthService, ApiService,
+    AuthService,
+    ApiService,
     DatePipe
-
-  ],  bootstrap: [AppComponent],
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
