@@ -14,7 +14,6 @@ import { CreateReservationModule } from './create.module';
 
 export class CreateReservationComponent {
   reservationForm!: FormGroup;
-new: any;
 
   constructor(
     private createReservationService: CreateReservationService,
