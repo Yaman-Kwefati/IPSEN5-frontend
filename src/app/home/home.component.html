@@ -1,4 +1,17 @@
-<p>home works!</p>
+<article class="flex flex-col space-y-6 w-full h-full">
+  <h1 class="w-min whitespace-nowrap text-3xl font-bold">Welkom, gebruiker</h1>
+  <div class="flex flex-col w-full space-y-5 md:space-y-0 md:space-x-20 md:flex-row">
+    <section class="w-full md:w-3/5">
+      <app-upcoming-reservations [reservations]="upcomingReservations"></app-upcoming-reservations>
+      <app-default-location [defaultLocation]="favoriteLocation"></app-default-location>
+    </section>
 
-<!--- Create reservation router link to reservation/Create -->
-<a [routerLink]='["/reservation/create"]'>Create Reservation </a>
+    <section class="w-full md:w-2/5 h-full space-y-5 flex flex-col items-end">
+      <button routerLink="/reservation/create" class="flex space-x-2 p-2 bg-primary-dark-purple rounded-lg text-white hover:bg-purple-950">
+        <lucide-icon name="plus"></lucide-icon>
+        <p>Maak een nieuwe reservering</p>
+      </button>
+      <app-inbox class="hidden md:flex" [notifications]="notifications"></app-inbox>
+    </section>    
+  </div>
+</article>
