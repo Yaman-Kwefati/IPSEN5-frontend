@@ -1,0 +1,37 @@
+ul {
+  @apply m-0 p-0 pl-6;
+}
+
+li {
+  @apply my-6 p-0;
+}
+
+.demo-app {
+  @apply flex min-h-full font-sans text-sm;
+}
+
+.demo-app-sidebar {
+  @apply w-72 leading-normal bg-[#eaf9ff] border-r border-[#d3e2e8];
+}
+
+.demo-app-sidebar-section {
+  @apply p-8;
+}
+
+@media only screen and (max-width: 720px) {
+  .fc-direction-ltr {
+    height: calc(100vh - 200px);
+  }
+}
+
+.demo-app-main {
+  @apply flex-grow h-screen p-12;
+}
+
+
+.fc {
+  @apply max-w-[1100px] mx-auto;
+}
+
+
+
