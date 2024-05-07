@@ -1,0 +1,11 @@
+<article class="border-2 border-secondary-purple-light rounded-lg relative">
+  <h2 class="text-xl p-4 font-semibold">Notificaties</h2>
+  <div class="max-h-[500px] overflow-y-auto space-y-4 p-4 pt-0 scrollbar-hide" #notificationContainer  (scroll)="onScroll()">
+    <ul *ngFor="let notification of notifications">
+      <app-notification [notification]="notification"></app-notification>
+    </ul>
+    <div class="absolute bottom-0 left-0 right-0 flex justify-center p-1 bg-black bg-opacity-10 rounded-b-md" *ngIf="showScrollArrow">
+      <lucide-icon name="chevron-down"></lucide-icon>
+    </div>
+  </div>
+</article>

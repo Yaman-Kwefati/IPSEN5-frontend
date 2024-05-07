@@ -23,7 +23,7 @@ export class CreateReservationComponent {
   ngOnInit() {
     this.reservationForm = this.formBuilder.group({
       location: [this.userPrefs.favoriteLocation, Validators.required],
-      numberOfPeople: [0, Validators.required],
+      numberOfPeople: [Validators.required, Validators.min(0)],
       type: ['werkplek', Validators.required],
       wing: ['', Validators.required],
       room: ['', Validators.required],

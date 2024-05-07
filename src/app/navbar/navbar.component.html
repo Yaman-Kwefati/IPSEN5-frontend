@@ -1,24 +1,20 @@
-<nav class="sidenav">
-  <ul class="navlist">
-
-    <li class="navlist__item">
-      <a routerLink="/home">
-        <div class="icon-container">
-          <lucide-icon name="home" class="sidenav__item" />
-          <span class="nav-label">Home</span>
-        </div>
+<nav class="bg-secondary-purple-light fixed w-full h-auto bottom-0 z-10 pt-4 pb-4 shadow-lg shadow-gray-400 md:flex md:flex-col md:w-auto md:h-screen md:p-5 md:sticky md:space-y-16 md:top-0 ">
+  <div class="hidden md:flex md:justify-between">
+    <img src="assets/CGI_logo.png" alt="CGI logo" class="object-scale-down h-10 w-12" *ngIf="!collapsed">
+    <button (click)="toggleCollapse()">
+      <lucide-icon name="align-justify"></lucide-icon>
+    </button>
+  </div>
+  <ul class="h-full justify-evenly flex flex-row flex-wrap gap-8 md:flex-col md:list-none">
+    <app-navbar-item path="/home" icon="home" label="Home" [collapsed]="collapsed"></app-navbar-item>
+    <app-navbar-item path="/calendar" icon="calendar-days" label="Agenda" [collapsed]="collapsed"></app-navbar-item>
+    <app-navbar-item path="/reservations" icon="building-2" label="Mijn reserveringen" [collapsed]="collapsed"></app-navbar-item>
+    <app-navbar-item class="mt-auto" path="" icon="circle-user-round" label="Profiel" [collapsed]="collapsed"></app-navbar-item>
+    <li class="whitespace-nowrap">
+      <a (click)="signout()" class="hidden md:flex md:space-x-4 cursor-pointer">
+        <lucide-icon name="Log-out" title="Log uit"></lucide-icon>
+        <span *ngIf="!collapsed">Log uit</span>
       </a>
     </li>
-
-
-    <li class="navlist__item bottom">
-      <button class="signout-button" (click)="signout()" >
-        <div class="icon-container">
-          <lucide-icon name="log-out" class="sidenav__item"/>
-          <span class="nav-label">Signout</span>
-        </div>
-      </button>
-    </li>
-
   </ul>
 </nav>
