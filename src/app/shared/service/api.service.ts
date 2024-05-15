@@ -34,9 +34,6 @@ export class ApiService {
    */
   public get<T>(path: string, options?: { headers?: HttpHeaders }): Observable<T> {
     let requestHeaders: HttpHeaders = options?.headers ?? new HttpHeaders();
-    const jwtToken = this.cookieService.get("jwt");
-
-    requestHeaders = requestHeaders.append("Authorization", jwtToken);
 
     return this.http.get<T>(`${ApiService.API_URL}${path}`, { headers: requestHeaders });
   }
@@ -55,14 +52,8 @@ export class ApiService {
    * 
    * If the headers or a body are not provided, default values will be used.
    */
-  public post<T>(path: string, options?: { headers?: HttpHeaders, addAuthorizationHeader?: boolean, body?: object }): Observable<T> {
+  public post<T>(path: string, options?: { headers?: HttpHeaders, body?: object }): Observable<T> {
     let requestHeaders: HttpHeaders = options?.headers ?? new HttpHeaders();
-    const addAuthHeader: boolean = options?.addAuthorizationHeader ?? true
-    const jwtToken = this.cookieService.get('jwt');
-
-    if (addAuthHeader) {
-      requestHeaders = requestHeaders.append('Authorization', jwtToken);
-    }
 
     return this.http.post<T>(`${ApiService.API_URL}${path}`, options?.body, { headers: requestHeaders })
   }
@@ -80,9 +71,6 @@ export class ApiService {
    */
   public put<T>(path: string, options?: {headers?: HttpHeaders, body?: object}): Observable<T> {    
     let requestHeaders: HttpHeaders = options?.headers ?? new HttpHeaders(); 
-    const jwtToken = this.cookieService.get('jwt');
-
-    requestHeaders = requestHeaders.append('Authorization', jwtToken);
 
     return this.http.put<T>(`${ApiService.API_URL}${path}`, options?.body, { headers: requestHeaders })
   }
@@ -100,9 +88,6 @@ export class ApiService {
    */
   public patch<T>(path: string, options?: { headers?: HttpHeaders, body?: object }): Observable<T> {
     let requestHeaders: HttpHeaders = options?.headers ?? new HttpHeaders();
-    const jwtToken = this.cookieService.get('jwt');
-
-    requestHeaders = requestHeaders.append('Authorization', jwtToken);
 
     return this.http.patch<T>(`${ApiService.API_URL}${path}`, options?.body, { headers: requestHeaders });
   }
@@ -120,9 +105,6 @@ export class ApiService {
    */
   public delete<T>(path: string, options?: { headers?: HttpHeaders }): Observable<ApiResponse<T>> {
     let requestHeaders: HttpHeaders = options?.headers ?? new HttpHeaders();
-    const jwtToken = this.cookieService.get('jwt');
-
-    requestHeaders = requestHeaders.append('Authorization', jwtToken);
 
     return this.http.delete<ApiResponse<T>>(`${ApiService.API_URL}${path}`, { headers: requestHeaders })
   }
