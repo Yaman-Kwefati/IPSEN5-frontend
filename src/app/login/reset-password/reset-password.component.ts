@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {RouterLink} from "@angular/router";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { ApiService } from '../../shared/service/api.service';
+import {HttpHeaders} from "@angular/common/http";
 
 @Component({
   selector: 'app-reset-password',
@@ -11,13 +13,34 @@ import {RouterLink} from "@angular/router";
     RouterLink
   ],
   templateUrl: './reset-password.component.html',
-  styleUrl: './reset-password.component.scss'
+  styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent {
   public username?: string;
   public usernameRepeat?: string;
 
-  onSubmit(){
-    //reset service
+  constructor(private apiService: ApiService) {}
+
+  onSubmit() {
+    if (!this.username || !this.usernameRepeat) {
+      console.error('Usernames cannot be empty');
+      return;
+    }
+    if (!this.checkIfMatching()) {
+      console.error('Usernames do not match');
+      return;
+    }
+    const body: object = { email: this.username.toLowerCase() };
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    console.log(this.username.toLowerCase());
+    this.apiService.post('/user/reset-password',{headers, body}).subscribe(
+      response => {
+        console.log('Request successful', response);
+      }
+    );
+  }
+
+  private checkIfMatching(): boolean {
+    return this.username?.toLowerCase() === this.usernameRepeat?.toLowerCase();
   }
 }

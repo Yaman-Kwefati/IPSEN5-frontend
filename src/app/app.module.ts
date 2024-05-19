@@ -17,6 +17,7 @@ import { AuthService } from "./shared/service/auth.service";
 import { ApiService } from "./shared/service/api.service";
 import { DatePipe } from '@angular/common';
 import {ReservationService} from "./shared/service/reservation.service";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +25,8 @@ import {ReservationService} from "./shared/service/reservation.service";
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(routes),
     LucideAngularModule.pick(icons),
     MatDatepickerModule,
