@@ -17,6 +17,7 @@ import { AuthService } from "./shared/service/auth.service";
 import { ApiService } from "./shared/service/api.service";
 import { DatePipe } from '@angular/common';
 import {ReservationService} from "./shared/service/reservation.service";
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +31,10 @@ import {ReservationService} from "./shared/service/reservation.service";
     MatNativeDateModule,
     ToastrModule.forRoot(),
     HttpClientModule,
-    FullCalendarModule
+    FullCalendarModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

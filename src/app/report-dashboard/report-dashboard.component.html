@@ -1,0 +1,25 @@
+<article class="flex flex-col w-full h-full space-y-10 ">
+  <section class="flex flex-row justify-between w-full">
+    <h1 class="w-min whitespace-nowrap text-3xl font-bold">Rapportage dashboard</h1>
+    <div class="flex space-x-10">
+      <div class="flex space-x-2 items-center">
+        <label for="building">Locatie:</label>
+        <select name="building" id="building" [(ngModel)]="selectedLocation" class="p-2 border-2 border-primary-dark-purple rounded-lg" (change)="onChangeFilter()">
+          <option *ngFor="let location of locations" [ngValue]="location.location">{{ location.location }}</option>
+        </select>
+      </div>
+      <div class="flex space-x-2 items-center">
+        <label for="year" class="text-lg">Jaar:</label>
+        <select name="year" id="year" [(ngModel)]="selectedYear" class="p-2 border-2 border-primary-dark-purple rounded-lg"  (change)="onChangeFilter()">
+          <option *ngFor="let year of years" [ngValue]="year">{{ year }}</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="flex flex-row w-full h-full space-x-6">
+    <div echarts [options]="mostUsagesPieOptions" class="w-3/6 h-[400px] border-2 border-secondary-purple-light p-4 rounded-lg shadow-lg"></div>
+    <div echarts [options]="leasUsagesPieOptions" class="w-3/6 h-[400px] border-2 border-secondary-purple-light p-4 rounded-lg shadow-lg"></div>    
+  </section>
+  <div echarts [options]="heatmapOptions" class="h-[500px] border-2 border-secondary-purple-light p-4 rounded-lg shadow-lg"></div>
+</article>
