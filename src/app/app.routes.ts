@@ -8,6 +8,7 @@ import { CreateReservationComponent } from './reservation/create/create.componen
 import { LoginComponent } from "./login/login.component";
 import { loginGuard } from "./shared/guard/login.guard";
 import { AuthGuard } from "./shared/guard/auth.guard";
+import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
 
 export const routes: Routes = [
   {
@@ -42,6 +43,10 @@ export const routes: Routes = [
       {
         path: 'reservation/create',
         component: CreateReservationComponent
+      },
+      {
+        path: 'reports',
+        component: ReportDashboardComponent
       },
       {
         path: '',
