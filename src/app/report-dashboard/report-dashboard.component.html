@@ -22,4 +22,24 @@
     <div echarts [options]="leasUsagesPieOptions" class="w-3/6 h-[400px] border-2 border-secondary-purple-light p-4 rounded-lg shadow-lg"></div>    
   </section>
   <div echarts [options]="heatmapOptions" class="h-[500px] border-2 border-secondary-purple-light p-4 rounded-lg shadow-lg"></div>
+  <div class="flex w-full border-2 border-secondary-purple-light p-10 rounded-lg shadow-lg">
+    <table class="table-auto w-full">
+      <thead class="bg-secondary-purple-light p-2">
+        <tr>
+          <th class="border-2 border-gray-300 p-2 ">Werknemer</th>
+          <th class="border-2 border-gray-300 p-2">Aantal reserveringen</th>
+          <th class="border-2 border-gray-300 p-2">Aantal no-shows</th>
+          <th class="border-2 border-gray-300 p-2">Percentage</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let data of noShowData" >
+        <tr>
+          <td class="border-2 border-gray-300 p-2">{{ data.employee }}</td>
+          <td class="border-2 border-gray-300 p-2">{{ data.numberOfReservations }}</td>
+          <td class="border-2 border-gray-300 p-2">{{ data.numberOfNoShows }}</td>
+          <td class="border-2 border-gray-300 p-2">{{ (data.numberOfNoShows / data.numberOfReservations) * 100 }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </article>

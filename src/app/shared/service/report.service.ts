@@ -27,21 +27,21 @@ export class ReportService {
   public getRoomOccupancyData(location: string, year: number ): RoomOccupancyModel[] {
     let params = new HttpParams();
 
-    if(location !== null && location !== undefined) {
-      params = params.set('location', location)
-    }
-
-    if(year !== null) {
-      params = params.set('year', year.toString())
-    }
+    params = params.set('location', location)
+    params = params.set('year', year.toString())
     
     // TODO: connect to the api (GET)
     return this.testData;
   }
 
-  public getNoShowData(): NoShowModel[] {
-    return this.noShowData;
+  public getNoShowData(location: string, year: number): NoShowModel[] {
+    let params = new HttpParams();
 
+    params = params.set('location', location)
+    params = params.set('year', year.toString())
+
+    // TODO: conntect to the api (GET)
+    return this.noShowData;
   }
 
   private noShowData = [
@@ -80,7 +80,4 @@ export class ReportService {
     {building: 'Rotterdam', room: 'A3', numberOfUsages: 54, date: new Date(2022, 2, 21)},
     {building: 'Rotterdam', room: 'A4', numberOfUsages: 33, date: new Date(2022, 5, 21)},
   ]
-
-
-
 }

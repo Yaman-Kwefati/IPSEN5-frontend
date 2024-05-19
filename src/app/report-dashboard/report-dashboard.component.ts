@@ -46,7 +46,7 @@ export class ReportDashboardComponent implements OnInit {
     this.locations = this.reservationService.getLocations();
     this.selectedLocation = this.locations[0].location;
     this.getRoomOccupancyData();
-    this.noShowData = this.reportService.getNoShowData();
+    this.noShowData = this.reportService.getNoShowData(this.selectedLocation, this.selectedYear);
   }
 
   private setChartOptions(): void {
