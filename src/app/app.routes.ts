@@ -8,6 +8,7 @@ import { CreateReservationComponent } from './reservation/create/create.componen
 import { LoginComponent } from "./login/login.component";
 import { loginGuard } from "./shared/guard/login.guard";
 import { AuthGuard } from "./shared/guard/auth.guard";
+import {RequestResetPasswordComponent} from "./login/reset-password/request-reset/request-reset-password.component";
 import {ResetPasswordComponent} from "./login/reset-password/reset-password.component";
 
 export const routes: Routes = [
@@ -18,8 +19,13 @@ export const routes: Routes = [
   },
   {
     path: 'reset-password',
+    component: RequestResetPasswordComponent,
+    canActivate: [loginGuard],
+  },
+  {
+    path: 'reset-password/:token',
     component: ResetPasswordComponent,
-    canActivate: [loginGuard]
+    //TODO check which guard, maybe custom
   },
   {
     path: '',
