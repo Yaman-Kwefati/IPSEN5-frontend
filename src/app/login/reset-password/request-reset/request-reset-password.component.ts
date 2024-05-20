@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../../shared/service/api.service';
-import {HttpHeaders} from "@angular/common/http";
-import {ToastrService} from "ngx-toastr";
+import { HttpHeaders } from "@angular/common/http";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-reset-password',
@@ -26,30 +26,45 @@ export class RequestResetPasswordComponent {
   constructor(private apiService: ApiService, private toastr: ToastrService) {}
 
   onSubmit() {
+    if (this.validateFormValues()) {
+      this.doApiRequest();
+    }
+  }
+
+  private validateFormValues(): boolean {
     this.isUsernameInvalid = !this.username;
     this.isUsernameRepeatInvalid = !this.usernameRepeat;
 
     if (!this.username || !this.usernameRepeat) {
       this.toastr.error('Vul de gebruikersnaam in.');
-      return;
+      return false;
     }
     if (!this.checkIfMatching()) {
+      this.isUsernameRepeatInvalid = true;
       this.toastr.error('Gebruikersnamen komen niet overeen.');
+      return false;
+    }
+    return true;
+  }
+
+  private doApiRequest() {
+    const email = this.username?.toLowerCase();
+    if (!email) {
+      this.toastr.error('Gebruikersnaam is onbekend.');
       return;
     }
-    const body: object = { email: this.username.toLowerCase() };
+
+    const body: object = { email };
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    this.apiService.post('/user/reset-password',{headers, body}).subscribe(
+
+    this.apiService.post('/user/reset-password', { headers, body }).subscribe(
       response => {
         this.toastr.success('Er is een link naar de opgegeven email verstuurd.');
-      }, error => {
+      },
+      error => {
         this.toastr.error('Gebruikersnaam is onbekend.');
       }
     );
-  }
-
-  private validateFormValues(){
-
   }
 
   private checkIfMatching(): boolean {
