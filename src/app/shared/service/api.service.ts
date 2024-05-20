@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { CookieService } from 'ngx-cookie-service';
 
-enum Endpoint {
+export enum Endpoint {
   LOGIN = '/login',
+  REPORTS = '/reservation/report',
 }
 
 export interface ApiResponse<T> {
@@ -25,17 +26,18 @@ export class ApiService {
    * Creates a HTTP GET request tot the specified path.
    *
    * @param path - The URL path for the request.
-   * @param options - An object where you can add the headers for the request.
+   * @param options - An object where you can add the headers and params for the request.
    * @returns - An observable of the specified type <T> representing the response data.
    *
    * @remarks
    * This function appends an 'Authorization' header to the request using the JWT token retrieved from the cookies.
    * If the headers or a body are not provided, default values will be used.
    */
-  public get<T>(path: string, options?: { headers?: HttpHeaders }): Observable<T> {
+  public get<T>(path: string, options?: { headers?: HttpHeaders, params?: HttpParams }): Observable<T> {
     let requestHeaders: HttpHeaders = options?.headers ?? new HttpHeaders();
+    let requestParams: HttpParams = options?.params ?? new HttpParams();
 
-    return this.http.get<T>(`${ApiService.API_URL}${path}`, { headers: requestHeaders });
+    return this.http.get<T>(`${ApiService.API_URL}${path}`, { headers: requestHeaders, params: requestParams });
   }
 
   /**

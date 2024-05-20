@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ApiService } from "./api.service";
+import { ApiService, Endpoint } from "./api.service";
 import { HttpParams } from "@angular/common/http";
 
 export interface RoomOccupancyModel {
@@ -19,9 +19,6 @@ export interface NoShowModel {
   providedIn: 'root'
 })
 export class ReportService {
-
-  private static PATH = "/reservation/report"
-
   constructor(private apiService: ApiService) {}
 
   public getRoomOccupancyData(location: string, year: number ): RoomOccupancyModel[] {
@@ -31,6 +28,7 @@ export class ReportService {
     params = params.set('year', year.toString())
     
     // TODO: connect to the api (GET)
+    // this.apiService.get(Endpoint.REPORTS + '/occupancy', {params: params});
     return this.testData;
   }
 
@@ -41,6 +39,7 @@ export class ReportService {
     params = params.set('year', year.toString())
 
     // TODO: conntect to the api (GET)
+    // this.apiService.get(Endpoint.REPORTS + '/noshow', {params: params});
     return this.noShowData;
   }
 
