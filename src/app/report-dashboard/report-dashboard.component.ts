@@ -43,10 +43,9 @@ export class ReportDashboardComponent implements OnInit {
   constructor(private reservationService: CreateReservationService, private reportService: ReportService) {}
 
   ngOnInit(): void {
-    this.locations = this.reservationService.getLocations();
-    this.selectedLocation = this.locations[0].location;
+    this.getLocationData();
     this.getRoomOccupancyData();
-    this.noShowData = this.reportService.getNoShowData(this.selectedLocation, this.selectedYear);
+    this.getNoShowData();
   }
 
   private setChartOptions(): void {
@@ -55,7 +54,7 @@ export class ReportDashboardComponent implements OnInit {
     this.setHeatmapOptions();
   }
   
-  private getRoomOccupancyData(): void {
+  public getRoomOccupancyData(): void {
     this.roomOccupancyData = this.reportService.getRoomOccupancyData(this.selectedLocation, this.selectedYear);
 
     // TODO: remove this when connecting to backend
@@ -65,8 +64,18 @@ export class ReportDashboardComponent implements OnInit {
     this.setChartOptions();
   }
 
+  public getNoShowData(): void {
+    this.noShowData = this.reportService.getNoShowData(this.selectedLocation, this.selectedYear);
+  }
+
+  public getLocationData(): void {
+    this.locations = this.reservationService.getLocations();
+    this.selectedLocation = this.locations[0].location;
+  }
+
   public onChangeFilter(): void {
     this.getRoomOccupancyData();
+    this.getNoShowData();
   }
 
   private setHeatmapOptions(): void {
