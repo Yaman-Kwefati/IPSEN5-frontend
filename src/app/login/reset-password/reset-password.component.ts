@@ -31,6 +31,7 @@ export class ResetPasswordComponent implements OnInit{
       this.apiService.post('/validate-token', body).subscribe(
         response => {
           console.log('Token is valid', response);
+          //TODO replace console logs for feedback + error handling
         },
         error => {
           console.error('Invalid token', error);
@@ -42,6 +43,6 @@ export class ResetPasswordComponent implements OnInit{
   }
 
   onSubmit(){
-
+// todo
   }
 }

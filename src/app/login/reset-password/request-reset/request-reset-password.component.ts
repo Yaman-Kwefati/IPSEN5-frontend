@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../../shared/service/api.service';
 import {HttpHeaders} from "@angular/common/http";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-reset-password',
@@ -19,24 +20,36 @@ export class RequestResetPasswordComponent {
   public username?: string;
   public usernameRepeat?: string;
 
-  constructor(private apiService: ApiService) {}
+  public isUsernameInvalid = false;
+  public isUsernameRepeatInvalid = false;
+
+  constructor(private apiService: ApiService, private toastr: ToastrService) {}
 
   onSubmit() {
+    this.isUsernameInvalid = !this.username;
+    this.isUsernameRepeatInvalid = !this.usernameRepeat;
+
     if (!this.username || !this.usernameRepeat) {
-      console.error('Usernames cannot be empty');
+      this.toastr.error('Vul de gebruikersnaam in.');
       return;
     }
     if (!this.checkIfMatching()) {
-      console.error('Usernames do not match');
+      this.toastr.error('Gebruikersnamen komen niet overeen.');
       return;
     }
     const body: object = { email: this.username.toLowerCase() };
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     this.apiService.post('/user/reset-password',{headers, body}).subscribe(
       response => {
-        console.log('Request successful', response);
+        this.toastr.success('Er is een link naar de opgegeven email verstuurd.');
+      }, error => {
+        this.toastr.error('Gebruikersnaam is onbekend.');
       }
     );
+  }
+
+  private validateFormValues(){
+
   }
 
   private checkIfMatching(): boolean {
