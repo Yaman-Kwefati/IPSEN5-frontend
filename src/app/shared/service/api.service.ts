@@ -16,7 +16,7 @@ export interface ApiResponse<T> {
 
 @Injectable({
   providedIn: 'root',
-}) 
+})
 export class ApiService {
   public static API_URL = 'http://localhost:8080/api/v1';
 
@@ -37,7 +37,7 @@ export class ApiService {
     let requestHeaders: HttpHeaders = options?.headers ?? new HttpHeaders();
     let requestParams: HttpParams = options?.params ?? new HttpParams();
 
-    return this.http.get<T>(`${ApiService.API_URL}${path}`, { headers: requestHeaders, params: requestParams });
+    return this.http.get<T>(`${ApiService.API_URL}${path}`, { headers: requestHeaders, params: requestParams, withCredentials: true });
   }
 
   /**
@@ -51,13 +51,13 @@ export class ApiService {
    * This function appends an 'Authorization' header to the request using the JWT token retrieved from the cookies.
    * @param addAuthorizationHeader - When set to false a request will be sent without the 'Authorization' header. The default value is
    * set to true.
-   * 
+   *
    * If the headers or a body are not provided, default values will be used.
    */
   public post<T>(path: string, options?: { headers?: HttpHeaders, body?: object }): Observable<T> {
     let requestHeaders: HttpHeaders = options?.headers ?? new HttpHeaders();
 
-    return this.http.post<T>(`${ApiService.API_URL}${path}`, options?.body, { headers: requestHeaders })
+    return this.http.post<T>(`${ApiService.API_URL}${path}`, options?.body, { headers: requestHeaders, withCredentials: true })
   }
 
   /**
@@ -71,10 +71,10 @@ export class ApiService {
    * This function appends an 'Authorization' header to the request using the JWT token retrieved from the cookies.
    * If the headers or a body are not provided, default values will be used.
    */
-  public put<T>(path: string, options?: {headers?: HttpHeaders, body?: object}): Observable<T> {    
-    let requestHeaders: HttpHeaders = options?.headers ?? new HttpHeaders(); 
+  public put<T>(path: string, options?: {headers?: HttpHeaders, body?: object}): Observable<T> {
+    let requestHeaders: HttpHeaders = options?.headers ?? new HttpHeaders();
 
-    return this.http.put<T>(`${ApiService.API_URL}${path}`, options?.body, { headers: requestHeaders })
+    return this.http.put<T>(`${ApiService.API_URL}${path}`, options?.body, { headers: requestHeaders, withCredentials: true })
   }
 
   /**
@@ -91,7 +91,7 @@ export class ApiService {
   public patch<T>(path: string, options?: { headers?: HttpHeaders, body?: object }): Observable<T> {
     let requestHeaders: HttpHeaders = options?.headers ?? new HttpHeaders();
 
-    return this.http.patch<T>(`${ApiService.API_URL}${path}`, options?.body, { headers: requestHeaders });
+    return this.http.patch<T>(`${ApiService.API_URL}${path}`, options?.body, { headers: requestHeaders, withCredentials: true });
   }
 
   /**
@@ -108,6 +108,6 @@ export class ApiService {
   public delete<T>(path: string, options?: { headers?: HttpHeaders }): Observable<ApiResponse<T>> {
     let requestHeaders: HttpHeaders = options?.headers ?? new HttpHeaders();
 
-    return this.http.delete<ApiResponse<T>>(`${ApiService.API_URL}${path}`, { headers: requestHeaders })
+    return this.http.delete<ApiResponse<T>>(`${ApiService.API_URL}${path}`, { headers: requestHeaders, withCredentials: true })
   }
 }
