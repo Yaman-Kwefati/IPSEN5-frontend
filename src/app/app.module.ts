@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ToastrModule } from 'ngx-toastr';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import {FullCalendarModule} from "@fullcalendar/angular";
 import { NavbarComponent } from './navbar/navbar.component'; // Importing NavbarComponent
@@ -18,6 +18,7 @@ import { ApiService } from "./shared/service/api.service";
 import { DatePipe } from '@angular/common';
 import {ReservationService} from "./shared/service/reservation.service";
 import { NgxEchartsModule } from 'ngx-echarts';
+import {MyInterceptor} from "./shared/service/requests/intetceptor";
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,7 +38,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     }),
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    {provide: LocationStrategy, useClass: HashLocationStrategy },
+    {provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true},
     AuthService,
     ApiService,
     ReservationService,
