@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { ApiService } from '../../../shared/service/api.service';
 import { HttpHeaders } from "@angular/common/http";
 import { ToastrService } from "ngx-toastr";
+import {ResetService} from "../../../shared/service/requests/reset.service";
 
 @Component({
   selector: 'app-reset-password',
@@ -23,11 +24,11 @@ export class RequestResetPasswordComponent {
   public isUsernameInvalid = false;
   public isUsernameRepeatInvalid = false;
 
-  constructor(private apiService: ApiService, private toastr: ToastrService) {}
+  constructor(private resetService: ResetService, private toastr: ToastrService) {}
 
   onSubmit() {
     if (this.validateFormValues()) {
-      this.doApiRequest();
+      this.requestTokenEmail();
     }
   }
 
@@ -47,24 +48,17 @@ export class RequestResetPasswordComponent {
     return true;
   }
 
-  private doApiRequest() {
+  private requestTokenEmail() {
     const email = this.username?.toLowerCase();
     if (!email) {
       this.toastr.error('Gebruikersnaam is onbekend.');
       return;
+    }else{
+      const infoMessage = this.resetService.sendTokenEmail(email);
+      this.toastr.info(infoMessage) ;
     }
 
-    const body: object = { email };
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    this.apiService.post('/user/reset-password', { headers, body }).subscribe(
-      response => {
-        this.toastr.success('Er is een link naar de opgegeven email verstuurd.');
-      },
-      error => {
-        this.toastr.error('Gebruikersnaam is onbekend.');
-      }
-    );
   }
 
   private checkIfMatching(): boolean {

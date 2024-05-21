@@ -20,11 +20,25 @@ export class ResetService {
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    this.apiService.post('/user/reset-password', { headers, body }).subscribe(
+    this.apiService.put('/user/reset-password', { headers, body }).subscribe(
       response => {
         return 'Wachtwoord succesvol gewijzigd.'
       }
     );
     return 'Er is een fout opgetreden bij het wijzigen van het wachtwoord.'
   }
+
+  public sendTokenEmail(email: string): string{
+
+      const body: object = { email };
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+      this.apiService.post('/user/reset-password', { headers, body }).subscribe(
+          error => {
+              return 'Gebruikersnaam is onbekend.';
+          }
+      );
+      return 'Er is een link naar de opgegeven email verstuurd.';
+  }
+
 }
