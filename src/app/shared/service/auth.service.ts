@@ -44,9 +44,17 @@ export class AuthService {
   }
 
 
-  public signout() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+  public signout(): void {
+    this.apiService.post<any>('/auth/logout')
+      .subscribe({
+        next: () => {
+          this.toastr.success('Logout successful!');
+          this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          this.toastr.error('Logout failed.');
+        }
+      });
   }
 
   public getId(): string {
