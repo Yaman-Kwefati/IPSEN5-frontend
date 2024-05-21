@@ -18,6 +18,7 @@ import { ApiService } from "./shared/service/api.service";
 import { DatePipe } from '@angular/common';
 import {ReservationService} from "./shared/service/reservation.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { ResetService } from './shared/service/requests/reset.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +40,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     AuthService,
     ApiService,
+    ResetService,
     ReservationService,
     DatePipe
   ],
