@@ -10,7 +10,7 @@ export class ResetService {
   constructor(private apiService: ApiService) {
   }
 
-  public resetPassword(email: string, password: string, token: string): string {
+  public resetPassword(email: string, password: string, token: string): boolean {
 
     const body: object = {
       email,
@@ -22,10 +22,11 @@ export class ResetService {
 
     this.apiService.put('/user/reset-password', { headers, body }).subscribe(
       response => {
-        return 'Wachtwoord succesvol gewijzigd.'
+        return true;
+
       }
     );
-    return 'Er is een fout opgetreden bij het wijzigen van het wachtwoord.'
+    return false;
   }
 
   public sendTokenEmail(email: string): string{
