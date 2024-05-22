@@ -24,7 +24,7 @@ export class ResetPasswordService {
             const response = await lastValueFrom(this.apiService.put('/user/reset-password', { headers, body }));
             return true;
         } catch (error) {
-            console.error(error);
+            this.handleError(error);
             return false;
         }
     }
@@ -38,8 +38,8 @@ export class ResetPasswordService {
             .catch(error => this.handleError(error));
     }
 
-    private handleError(error: HttpErrorResponse): Promise<string> {
-        if (error.status === 500) {
+    private handleError(error: any): Promise<string> {
+        if (error instanceof HttpErrorResponse && error.status === 500) {
             // Server error
             return Promise.resolve('Server error. Please wait a few minutes and try again.');
         } else {
