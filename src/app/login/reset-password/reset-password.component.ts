@@ -38,37 +38,43 @@ export class ResetPasswordComponent implements OnInit {
         }
     }
 
-    onSubmit() {
+    async onSubmit() {
         const isFormValid = this.validateFormValues();
         if (!isFormValid) {
             return;
         }
         if (this.password && this.checkIfMatching()) {
-            this.changePassword(this.password);
+            await this.changePassword(this.password);
         }
     }
 
-    private changePassword(password: string) {
+    private async changePassword(password: string) {
         const email = this.username?.toLowerCase();
         if (!email || !this.token) {
             this.toastr.error('Onvolledige gegevens.');
             return;
         }
 
-        const success = this.resetService.resetPassword(email, password, this.token);
-        if (!success) {
-            this.toastr.info('Er is een fout opgetreden bij het wijzigen van het wachtwoord.');
-            return;
+        try {
+            const success = await this.resetService.resetPassword(email, password, this.token);
+            if (!success) {
+                this.toastr.info('Er is een fout opgetreden bij het wijzigen van het wachtwoord.');
+                return;
+            }
+            this.toastr.success('Wachtwoord succesvol gewijzigd.');
+        } catch (error) {
+            this.toastr.error('Er is een fout opgetreden bij het wijzigen van het wachtwoord.');
+            console.error(error);
         }
-        this.toastr.success('Wachtwoord succesvol gewijzigd.');
     }
 
     private validateFormValues(): boolean {
         this.isPasswordInvalid = !this.password;
         this.isPasswordRepeatInvalid = !this.passwordRepeat;
-        this.isUsernameInvalid = !this.username || !/^\S+@\S+\.\S+$/.test(this.username.trim());
+        this.isUsernameInvalid = !this.username ||
+            !/^(\S+@\S+\.\S+|(\*@gmail\.com)|(\*@student\.hsleiden\.nl)|(\*@cgi\.com))$/.test(this.username.trim());
 
-        if (!this.password || !this.passwordRepeat) {
+        if (this.isPasswordInvalid || this.isPasswordRepeatInvalid) {
             this.toastr.error('Vul een wachtwoord in.');
             return false;
         }
@@ -77,13 +83,13 @@ export class ResetPasswordComponent implements OnInit {
             this.toastr.error('Wachtwoorden komen niet overeen.');
             return false;
         }
-        if (!this.isUsernameInvalid) {
-            this.isUsernameInvalid = true;
+        if (this.isUsernameInvalid) {
             this.toastr.error('Ongeldige gebruikersnaam opgegeven.');
             return false;
         }
         return true;
     }
+
 
     private checkIfMatching(): boolean {
         return this.password === this.passwordRepeat;

@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpHeaders} from "@angular/common/http";
 import {ApiService} from "../api.service";
+import {lastValueFrom} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -10,25 +11,23 @@ export class ResetService {
   constructor(private apiService: ApiService) {
   }
 
-  public resetPassword(email: string, password: string, token: string): boolean {
+    public async resetPassword(email: string, password: string, token: string): Promise<boolean> {
+        const body = {
+            email,
+            password,
+            token
+        };
 
-    const body: object = {
-      email,
-      password: password,
-      token: token
-    };
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-    this.apiService.put('/user/reset-password', { headers, body }).subscribe(
-      response => {
-        return true;
-
-      }
-    );
-    return false;
-  }
-
+        try {
+            const response = await lastValueFrom(this.apiService.put('/user/reset-password', { headers, body }));
+            return true;
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+    }
   public sendTokenEmail(email: string): string{
 
       const body: object = { email };
