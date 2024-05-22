@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ToastrModule } from 'ngx-toastr';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import {FullCalendarModule} from "@fullcalendar/angular";
 import { NavbarComponent } from './navbar/navbar.component'; // Importing NavbarComponent
@@ -19,6 +19,9 @@ import { DatePipe } from '@angular/common';
 import {ReservationService} from "./shared/service/reservation.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ResetService } from './shared/service/requests/reset.service';
+import { NgxEchartsModule } from 'ngx-echarts';
+import {MyInterceptor} from "./shared/service/requests/intetceptor";
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,10 +37,14 @@ import { ResetService } from './shared/service/requests/reset.service';
     MatNativeDateModule,
     ToastrModule.forRoot(),
     HttpClientModule,
-    FullCalendarModule
+    FullCalendarModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    {provide: LocationStrategy, useClass: HashLocationStrategy },
+    {provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true},
     AuthService,
     ApiService,
     ResetService,
