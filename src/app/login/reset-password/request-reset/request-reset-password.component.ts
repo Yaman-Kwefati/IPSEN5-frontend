@@ -17,10 +17,8 @@ import {ResetService} from "../../../shared/service/requests/reset.service";
 })
 export class RequestResetPasswordComponent {
   public username?: string;
-  public usernameRepeat?: string;
 
   public isUsernameInvalid = false;
-  public isUsernameRepeatInvalid = false;
 
   constructor(private resetService: ResetService, private toastr: ToastrService) {}
 
@@ -31,16 +29,11 @@ export class RequestResetPasswordComponent {
   }
 
   private validateFormValues(): boolean {
+    //todo refactor to formbuilder
     this.isUsernameInvalid = !this.username;
-    this.isUsernameRepeatInvalid = !this.usernameRepeat;
 
-    if (!this.username || !this.usernameRepeat) {
+    if (!this.username) {
       this.toastr.error('Vul de gebruikersnaam in.');
-      return false;
-    }
-    if (!this.checkIfMatching()) {
-      this.isUsernameRepeatInvalid = true;
-      this.toastr.error('Gebruikersnamen komen niet overeen.');
       return false;
     }
     return true;
@@ -57,9 +50,5 @@ export class RequestResetPasswordComponent {
     }
 
 
-  }
-
-  private checkIfMatching(): boolean {
-    return this.username?.toLowerCase() === this.usernameRepeat?.toLowerCase();
   }
 }
