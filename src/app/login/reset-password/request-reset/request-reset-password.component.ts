@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { ApiService } from '../../../shared/service/api.service';
-import { HttpHeaders } from "@angular/common/http";
 import { ToastrService } from "ngx-toastr";
 import {ResetService} from "../../../shared/service/requests/reset.service";
 
