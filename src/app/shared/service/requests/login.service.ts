@@ -11,16 +11,22 @@ export class LoginService {
   }
 
   public login(username: string, password: string): void {
-    // this.apiService.post('/auth/login', {}, {username, password})
+    const loginData =
+      {
+        "username" : username,
+        "password" : password
+      };
 
-    if (username === 'user' && password === 'hallo123') {
-        this.toastr.success("Login succes", "Succes")
-        this.router.navigate(["/home"])
-    }
-      else {
-        this.toastr.error("Login failed", "Error")
-      }
-    localStorage.setItem('token', 'token');
+    this.apiService.post<any>('/auth/login', { body: loginData })
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('Login successful!');
+          this.router.navigate(['/home']);
+        },
+        error: (error) => {
+          this.toastr.error('Login failed. Please check your credentials.');
+        }
+      });
   }
 
 }
