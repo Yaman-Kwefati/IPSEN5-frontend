@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
-import {ResetService} from "../../../shared/service/requests/reset.service";
+import {ResetPasswordService} from "../../../shared/service/requests/reset-password.service";
 
 @Component({
   selector: 'app-reset-password',
@@ -20,7 +20,7 @@ export class RequestResetPasswordComponent {
 
   public isUsernameInvalid = false;
 
-  constructor(private resetService: ResetService, private toastr: ToastrService) {}
+  constructor(private resetService: ResetPasswordService, private toastr: ToastrService) {}
 
   onSubmit() {
     if (this.validateFormValues()) {
@@ -39,16 +39,18 @@ export class RequestResetPasswordComponent {
     return true;
   }
 
-  private requestTokenEmail() {
+  private requestTokenEmail(): void {
     const email = this.username?.toLowerCase();
     if (!email) {
       this.toastr.error('Gebruikersnaam is onbekend.');
       return;
-    }else{
-      const infoMessage = this.resetService.sendTokenEmail(email);
-      this.toastr.info(infoMessage) ;
+    } else {
+      this.resetService.sendTokenEmail(email).then(infoMessage => {
+        this.toastr.info(infoMessage);
+      }).catch(errorMessage => {
+        this.toastr.error(errorMessage);
+      });
     }
-
-
   }
+
 }

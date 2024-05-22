@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
-import {ResetService} from "../../shared/service/requests/reset.service";
+import {ResetPasswordService} from "../../shared/service/requests/reset-password.service";
 
 @Component({
     selector: 'app-reset-password',
@@ -27,7 +27,7 @@ export class ResetPasswordComponent implements OnInit {
     public isUsernameInvalid = false;
 
     constructor(private route: ActivatedRoute,
-                private resetService: ResetService,
+                private resetService: ResetPasswordService,
                 private toastr: ToastrService) {
     }
 
@@ -38,7 +38,7 @@ export class ResetPasswordComponent implements OnInit {
         }
     }
 
-    async onSubmit() {
+    public async onSubmit():  Promise<void> {
         const isFormValid = this.validateFormValues();
         if (!isFormValid) {
             return;
@@ -48,7 +48,7 @@ export class ResetPasswordComponent implements OnInit {
         }
     }
 
-    private async changePassword(password: string) {
+    private async changePassword(password: string): Promise<void> {
         const email = this.username?.toLowerCase();
         if (!email || !this.token) {
             this.toastr.error('Onvolledige gegevens.');

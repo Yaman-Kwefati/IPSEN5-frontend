@@ -18,7 +18,7 @@ import { ApiService } from "./shared/service/api.service";
 import { DatePipe } from '@angular/common';
 import {ReservationService} from "./shared/service/reservation.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { ResetService } from './shared/service/requests/reset.service';
+import { ResetPasswordService } from './shared/service/requests/reset-password.service';
 import { NgxEchartsModule } from 'ngx-echarts';
 import {MyInterceptor} from "./shared/service/requests/intetceptor";
 
@@ -47,7 +47,7 @@ import {MyInterceptor} from "./shared/service/requests/intetceptor";
     {provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true},
     AuthService,
     ApiService,
-    ResetService,
+    ResetPasswordService,
     ReservationService,
     DatePipe
   ],
