@@ -8,13 +8,26 @@ import { CreateReservationComponent } from './reservation/create/create.componen
 import { LoginComponent } from "./login/login.component";
 import { loginGuard } from "./shared/guard/login.guard";
 import { AuthGuard } from "./shared/guard/auth.guard";
+import {RequestResetPasswordComponent} from "./login/reset-password/request-reset/request-reset-password.component";
+import {ResetPasswordComponent} from "./login/reset-password/reset-password.component";
 import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
+
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
     canActivate: [loginGuard],
+  },
+  {
+    path: 'reset-password',
+    component: RequestResetPasswordComponent,
+    canActivate: [loginGuard],
+  },
+  {
+    path: 'reset-password/:token',
+    component: ResetPasswordComponent,
+    //TODO check which guard, maybe custom
   },
   {
     path: '',
@@ -30,7 +43,7 @@ export const routes: Routes = [
         title: 'Calendar',
         component: CalendarComponent
       },
-      
+
       // TODO add id of reservation in path
       {path: 'reservation/details',
       component: ReservationDetailsComponent

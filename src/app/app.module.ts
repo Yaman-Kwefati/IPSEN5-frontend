@@ -17,8 +17,11 @@ import { AuthService } from "./shared/service/auth.service";
 import { ApiService } from "./shared/service/api.service";
 import { DatePipe } from '@angular/common';
 import {ReservationService} from "./shared/service/reservation.service";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { ResetPasswordService } from './shared/service/requests/reset-password.service';
 import { NgxEchartsModule } from 'ngx-echarts';
 import {MyInterceptor} from "./shared/service/requests/intetceptor";
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +29,8 @@ import {MyInterceptor} from "./shared/service/requests/intetceptor";
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(routes),
     LucideAngularModule.pick(icons),
     MatDatepickerModule,
@@ -42,6 +47,7 @@ import {MyInterceptor} from "./shared/service/requests/intetceptor";
     {provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true},
     AuthService,
     ApiService,
+    ResetPasswordService,
     ReservationService,
     DatePipe
   ],

@@ -14,9 +14,15 @@ export interface ApiResponse<T> {
   statusCode: string;
 }
 
+export interface ApiResponse<T> {
+  payload: T;
+  message: string;
+  statusCode: string;
+}
+
 @Injectable({
   providedIn: 'root',
-})
+}) 
 export class ApiService {
   public static API_URL = 'http://localhost:8080/api/v1';
 
