@@ -1,7 +1,7 @@
 <article class="rounded-lg p-4 border-2 border-secondary-purple-light space-y-4 mb-5">
   <div class="flex justify-between items-center">
     <h2 class="text-xl font-semibold">Aankomende reserveringen</h2>
-    <button routerLink="/reservations" class="bg-primary-dark-purple text-white p-2 rounded-lg hover:bg-purple-950">Bekijk alles</button>
+    <button routerLink="/reservations" class="bg-primary-dark-purple text-white p-2 rounded-lg hover:bg-purple-950 duration-300">Bekijk alles</button>
   </div>
   <ul class="space-y-4">
     <li class="flex justify-between items-center p-4 border-2 border-secondary-purple-light rounded-lg" *ngFor="let reservation of reservations" >
@@ -10,7 +10,7 @@
         <p>Tijd: {{ reservation.startDateTime | date:'shortTime' }}</p>
         <p>Locatie: {{reservation.location.wing.floor.building.name}}</p>
       </div>
-      <button routerLink="/reservation/details" class="flex bg-secondary-purple-light p-2 rounded-lg space-x-2 hover:bg-gray-300">
+      <button routerLink="/reservation/details" class="flex bg-secondary-purple-light p-2 rounded-lg space-x-2 hover:bg-gray-300 duration-300">
         <p>Meer info</p>
         <lucide-icon name="move-right"></lucide-icon>
       </button>
