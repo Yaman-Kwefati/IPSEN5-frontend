@@ -1,7 +1,7 @@
 import {Time} from "@angular/common";
 import {locationsModel} from "./locations.model";
 
-export class ReservationModel {
+export class Reservation {
     id: string;
     user: {
         id: string,

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
-import { ReservationModel } from '../../shared/models/reservation.model';
+import { Reservation } from '../../shared/models/reservation.model';
 import { ReservationService } from '../../shared/service/reservation.service';
 import { C } from '@fullcalendar/core/internal-common';
 
@@ -18,7 +18,7 @@ import { C } from '@fullcalendar/core/internal-common';
   styleUrl: './upcoming-reservations.component.scss'
 })
 export class UpcomingReservationsComponent {
-  reservations!: ReservationModel[];
+  reservations!: Reservation[];
 
   constructor(private reservationService: ReservationService) { }
 
