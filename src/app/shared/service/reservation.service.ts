@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReservationModel } from '../models/reservation.model';
+import { Reservation } from '../model/reservation.model';
 import { ApiService, ApiResponse } from './api.service';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class ReservationService {
     };
   }
 
-  getAllReservations(): Promise<ReservationModel[]> {
+  getAllReservations(): Promise<Reservation[]> {
     return this.apiService.get<any>('/reservation/all')
       .toPromise()
       .then((response) => {
@@ -26,7 +26,7 @@ export class ReservationService {
       });
   }
 
-  getReservationById(id: string): Promise<ReservationModel> {
+  getReservationById(id: string): Promise<Reservation> {
     return this.apiService.get<any>(`/reservation/${id}`)
       .toPromise()
       .then((response) => {
