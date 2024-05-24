@@ -29,16 +29,10 @@ export class UpcomingReservationsComponent {
     let temp = await this.reservationService.getAllReservations();
     let now = new Date();
 
-    console.log(temp);
-
     let upcomingReservations = temp.filter((reservation) => {
       let startDateTime = new Date(reservation.startDateTime);
-      console.log(startDateTime);
-      console.log("NOW: " + now);
       return startDateTime >= now;
     });
-
-    console.log(upcomingReservations);
     
     this.reservations = upcomingReservations.sort((a, b) => new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime()).slice(0, 3);
   }
