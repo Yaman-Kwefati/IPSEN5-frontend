@@ -40,29 +40,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getNotifications()
-    this.getUpcomingReservations()
     this.getFavoriteLocation()
   }
 
 
   private getNotifications(): void {
     this.notifications = this.notificationService.getAllNotifications()
-  }
-
-  private getUpcomingReservations(): void {
-    const building = new Building('testId', "De Entree 21 1101 BH", "Amsterdam");
-    const floor = new Floor('testId', building, '4');
-    const wing = new Wing('testId', floor, 'A');
-    const user = new User('test@cgi.com', 'lastName', 'firstName', '0612345678', Role.USER);
-    const location = new Location('testId', wing, 'A123', 'Meeting room', 6, false, new Date());
-
-    this.upcomingReservations = [
-      new Reservation('testId1', user, location, 'NOT_CHECKED_IN', new Date(), new Date(), 5, new Date()),
-      new Reservation('testId2', user, location, 'NOT_CHECKED_IN', new Date(), new Date(), 5, new Date()),
-      new Reservation('testId3', user, location, 'NOT_CHECKED_IN', new Date(), new Date(), 5, new Date()),
-
-    ]
-    // TODO: connect this to the ReservationService
   }
 
   private getFavoriteLocation(): void {

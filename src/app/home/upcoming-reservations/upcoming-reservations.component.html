@@ -4,11 +4,11 @@
     <button routerLink="/reservations" class="bg-primary-dark-purple text-white p-2 rounded-lg hover:bg-purple-950 duration-300">Bekijk alles</button>
   </div>
   <ul class="space-y-4">
-    <li class="flex justify-between items-center p-4 border-2 border-secondary-purple-light rounded-lg" *ngFor="let reservation of reservations" >
+    <li class="flex justify-between items-center p-4 border-2 border-secondary-purple-light rounded-lg" *ngFor="let reservation of reservations">
       <div>
         <h3 class="font-bold">{{ reservation.startDateTime | date:'longDate' }}</h3>
-        <p>Tijd: {{ reservation.startDateTime | date:'shortTime' }}</p>
-        <p>Locatie: {{reservation.location.wing.floor.building.name}}</p>
+        <p>Tijd: {{ reservation.startDateTime | date:'shortTime' || "Onbekende startdatum" }}</p>
+        <p>Locatie: {{reservation.location || "Onbekende locatie"}}</p>
       </div>
       <button routerLink="/reservation/details" class="flex bg-secondary-purple-light p-2 rounded-lg space-x-2 hover:bg-gray-300 duration-300">
         <p>Meer info</p>
