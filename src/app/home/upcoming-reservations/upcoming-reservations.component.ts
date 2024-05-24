@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
+import { ReservationModel } from '../../shared/models/reservation.model';
+import { ReservationService } from '../../shared/service/reservation.service';
+import { C } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-upcoming-reservations',
@@ -15,19 +18,29 @@ import { LucideAngularModule } from 'lucide-angular';
   styleUrl: './upcoming-reservations.component.scss'
 })
 export class UpcomingReservationsComponent {
-  @Input() reservations: {
-    id: string,
-    location: {
-      location: string,
-      address: string,
-      city: string,
-      zip: string
-    },
-    wing: string,
-    floor: string,
-    room: string,
-    type: string, 
-    startDateTime: Date
-  }[] = [];
+  reservations!: ReservationModel[];
 
+  constructor(private reservationService: ReservationService) { }
+
+  ngOnInit(): void {
+    this.getUpcomingReservations();
+  }
+
+  async getUpcomingReservations(): Promise<void> {
+    let temp = await this.reservationService.getAllReservations();
+    let now = new Date();
+
+    console.log(temp);
+
+    let upcomingReservations = temp.filter((reservation) => {
+      let startDateTime = new Date(reservation.startDateTime);
+      console.log(startDateTime);
+      console.log("NOW: " + now);
+      return startDateTime >= now;
+    });
+
+    console.log(upcomingReservations);
+    
+    this.reservations = upcomingReservations.sort((a, b) => new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime()).slice(0, 3);
+  }
 }

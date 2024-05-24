@@ -1,24 +1,40 @@
-import {Injectable} from "@angular/core";
-import {ReservationModel} from "../models/reservation.model";
-import {locationsModel} from "../models/locations.model";
+import { Injectable } from '@angular/core';
+import { ReservationModel } from '../models/reservation.model';
+import { ApiService, ApiResponse } from './api.service';
 
 @Injectable()
 export class ReservationService {
-    currentReservation: ReservationModel;
+  
+    constructor(private apiService: ApiService) {
+    const currentLocation = {
+      location: 'Amsterdam',
+      address: 'De Entree 21',
+      city: 'Amsterdam',
+      zip: '1101 BH',
+    };
+  }
 
-    constructor() {
-        const currentLocation =  {
-            location: 'Amsterdam',
-            address: 'De Entree 21',
-            city: 'Amsterdam',
-            zip: '1101 BH',
-        }
-        this.currentReservation = new ReservationModel('testID', currentLocation, 'Z', 2, 'AMS2a',
-            'Flexplek', new Date(2024, 4, 7, 11, 30));
-    }
+  getAllReservations(): Promise<ReservationModel[]> {
+    return this.apiService.get<any>('/reservation/all')
+      .toPromise()
+      .then((response) => {
+        return response.payload;
+      })
+      .catch((error) => {
+        console.error(error);
+        return [];
+      });
+  }
 
-    getReservation(){
-        //TODO get from API using id (add to param) instead of hardcoded
-        return this.currentReservation;
-    }
+  getReservationById(id: string): Promise<ReservationModel> {
+    return this.apiService.get<any>(`/reservation/${id}`)
+      .toPromise()
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        console.error(error);
+        return [];
+      });
+  }
 }

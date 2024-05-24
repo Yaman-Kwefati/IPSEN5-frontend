@@ -47,61 +47,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getNotifications()
-    this.getUpcomingReservations()
     this.getFavoriteLocation()
   }
 
 
   private getNotifications(): void {
     this.notifications = this.notificationService.getAllNotifications()
-  }
-
-  private getUpcomingReservations(): void {
-    this.upcomingReservations = [
-      {
-        id: '',
-        location: {
-          location: 'George Hintzenweg 89, 3068 AX Rotterdam',
-          address: 'George Hintzenweg 89',
-          city: 'Rotterdam',
-          zip: '3068 AX'
-        },
-        wing: '',
-        floor: '',
-        room: '',
-        type: '', 
-        startDateTime: new Date()
-      },
-      {
-        id: '',
-        location: {
-          location: 'De Entree 21, 1101 BH Amsterdam',
-          address: 'De Entree 21',
-          city: 'Amsterdam',
-          zip: '1101 BH'
-        },
-        wing: '',
-        floor: '',
-        room: '',
-        type: '', 
-        startDateTime: new Date()
-      },
-      {
-        id: '',
-        location: {
-          location: 'George Hintzenweg 89, 3068 AX Rotterdam',
-          address: 'George Hintzenweg 89',
-          city: 'Rotterdam',
-          zip: '3068 AX'
-        },
-        wing: '',
-        floor: '',
-        room: '',
-        type: '', 
-        startDateTime: new Date()
-      },
-    ]
-    // TODO: connect this to the ReservationService
   }
 
   private getFavoriteLocation(): void {
