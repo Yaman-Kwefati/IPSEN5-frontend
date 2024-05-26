@@ -1,4 +1,6 @@
-export interface UserResponseModel {
+// This is the actual response from the backend when requesting a user
+
+export interface User {
   id: string;
   email: string;
   firstname: string;
