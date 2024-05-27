@@ -12,6 +12,7 @@ import {RequestResetPasswordComponent} from "./login/reset-password/request-rese
 import {ResetPasswordComponent} from "./login/reset-password/reset-password.component";
 import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
 import {UsersComponent} from "./users/users.component";
+import {AdminGuard} from "./shared/guard/admin.guard";
 
 
 export const routes: Routes = [
@@ -69,7 +70,8 @@ export const routes: Routes = [
       },
       {
         path: 'users',
-        component: UsersComponent
+        component: UsersComponent,
+        canActivate: [AdminGuard]
       }
     ]
   },
