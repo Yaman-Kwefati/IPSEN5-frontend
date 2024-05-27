@@ -1,16 +1,16 @@
 export class User {
   private _id?: string;
-  private _userName: string;
+  private _email: string;
   private _password?: string;
   private _lastName: string;
   private _firstName: string;
   private _phoneNumber: string;
   private _role: Role;
 
-  constructor(userName: string, lastName: string, firstName: string, phoneNumber: string, role: Role,
+  constructor(email: string, lastName: string, firstName: string, phoneNumber: string, role: Role,
               id?: string, password?: string) {
     this._id = id;
-    this._userName = userName;
+    this._email = email;
     this._lastName = lastName;
     this._firstName = firstName;
     this._phoneNumber = phoneNumber;
@@ -26,12 +26,12 @@ export class User {
     this._id = value;
   }
 
-  get userName(): string {
-    return this._userName;
+  get email(): string {
+    return this._email;
   }
 
-  set userName(value: string) {
-    this._userName = value;
+  set email(value: string) {
+    this._email = value;
   }
 
   get password(): string | undefined{
