@@ -15,7 +15,7 @@ export class ReservationService {
   }
 
   getAllReservations(): Promise<Reservation[]> {
-    return this.apiService.get<any>('/reservation/all')
+    return this.apiService.get<any>('/reservations/all')
       .toPromise()
       .then((response) => {
         return response.payload;
@@ -27,10 +27,10 @@ export class ReservationService {
   }
 
   getReservationById(id: string): Promise<Reservation> {
-    return this.apiService.get<any>(`/reservation/${id}`)
+    return this.apiService.get<any>(`/reservations/${id}`)
       .toPromise()
       .then((response) => {
-        return response;
+        return response.payload;
       })
       .catch((error) => {
         console.error(error);
