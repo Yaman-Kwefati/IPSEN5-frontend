@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Reservation } from '../shared/models/reservation.model';
+import { Reservation } from '../shared/model/reservation.model';
 import { ActivatedRoute, Params, RouterModule } from '@angular/router';
 import { ReservationService } from '../shared/service/reservation.service';
 
