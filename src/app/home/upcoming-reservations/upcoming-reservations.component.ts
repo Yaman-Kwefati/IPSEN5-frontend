@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
-import { Reservation } from '../../shared/model/reservation.model';
 import { ReservationService } from '../../shared/service/reservation.service';
+import { Reservation } from '../../shared/model/reservation.model';
 
 @Component({
   selector: 'app-upcoming-reservations',
