@@ -9,6 +9,7 @@ import { DefaultLocationComponent } from './default-location/default-location.co
 import { RouterModule } from '@angular/router';
 import { userPreferencesModel } from '../shared/models/userpreferences.model';
 import { CreateReservationService } from '../shared/service/create-reservation.service';
+import { Reservation } from '../shared/model/reservation.model';
 
 @Component({
   selector: 'app-home',
@@ -26,20 +27,7 @@ import { CreateReservationService } from '../shared/service/create-reservation.s
 })
 export class HomeComponent implements OnInit {
   public notifications: Notification[] = [];
-  public upcomingReservations: {
-    id: string,
-    location: {
-      location: string,
-      address: string,
-      city: string,
-      zip: string
-    },
-    wing: string,
-    floor: string,
-    room: string,
-    type: string, 
-    startDateTime: Date
-  }[] = [];
+  public upcomingReservations: Reservation[] = [];
 
   public favoriteLocation!: userPreferencesModel;
 

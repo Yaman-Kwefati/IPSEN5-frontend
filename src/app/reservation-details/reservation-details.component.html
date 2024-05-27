@@ -1,7 +1,7 @@
 <div class="md:container md:mx-auto">
   <img           [src]="
                     './assets/locations/' +
-                      reservation.location.city.toLowerCase() +
+                      reservation.location.name.toLowerCase() +
                       '.png' || './assets/CGI_logo.png'
                   "
        class="w-full h-auto aspect-square object-cover"
@@ -9,25 +9,25 @@
 
 </div>
 <div class="container mx-auto pt-3 pb-4">
-  <h2 class="text-3xl font-bold ps-0">{{ reservation.type }} - {{ formattedDateTime }}</h2>
+  <h2 class="text-3xl font-bold ps-0">{{ reservation.status }} - {{ formattedDateTime }}</h2>
   <div class="mt-6 border-t border-gray-100">
     <dl class="divide-y divide-gray-100">
       <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
         <dt class="text-sm font-medium leading-6 text-gray-900">Ruimte</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.room }}</dd>
+        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.location.wing.name }}</dd>
       </div>
       <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
         <dt class="text-sm font-medium leading-6 text-gray-900">Locatie</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.location.city}}</dd>
+        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.location.wing.floor.building.address}}</dd>
       </div>
 
       <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
         <dt class="text-sm font-medium leading-6 text-gray-900">Verdieping</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.floor }}</dd>
+        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.location.wing.floor.number }}</dd>
       </div>
       <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
         <dt class="text-sm font-medium leading-6 text-gray-900">Vleugel</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.wing }}</dd>
+        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.location.wing.name }}</dd>
       </div>
 
     </dl>
