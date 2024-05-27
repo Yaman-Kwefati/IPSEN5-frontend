@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Reservation } from '../models/reservation.model';
 import { ApiService, ApiResponse } from './api.service';
+import { Reservation } from '../model/reservation.model';
 
 @Injectable()
 export class ReservationService {
