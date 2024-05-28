@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {Reservation} from "../shared/model/reservation.model";
+import {ReservationModel} from "../shared/models/reservation.model";
 import {ActivatedRoute, Params} from "@angular/router";
 import {ReservationService} from "../shared/service/reservation.service";
 
@@ -12,7 +12,7 @@ import {ReservationService} from "../shared/service/reservation.service";
     styleUrl: './reservation-details.component.scss'
 })
 export class ReservationDetailsComponent implements OnInit {
-    reservation!: Reservation;
+    reservation!: ReservationModel;
     id!: string;
     formattedDateTime!: string;
 
