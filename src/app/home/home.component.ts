@@ -2,14 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InboxComponent } from './inbox/inbox.component';
 import { NotificationService } from '../shared/service/notification.service';
-import { Notification } from '../shared/models/notification.model';
 import { LucideAngularModule } from 'lucide-angular';
 import { UpcomingReservationsComponent } from './upcoming-reservations/upcoming-reservations.component';
 import { DefaultLocationComponent } from './default-location/default-location.component';
 import { RouterModule } from '@angular/router';
-import { userPreferencesModel } from '../shared/models/userpreferences.model';
 import { CreateReservationService } from '../shared/service/create-reservation.service';
 import { Reservation } from '../shared/model/reservation.model';
+import { Notification } from '../shared/model/notification.model';
+import { Role, User } from '../shared/model/user.model';
+import { Building } from '../shared/model/building.model';
+import { Floor } from '../shared/model/floor.model';
+import { Wing } from '../shared/model/wing.model';
+import { Location } from '../shared/model/location.model';
+import { DefaultLocation } from '../shared/model/default-location.model';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +34,7 @@ export class HomeComponent implements OnInit {
   public notifications: Notification[] = [];
   public upcomingReservations: Reservation[] = [];
 
-  public favoriteLocation!: userPreferencesModel;
+  public favoriteLocation!: DefaultLocation;
 
   constructor(private notificationService: NotificationService, private createReservationService: CreateReservationService) {}
 
@@ -45,55 +50,23 @@ export class HomeComponent implements OnInit {
   }
 
   private getUpcomingReservations(): void {
+    const building = new Building('testId', "De Entree 21 1101 BH", "Amsterdam");
+    const floor = new Floor('testId', building, '4');
+    const wing = new Wing('testId', floor, 'A');
+    const user = new User('test@cgi.com', 'lastName', 'firstName', '0612345678', Role.USER);
+    const location = new Location('testId', wing, 'A123', 'Meeting room', 6, false, new Date());
+
     this.upcomingReservations = [
-      {
-        id: '',
-        location: {
-          location: 'George Hintzenweg 89, 3068 AX Rotterdam',
-          address: 'George Hintzenweg 89',
-          city: 'Rotterdam',
-          zip: '3068 AX'
-        },
-        wing: '',
-        floor: '',
-        room: '',
-        type: '', 
-        startDateTime: new Date()
-      },
-      {
-        id: '',
-        location: {
-          location: 'De Entree 21, 1101 BH Amsterdam',
-          address: 'De Entree 21',
-          city: 'Amsterdam',
-          zip: '1101 BH'
-        },
-        wing: '',
-        floor: '',
-        room: '',
-        type: '', 
-        startDateTime: new Date()
-      },
-      {
-        id: '',
-        location: {
-          location: 'George Hintzenweg 89, 3068 AX Rotterdam',
-          address: 'George Hintzenweg 89',
-          city: 'Rotterdam',
-          zip: '3068 AX'
-        },
-        wing: '',
-        floor: '',
-        room: '',
-        type: '', 
-        startDateTime: new Date()
-      },
+      new Reservation('testId1', user, location, 'NOT_CHECKED_IN', new Date(), new Date(), 5, new Date()),
+      new Reservation('testId2', user, location, 'NOT_CHECKED_IN', new Date(), new Date(), 5, new Date()),
+      new Reservation('testId3', user, location, 'NOT_CHECKED_IN', new Date(), new Date(), 5, new Date()),
+
     ]
     // TODO: connect this to the ReservationService
   }
 
   private getFavoriteLocation(): void {
-    this.favoriteLocation = this.createReservationService.getUserPrefs();
+    this.favoriteLocation = this.createReservationService.getDefaultLocation();
   }
 
 }

@@ -1,10 +1,12 @@
 export class Building {
   private _id: string;
   private _address: string;
+  private _name: string;
 
-  constructor(id: string, address: string) {
+  constructor(id: string, address: string, name: string) {
     this._id = id;
     this._address = address;
+    this._name = name;
   }
 
   get id(): string {
@@ -21,5 +23,13 @@ export class Building {
 
   set address(value: string) {
     this._address = value;
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  set name(value: string) {
+    this._name = value;
   }
 }
