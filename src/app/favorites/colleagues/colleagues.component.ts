@@ -6,17 +6,17 @@ import {User} from "../../shared/model/user.model";
 import {NgForOf} from "@angular/common";
 
 @Component({
-  selector: 'app-collegues',
+  selector: 'app-colleagues',
   standalone: true,
   imports: [
     LucideAngularModule,
     RouterLink,
     NgForOf
   ],
-  templateUrl: './collegues.component.html',
-  styleUrl: './collegues.component.scss'
+  templateUrl: './colleagues.component.html',
+  styleUrl: './colleagues.component.scss'
 })
-export class ColleguesComponent implements OnInit{
+export class ColleaguesComponent implements OnInit{
   public allUsers: User[] = []
 
   constructor(private userService: UserService){
