@@ -1,7 +1,7 @@
 <div class="md:container md:mx-auto">
   <img           [src]="
                     './assets/locations/' +
-                      reservation.location.name.toLowerCase() +
+                      reservation.location.wing.floor.building.name.toLowerCase() +
                       '.png' || './assets/CGI_logo.png'
                   "
        class="w-full h-auto aspect-square object-cover"
@@ -14,7 +14,7 @@
     <dl class="divide-y divide-gray-100">
       <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
         <dt class="text-sm font-medium leading-6 text-gray-900">Ruimte</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.location.wing.name }}</dd>
+        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.location.name }}</dd>
       </div>
       <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
         <dt class="text-sm font-medium leading-6 text-gray-900">Locatie</dt>
