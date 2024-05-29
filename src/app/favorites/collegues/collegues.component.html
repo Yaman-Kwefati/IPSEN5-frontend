@@ -1,0 +1,31 @@
+<article class="rounded-lg p-4 border-2 border-secondary-purple-light space-y-4 mb-5">
+    <div class="flex justify-between items-center">
+        <h2 class="text-xl font-semibold">Favoriete collega's</h2>
+    </div>
+
+    <!--SEARCH BAR start -->
+    <form class="max-w-md mx-auto">
+        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                </svg>
+            </div>
+            <input type="search" id="default-search" class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Vul een naam in..." required />
+        </div>
+    </form>
+    <!--SEARCH BAR end -->
+
+    <ul class="space-y-4">
+        <li class="flex justify-between items-center p-4 border-2 border-secondary-purple-light rounded-lg" *ngFor="let user of allUsers">
+            <div>
+                <h3 class="font-bold">{{ user.firstName }} {{ user.lastName}}</h3>
+                <p>Aanwezig vandaag om 09:00 - 17:00</p>
+            </div>
+            <button routerLink=" " class="flex bg-secondary-purple-light p-2 rounded-lg space-x-2 hover:bg-gray-300">
+                <lucide-icon name="heart"></lucide-icon>
+            </button>
+        </li>
+    </ul>
+</article>
