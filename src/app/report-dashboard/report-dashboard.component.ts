@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { locationsModel } from '../shared/models/locations.model';
-import { CreateReservationService } from '../shared/service/create-reservation.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NoShowModel, ReportService, RoomOccupancyModel } from '../shared/service/report.service';
+import { Building } from '../shared/model/building.model';
 
 @Component({
   selector: 'app-report-dashboard',
@@ -20,9 +19,18 @@ import { NoShowModel, ReportService, RoomOccupancyModel } from '../shared/servic
 })
 export class ReportDashboardComponent implements OnInit {
   public selectedYear: number = new Date().getFullYear();
-  public selectedLocation!: string;
+  public selectedBuilding!: string;
 
-  public locations: locationsModel[] = [];
+  // TODO: remove testdata when connecting with backend
+  public buildings: Building[] = [
+    new Building("testId1", "De Entree 21 1101 BH", "Amsterdam"),
+    new Building("testId2", "Utrechtseweg 310 / gebouw B42 6812 AR", "Arhem"),
+    new Building("testId3", "DHigh Tech Campus 5 5656 AE", "Eindhoven"),
+    new Building("testId4", "Eemsgolaan 1 9727 DW", "Groningen"),
+    new Building("testId5", "Stationsplein 12 6221 BT", "Maastricht"),
+    new Building("testId5", "George Hintzenweg 89 3068 AX", "Rotterdam"),
+  ];
+
   public years: number[] = [
     this.selectedYear,
     (this.selectedYear - 1),
@@ -40,10 +48,10 @@ export class ReportDashboardComponent implements OnInit {
   public heatmapOptions!: EChartsOption;
   private maxDataValue: number = 0;
     
-  constructor(private reservationService: CreateReservationService, private reportService: ReportService) {}
+  constructor(private reportService: ReportService) {}
 
   ngOnInit(): void {
-    this.getLocationData();
+    this.getBuildings();
     this.getRoomOccupancyData();
     this.getNoShowData();
   }
@@ -55,22 +63,21 @@ export class ReportDashboardComponent implements OnInit {
   }
   
   public getRoomOccupancyData(): void {
-    this.roomOccupancyData = this.reportService.getRoomOccupancyData(this.selectedLocation, this.selectedYear);
+    this.roomOccupancyData = this.reportService.getRoomOccupancyData(this.selectedBuilding, this.selectedYear);
 
     // TODO: remove this when connecting to backend
     this.filteredRoomData = this.roomOccupancyData.filter(data => {
-      return data.date.getFullYear() === this.selectedYear && data.building === this.selectedLocation
+      return data.date.getFullYear() === this.selectedYear && data.building === this.selectedBuilding
     })
     this.setChartOptions();
   }
 
   public getNoShowData(): void {
-    this.noShowData = this.reportService.getNoShowData(this.selectedLocation, this.selectedYear);
+    this.noShowData = this.reportService.getNoShowData(this.selectedBuilding, this.selectedYear);
   }
 
-  public getLocationData(): void {
-    this.locations = this.reservationService.getLocations();
-    this.selectedLocation = this.locations[0].location;
+  public getBuildings(): void {
+    this.selectedBuilding = this.buildings[0].name;
   }
 
   public onChangeFilter(): void {
