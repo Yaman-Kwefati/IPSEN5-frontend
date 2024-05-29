@@ -1,3 +1,4 @@
+
 <div class="md:container md:mx-auto h-full">
   <article
     class="rounded-lg p-4 border-2 border-slate-300 bg-secondary-purple-light space-y-4 mb-5 flex flex-col md:flex-row md:space-y-0 md:space-x-4 justify-center content-center gap-8"
@@ -11,24 +12,22 @@
       />
     </div>
     <div class="flex-1 space-y-4 flex flex-col ">
-    <h2 class="text-2xl font-semibold">Reservering details</h2>
+    <h2 class="text-2xl font-semibold">Uw reservering bij: {{ reservation.location.wing.floor.building.name }}</h2>
+    <h5 class="text-xl font-light">Status: {{ reservation.status }}</h5>
       <div class="space-y-4">
         <div>
-          <h3 class="font-bold">Datum</h3>
-          <p>{{ reservation.startDateTime | date : "longDate" }}</p>
+          <h3 class="font-bold">Datum en Tijd</h3>
+          <p>{{ reservation.startDateTime | date : "d MMMM y 'om' HH:mm" || "Onbekende startdatum"}}</p>
         </div>
         <div>
-          <h3 class="font-bold">Tijd</h3>
-          <p>
-            {{
-              reservation.startDateTime
-                | date : "shortTime" || "Onbekende startdatum"
-            }}
-          </p>
+          <h3 class="font-bold">Adres</h3>
+          <p class="font-extralight">{{ reservation.location.wing.floor.building.address}} <span class="font-medium">{{ reservation.location.wing.floor.building.name}}</span></p>
         </div>
         <div>
           <h3 class="font-bold">Locatie</h3>
-          <p>{{ reservation.location.name }}</p>
+          <p class="font-extralight">Vleugel: {{ reservation.location.wing.name}}</p>
+          <p class="font-extralight">Verdieping: {{ reservation.location.wing.floor.number}} </p>
+          <p *ngIf="reservation.location.type != 'WORKPLACE'" class="font-extralight">Ruimte: {{ reservation.location.name }} </p>
         </div>
         <div>
           <h3 class="font-bold">Aantal personen</h3>
