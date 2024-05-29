@@ -22,6 +22,7 @@ import { DefaultLocation } from '../shared/model/default-location.model';
   imports: [
     CommonModule, 
     InboxComponent, 
+    UpcomingReservationsComponent,
     LucideAngularModule, 
     DefaultLocationComponent,
     RouterModule
