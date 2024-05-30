@@ -1,9 +1,10 @@
-import { Component, NgModule, OnInit} from '@angular/core';
-import { NgFor, CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { CreateReservationService } from '../../shared/service/create-reservation.service';
-import { userPreferencesModel } from '../../shared/models/userpreferences.model';
-import { locationsModel } from '../../shared/models/locations.model';
 import { Form, FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Building } from '../../shared/model/building.model';
+import { DefaultLocation } from '../../shared/model/default-location.model';
+import { NgModule, OnInit} from '@angular/core';
+import { NgFor, CommonModule } from '@angular/common';
 import { CreateReservationModule } from './create.module';
 
 @Component({
@@ -22,7 +23,7 @@ export class CreateReservationComponent {
 
   ngOnInit() {
     this.reservationForm = this.formBuilder.group({
-      location: [this.userPrefs.favoriteLocation, Validators.required],
+      location: [this.defaultLocation.wing.floor.building.name, Validators.required],
       numberOfPeople: [Validators.required, Validators.min(0)],
       type: ['werkplek', Validators.required],
       wing: ['', Validators.required],
@@ -32,11 +33,10 @@ export class CreateReservationComponent {
     });
   }
 
+  defaultLocation: DefaultLocation = this.createReservationService.getDefaultLocation();
+  buildings: Building[] = this.createReservationService.getBuildings();
 
-  userPrefs: userPreferencesModel = this.createReservationService.getUserPrefs();
-  locations: locationsModel[] = this.createReservationService.getLocations();
-
-  selectedLocation: string = this.userPrefs.favoriteLocation;
+  selectedLocation: string = this.defaultLocation.wing.floor.building.name;
   selectedType!: string;
 
   wizardStep: number = 0;

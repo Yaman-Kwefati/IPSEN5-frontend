@@ -1,24 +1,28 @@
 import {Injectable} from "@angular/core";
-import {ReservationModel} from "../models/reservation.model";
-import {locationsModel} from "../models/locations.model";
+import {Reservation} from "../model/reservation.model";
+import { Building } from "../model/building.model";
+import { Floor } from "../model/floor.model";
+import { Wing } from "../model/wing.model";
+import { User } from "../model/user.model";
+import { Location } from "../model/location.model";
+import {Role} from "../model/role";
 
 @Injectable()
 export class ReservationService {
-    currentReservation: ReservationModel;
+    currentReservation!: Reservation;
 
     constructor() {
-        const currentLocation =  {
-            location: 'Amsterdam',
-            address: 'De Entree 21',
-            city: 'Amsterdam',
-            zip: '1101 BH',
-        }
-        this.currentReservation = new ReservationModel('testID', currentLocation, 'Z', 2, 'AMS2a',
-            'Flexplek', new Date(2024, 4, 7, 11, 30));
+      const building = new Building('testId', "De Entree 21 1101 BH", "Amsterdam");
+      const floor = new Floor('testId', building, '4');
+      const wing = new Wing('testId', floor, 'A');
+      const user = new User('test@cgi.com', 'lastName', 'firstName', '0612345678', Role.USER);
+      const location = new Location('testId', wing, 'A123', 'Meeting room', 6, false, new Date());
+
+      this.currentReservation = new Reservation('testId1', user, location, 'NOT_CHECKED_IN', new Date(), new Date(), 5, new Date())
     }
 
     getReservation(){
-        //TODO get from API using id (add to param) instead of hardcoded
-        return this.currentReservation;
+      //TODO get from API using id (add to param) instead of hardcoded
+      return this.currentReservation;
     }
 }

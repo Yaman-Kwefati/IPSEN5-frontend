@@ -4,8 +4,8 @@
     <div class="flex space-x-10">
       <div class="flex space-x-2 items-center">
         <label for="building">Locatie:</label>
-        <select name="building" id="building" [(ngModel)]="selectedLocation" class="p-2 border-2 border-primary-dark-purple rounded-lg" (change)="onChangeFilter()">
-          <option *ngFor="let location of locations" [ngValue]="location.location">{{ location.location }}</option>
+        <select name="building" id="building" [(ngModel)]="selectedBuilding" class="p-2 border-2 border-primary-dark-purple rounded-lg" (change)="onChangeFilter()">
+          <option *ngFor="let building of buildings" [ngValue]="building.name">{{ building.name }}</option>
         </select>
       </div>
       <div class="flex space-x-2 items-center">

@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
-import { userPreferencesModel } from '../models/userpreferences.model';
-import { locationsModel } from '../models/locations.model';
 import { FormGroup } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { Building } from '../model/building.model';
+import { DefaultLocation } from '../model/default-location.model';
+import { Floor } from '../model/floor.model';
+import { Wing } from '../model/wing.model';
+import { User } from '../model/user.model';
+import {Role} from "../model/role";
 
 @Injectable({
   providedIn: 'root',
 })
 export class CreateReservationService {
-  constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) {}
+  constructor(private toastr: ToastrService, private router: Router) {}
 
   public createReservation(form: FormGroup) {
     if (form === null || form === undefined)
@@ -35,59 +38,26 @@ export class CreateReservationService {
     // TODO: Implement this after the API is ready to handle this
   }
 
-  // Function to get user preferences from the API
-  public getUserPrefs(): userPreferencesModel {
-    return {
-      favoriteLocation: 'Amsterdam',
-      favoriteFloor: 5,
-      favoriteWing: 'A',
-      favoriteRoom: 'A1',
-    };
-
+  public getDefaultLocation(): DefaultLocation {
     // TODO: Implement this after the API is ready to handle this
+    const building = new Building('testId', "De Entree 21 1101 BH", "Amsterdam");
+    const floor = new Floor('testId', building, '4');
+    const wing = new Wing('testId', floor, 'A');
+    const user = new User('test@cgi.com', 'lastName', 'firstName', '0612345678', Role.USER);
+
+    return new DefaultLocation("testId1", wing, user);
   }
 
-  // Function to get all available locations from the API
-  public getLocations(): locationsModel[] {
+  // Function to get all available buildings from the API
+  public getBuildings(): Building[] {
     return [
-      {
-        location: 'Amsterdam',
-        address: 'De Entree 21',
-        city: 'Amsterdam',
-        zip: '1101 BH',
-      },
-      {
-        location: 'Arnhem',
-        address: 'Utrechtseweg 310 / gebouw B42',
-        city: 'Arnhem',
-        zip: '6812 AR',
-      },
-      {
-        location: 'Eindhoven',
-        address: 'High Tech Campus 5',
-        city: 'Eindhoven',
-        zip: '5656 AE',
-      },
-      {
-        location: 'Groningen',
-        address: 'Eemsgolaan 1',
-        city: 'Groningen',
-        zip: '9727 DW',
-      },
-      {
-        location: 'Maastricht',
-        address: 'Stationsplein 12',
-        city: 'Maastricht',
-        zip: '6221 BT',
-      },
-      {
-        location: 'Rotterdam',
-        address: 'George Hintzenweg 89',
-        city: 'Rotterdam',
-        zip: '3068 AX',
-      },
-    ];
-
-    // TODO: Implement this after the API is ready to handle this
+      // TODO: Implement this after the API is ready to handle this
+      new Building('testId1', "De Entree 21 1101 BH", "Amsterdam"),
+      new Building('testId2', "Utrechtseweg 310 / gebouw B42 6812 AR", "Arhem"),
+      new Building('testId3', "DHigh Tech Campus 5 5656 AE", "Eindhoven"),
+      new Building('testId4', "Eemsgolaan 1 9727 DW", "Groningen"),
+      new Building('testId5', "Stationsplein 12 6221 BT", "Maastricht"),
+      new Building('testId6', "George Hintzenweg 89 3068 AX", "Rotterdam"),
+    ]
   }
 }

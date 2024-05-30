@@ -4,9 +4,9 @@
     <button class="bg-primary-dark-purple text-white p-2 rounded-lg hover:bg-purple-950">Reserveer</button>
   </div>
   <div >
-    <h3>Locatie: {{ defaultLocation.favoriteLocation }}</h3>
-    <p>Verdieping: {{ defaultLocation.favoriteFloor }}</p>
-    <p>Vleugel: {{ defaultLocation.favoriteWing }}</p>
+    <h3>Locatie: {{ defaultLocation.wing.floor.building.name }}</h3>
+    <p>Verdieping: {{ defaultLocation.wing.floor.number }}</p>
+    <p>Vleugel: {{ defaultLocation.wing.name }}</p>
   </div>
 
 </div>
