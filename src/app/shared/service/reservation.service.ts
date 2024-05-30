@@ -3,8 +3,9 @@ import {Reservation} from "../model/reservation.model";
 import { Building } from "../model/building.model";
 import { Floor } from "../model/floor.model";
 import { Wing } from "../model/wing.model";
-import { Role, User } from "../model/user.model";
+import { User } from "../model/user.model";
 import { Location } from "../model/location.model";
+import {Role} from "../model/role";
 
 @Injectable()
 export class ReservationService {
@@ -16,7 +17,7 @@ export class ReservationService {
       const wing = new Wing('testId', floor, 'A');
       const user = new User('test@cgi.com', 'lastName', 'firstName', '0612345678', Role.USER);
       const location = new Location('testId', wing, 'A123', 'Meeting room', 6, false, new Date());
-  
+
       this.currentReservation = new Reservation('testId1', user, location, 'NOT_CHECKED_IN', new Date(), new Date(), 5, new Date())
     }
 
