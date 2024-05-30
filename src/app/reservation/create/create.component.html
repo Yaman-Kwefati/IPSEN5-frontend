@@ -56,18 +56,18 @@
           </div>
           <ul class="grid grid-flow-col overflow-x-scroll">
             <li
-              *ngFor="let location of locations"
+              *ngFor="let building of buildings"
               class="px-2 w-full min-w-96 mb-4"
             >
               <div
                 [ngClass]="{
                   'bg-gray-300':
                     this.reservationForm.get('location')?.value ===
-                    location.city
+                    building.name
                 }"
                 
                 (click)="
-                  this.reservationForm.patchValue({ location: location.city })
+                  this.reservationForm.patchValue({ location: building.name })
                 "
                 class="border border-gray-200 rounded-lg shadow h-full w-full p-2 duration-300 animate-fade-in hover:shadow-lg hover:border-gray-300 cursor-pointer"
               >
@@ -75,7 +75,7 @@
                   class="rounded-t-lg w-full h-auto aspect-square object-cover"
                   [src]="
                     './assets/locations/' +
-                      location.city.toLowerCase() +
+                      building.name.toLowerCase() +
                       '.png' || './assets/CGI_logo.png'
                   "
                   alt=""
@@ -84,13 +84,13 @@
                 <h5
                   class="text-2xl font-bold tracking-tight text-gray-900 mb-2"
                 >
-                  {{ location.city }}
+                  {{ building.name }}
                 </h5>
                 <p class="text-sm font-thin text-gray-600 mb-2">
-                  {{ location.address }} {{ location.zip }}
+                  {{ building.address }}
                 </p>
                 <h6
-                  *ngIf="userPrefs.favoriteLocation == this.location.city"
+                  *ngIf="defaultLocation.wing.floor.building.name == this.building.name"
                   class="text-red-400 text-sm font-thin"
                 >
                   Dit is je favoriete locatie ❤️

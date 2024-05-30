@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { Notification } from '../../../shared/models/notification.model';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { ToastrService } from 'ngx-toastr';
+import { Notification } from '../../../shared/model/notification.model';
 
 @Component({
   selector: 'app-notification',
