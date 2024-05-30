@@ -1,3 +1,5 @@
+import {Role} from "./role";
+
 export class User {
   private _id?: string;
   private _email: string;
@@ -75,7 +77,3 @@ export class User {
   }
 }
 
-export enum Role {
-  USER,
-  ADMIN,
-}

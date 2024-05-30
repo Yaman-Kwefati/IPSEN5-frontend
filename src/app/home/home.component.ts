@@ -9,20 +9,21 @@ import { RouterModule } from '@angular/router';
 import { CreateReservationService } from '../shared/service/create-reservation.service';
 import { Reservation } from '../shared/model/reservation.model';
 import { Notification } from '../shared/model/notification.model';
-import { Role, User } from '../shared/model/user.model';
+import { User } from '../shared/model/user.model';
 import { Building } from '../shared/model/building.model';
 import { Floor } from '../shared/model/floor.model';
 import { Wing } from '../shared/model/wing.model';
 import { Location } from '../shared/model/location.model';
 import { DefaultLocation } from '../shared/model/default-location.model';
+import {Role} from "../shared/model/role";
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
-    CommonModule, 
-    InboxComponent, 
-    LucideAngularModule, 
+    CommonModule,
+    InboxComponent,
+    LucideAngularModule,
     UpcomingReservationsComponent,
     DefaultLocationComponent,
     RouterModule
