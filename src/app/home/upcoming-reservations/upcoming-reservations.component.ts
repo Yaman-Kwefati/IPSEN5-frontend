@@ -26,10 +26,10 @@ export class UpcomingReservationsComponent {
   }
 
   async getUpcomingReservations(): Promise<void> {
-    let temp = await this.reservationService.getAllReservations();
+    let allReservations = await this.reservationService.getAllReservations();
     let now = new Date();
 
-    let upcomingReservations = temp.filter((reservation) => {
+    let upcomingReservations = allReservations.filter((reservation) => {
       let startDateTime = new Date(reservation.startDateTime);
       return startDateTime >= now;
     });
