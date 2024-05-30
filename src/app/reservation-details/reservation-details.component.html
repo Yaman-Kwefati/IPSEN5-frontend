@@ -16,6 +16,10 @@
     <h5 class="text-xl font-light">Status: {{ reservation.status }}</h5>
       <div class="space-y-4">
         <div>
+          <h3 class="font-bold">Type</h3>
+          <p>{{ reservation.location.type }}</p>
+        </div>
+        <div>
           <h3 class="font-bold">Datum en Tijd</h3>
           <p>{{ reservation.startDateTime | date : "d MMMM y 'om' HH:mm" || "Onbekende startdatum"}}</p>
         </div>
