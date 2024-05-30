@@ -21,6 +21,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ResetPasswordService } from './shared/service/requests/reset-password.service';
 import { NgxEchartsModule } from 'ngx-echarts';
 import {MyInterceptor} from "./shared/service/requests/intetceptor";
+import { UserService } from './shared/service/user.service';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import {MyInterceptor} from "./shared/service/requests/intetceptor";
     ApiService,
     ResetPasswordService,
     ReservationService,
+    UserService,
     DatePipe
   ],
   bootstrap: [AppComponent],

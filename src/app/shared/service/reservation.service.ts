@@ -1,18 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ApiService, ApiResponse } from './api.service';
 import { Reservation } from '../model/reservation.model';
+import { User } from '../model/user.model';
 
 @Injectable()
 export class ReservationService {
   
-    constructor(private apiService: ApiService) {
-    const currentLocation = {
-      location: 'Amsterdam',
-      address: 'De Entree 21',
-      city: 'Amsterdam',
-      zip: '1101 BH',
-    };
-  }
+    constructor(private apiService: ApiService) {}
 
   getAllReservations(): Promise<Reservation[]> {
     return this.apiService.get<any>('/reservations/all')

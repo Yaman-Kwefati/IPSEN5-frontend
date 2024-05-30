@@ -15,6 +15,7 @@ import { Floor } from '../shared/model/floor.model';
 import { Wing } from '../shared/model/wing.model';
 import { Location } from '../shared/model/location.model';
 import { DefaultLocation } from '../shared/model/default-location.model';
+import { UserService } from '../shared/service/user.service';
 
 @Component({
   selector: 'app-home',
@@ -33,14 +34,16 @@ import { DefaultLocation } from '../shared/model/default-location.model';
 export class HomeComponent implements OnInit {
   public notifications: Notification[] = [];
   public upcomingReservations: Reservation[] = [];
+  public user!: User;
 
   public favoriteLocation!: DefaultLocation;
 
-  constructor(private notificationService: NotificationService, private createReservationService: CreateReservationService) {}
+  constructor(private notificationService: NotificationService, private createReservationService: CreateReservationService, private userService: UserService) {}
 
   ngOnInit(): void {
     this.getNotifications()
     this.getFavoriteLocation()
+    this.getUserInfo()
   }
 
 
@@ -50,6 +53,10 @@ export class HomeComponent implements OnInit {
 
   private getFavoriteLocation(): void {
     this.favoriteLocation = this.createReservationService.getDefaultLocation();
+  }
+
+  private async getUserInfo(): Promise<void> {
+    this.user = await this.userService.getUserInfo();
   }
 
 }
