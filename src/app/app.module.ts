@@ -20,8 +20,8 @@ import {ReservationService} from "./shared/service/reservation.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ResetPasswordService } from './shared/service/requests/reset-password.service';
 import { NgxEchartsModule } from 'ngx-echarts';
-import {MyInterceptor} from "./shared/service/requests/intetceptor";
 import { UserService } from './shared/service/user.service';
+import {AuthInterceptor} from "./shared/service/requests/intetceptor";
 
 
 @NgModule({
@@ -45,7 +45,7 @@ import { UserService } from './shared/service/user.service';
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy },
-    {provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     AuthService,
     ApiService,
     ResetPasswordService,

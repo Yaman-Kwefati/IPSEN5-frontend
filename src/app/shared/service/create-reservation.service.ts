@@ -6,7 +6,8 @@ import { Building } from '../model/building.model';
 import { DefaultLocation } from '../model/default-location.model';
 import { Floor } from '../model/floor.model';
 import { Wing } from '../model/wing.model';
-import { Role, User } from '../model/user.model';
+import { User } from '../model/user.model';
+import {Role} from "../model/role";
 
 @Injectable({
   providedIn: 'root',
