@@ -4,13 +4,14 @@ import {CalendarComponent} from "./calendar/calendar.component";
 import {ReservationsComponent} from "./reservations/reservations.component";
 import { HomeComponent } from "./home/home.component";
 import { AppLayoutComponent } from "./app-layout/app-layout.component";
-import { CreateReservationComponent } from './reservation/create/create.component';
+import { CreateReservationComponent1 } from './reservation/create/create.component';
 import { LoginComponent } from "./login/login.component";
 import { loginGuard } from "./shared/guard/login.guard";
 import { AuthGuard } from "./shared/guard/auth.guard";
 import {RequestResetPasswordComponent} from "./login/reset-password/request-reset/request-reset-password.component";
 import {ResetPasswordComponent} from "./login/reset-password/reset-password.component";
 import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
+import {CreateReservationComponent} from "./reservation/create-reservation/create-reservation.component";
 
 
 export const routes: Routes = [
@@ -55,6 +56,10 @@ export const routes: Routes = [
       },
       {
         path: 'reservation/create',
+        component: CreateReservationComponent1
+      },
+      {
+        path: 'create-reservation',
         component: CreateReservationComponent
       },
       {
