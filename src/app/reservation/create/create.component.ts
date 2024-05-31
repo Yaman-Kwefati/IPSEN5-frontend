@@ -13,7 +13,7 @@ import { CreateReservationModule } from './create.module';
   styleUrl: './create.component.scss'
 })
 
-export class CreateReservationComponent {
+export class CreateReservationComponent1 {
   reservationForm!: FormGroup;
 
   constructor(

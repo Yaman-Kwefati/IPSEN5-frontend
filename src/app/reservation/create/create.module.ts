@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CreateReservationComponent } from './create.component'; 
+import { CreateReservationComponent1 } from './create.component';
 
 @NgModule({
   declarations: [
-    CreateReservationComponent 
+    CreateReservationComponent1
   ],
   imports: [
-    CommonModule, 
+    CommonModule,
     ReactiveFormsModule
   ],
   exports: [
-    CreateReservationComponent 
+    CreateReservationComponent1
   ]
 })
 export class CreateReservationModule { }

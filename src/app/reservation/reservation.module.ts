@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { CreateReservationComponent } from './create/create.component';
+import { CreateReservationComponent1 } from './create/create.component';
+import SwiperCore from "swiper";
 
 const routes = [
     {
         path: 'reservations',
-        component: CreateReservationComponent,
+        component: CreateReservationComponent1,
         children: [
-            { path: 'create', component: CreateReservationComponent },
+            { path: 'create', component: CreateReservationComponent1 },
         ]
     }
 ];
@@ -16,7 +17,7 @@ const routes = [
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(routes)
+        RouterModule.forChild(routes),
     ],
     exports: [
         RouterModule

@@ -1,0 +1,8 @@
+.active-scale {
+  transform: scale(0.95);
+  border-color: #6366f1; /* Replace with the desired color */
+}
+::ng-deep .swiper-button-prev,
+::ng-deep .swiper-button-next {
+  color: white;
+}
