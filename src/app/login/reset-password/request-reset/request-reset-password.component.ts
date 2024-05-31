@@ -22,7 +22,7 @@ export class RequestResetPasswordComponent {
 
   constructor(private fb: FormBuilder, private resetService: ResetPasswordService, private toastr: ToastrService) {
     this.resetForm = this.fb.group({
-      username: ['', Validators.required]
+      username: ['', Validators.required, Validators.email]
     });
   }
 

@@ -27,8 +27,8 @@ import {CommonModule} from "@angular/common";
   styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent implements OnInit {
-  public token?: string;
   public resetForm: FormGroup;
+  private _token: string = '';
 
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
@@ -36,14 +36,14 @@ export class ResetPasswordComponent implements OnInit {
               private toastr: ToastrService) {
     this.resetForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       passwordRepeat: ['', Validators.required]
     }, {validators: this.passwordsMatchValidator});
   }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.token = params['token'];
+      this._token = params['token'];
     });
   }
 
@@ -54,7 +54,7 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     const {username, password} = this.resetForm.value;
-    if (this.token) {
+    if (this._token) {
       this.changePassword(username, password);
     }
   }
@@ -65,12 +65,12 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   private changePassword(username: string, password: string): void {
-    if (!username || !this.token) {
+    if (!username || !this._token) {
       this.toastr.error('Onvolledige gegevens.');
       return;
     }
 
-    this.resetService.resetPassword(username.toLowerCase(), password, this.token).then(success => {
+    this.resetService.resetPassword(username.toLowerCase(), password, this._token).then(success => {
       if (success) {
         this.toastr.success('Wachtwoord succesvol gewijzigd.');
       } else {

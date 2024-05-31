@@ -24,7 +24,7 @@ export class ResetPasswordService {
             const response = await lastValueFrom(this.apiService.put('/user/reset-password', { headers, body }));
             return true;
         } catch (error) {
-            this.handleError(error);
+            await this.handleError(error);
             return false;
         }
     }
@@ -40,10 +40,8 @@ export class ResetPasswordService {
 
     private handleError(error: any): Promise<string> {
         if (error instanceof HttpErrorResponse && error.status === 500) {
-            // Server error
             return Promise.resolve('Server error. Please wait a few minutes and try again.');
         } else {
-            // Other errors (including network issues)
             return Promise.resolve('Er is een link naar de opgegeven email verstuurd.'); // Default message to maintain security
         }
     }
