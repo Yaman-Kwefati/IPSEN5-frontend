@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
 import {ResetPasswordService} from "../../../shared/service/requests/reset-password.service";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-reset-password',
@@ -10,37 +11,29 @@ import {ResetPasswordService} from "../../../shared/service/requests/reset-passw
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    CommonModule
   ],
   templateUrl: './request-reset-password.component.html',
   styleUrls: ['./request-reset-password.component.scss']
 })
 export class RequestResetPasswordComponent {
-  public username?: string;
+  resetForm: FormGroup;
 
-  public isUsernameInvalid = false;
-
-  constructor(private resetService: ResetPasswordService, private toastr: ToastrService) {}
+  constructor(private fb: FormBuilder, private resetService: ResetPasswordService, private toastr: ToastrService) {
+    this.resetForm = this.fb.group({
+      username: ['', Validators.required]
+    });
+  }
 
   onSubmit() {
-    if (this.validateFormValues()) {
+    if (this.resetForm.valid) {
       this.requestTokenEmail();
     }
   }
 
-  private validateFormValues(): boolean {
-    //todo refactor to formbuilder
-    this.isUsernameInvalid = !this.username;
-
-    if (!this.username) {
-      this.toastr.error('Vul de gebruikersnaam in.');
-      return false;
-    }
-    return true;
-  }
-
   private requestTokenEmail(): void {
-    const email = this.username?.toLowerCase();
+    const email = this.resetForm.value.username?.toLowerCase();
     if (!email) {
       this.toastr.error('Gebruikersnaam is onbekend.');
       return;
@@ -52,5 +45,4 @@ export class RequestResetPasswordComponent {
       });
     }
   }
-
 }
