@@ -23,10 +23,10 @@ import { ReservationService } from '../shared/service/reservation.service';
   selector: 'app-home',
   standalone: true,
   imports: [
-    CommonModule, 
-    InboxComponent, 
+    CommonModule,
+    InboxComponent,
+    LucideAngularModule,
     UpcomingReservationsComponent,
-    LucideAngularModule, 
     DefaultLocationComponent,
     RouterModule
   ],

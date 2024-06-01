@@ -42,8 +42,6 @@ export const routes: Routes = [
         title: 'Calendar',
         component: CalendarComponent,
       },
-
-      // TODO add id of reservation in path
       {
         path: 'reservation/details/:id',
         component: ReservationDetailsComponent,
