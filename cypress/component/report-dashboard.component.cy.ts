@@ -5,19 +5,22 @@ import { CreateReservationService } from "../../src/app/shared/service/create-re
 import { ToastrModule, ToastrService } from "ngx-toastr";
 import { AuthService } from "../../src/app/shared/service/auth.service";
 import { NgxEchartsModule } from "ngx-echarts";
-import { ReportService } from "../../src/app/shared/service/report.service";
+import { NoShowModel, ReportService, RoomOccupancyModel } from "../../src/app/shared/service/report.service";
+import { Observable, of } from "rxjs";
+import { Building } from "../../src/app/shared/model/building.model";
+import { ApiResponse } from "../../src/app/shared/service/api.service";
 
-class MockReportService {
-  getRoomOccupancyData() {
-    return [
-      {building: 'Amsterdam', room: 'A1', numberOfUsages: 35, date: new Date(2024, 5, 21)}
-    ]
+export class MockReportService {
+  public getRoomOccupancyData(buildingName: string, year: number): Observable<ApiResponse<RoomOccupancyModel[]>> {
+    return of({payload: [{ room: 'A1', numberOfUsages: 35, date: new Date(2024, 5, 21) }], message: '', statusCode: ''});
   }
 
-  getNoShowData(){
-    return [
-      { employee: 'Charlie White', numberOfReservations: 40, numberOfNoShows: 2}
-    ]
+  public getNoShowData(buildingName: string, year: number): Observable<ApiResponse<NoShowModel[]>> {
+    return of({payload: [{ employeeName: 'Charlie White', numberOfReservations: 40, numberOfNoShows: 2 }], message: '', statusCode: ''});
+  }
+
+  public getBuildings(): Observable<ApiResponse<Building[]>> {
+    return of({payload: [new Building('testId', 'De Entree 21 1101 BH', 'Amsterdam')], message: '', statusCode: ''});
   }
 }
 
@@ -43,24 +46,20 @@ describe('ReportDashboardComponent', () => {
     cy.mount(ReportDashboardComponent).then((componentRef) => {
       const component = componentRef.component;
 
-      cy.spy(component, 'getLocationData').as('getLocationDataSpy');
-      cy.spy(component, 'getRoomOccupancyData').as('getRoomOccupancyDataSpy');
-      cy.spy(component, 'getNoShowData').as('getNoShowDataSpy');
+      cy.spy(component, 'getBuildings').as('getBuildingsSpy');
 
       component.ngOnInit();
 
-      cy.get('@getLocationDataSpy').should('have.been.called');
-      cy.get('@getRoomOccupancyDataSpy').should('have.been.called');
-      cy.get('@getNoShowDataSpy').should('have.been.called');
+      cy.get('@getBuildingsSpy').should('have.been.called');
     }); 
   });
 
   context('ReportService tests', () => {
     const mockRoomOccupancyData = [
-      { building: 'Amsterdam', room: 'A1', numberOfUsages: 35, date: new Date(2024, 5, 21) },
+      { room: 'A1', numberOfUsages: 35, date: new Date(2024, 5, 21) },
     ];
     const mockNoShowData = [
-      { employee: 'Charlie White', numberOfReservations: 40, numberOfNoShows: 2 },
+      { employeeName: 'Charlie White', numberOfReservations: 40, numberOfNoShows: 2 },
     ];
 
     let mockReportService: MockReportService;
