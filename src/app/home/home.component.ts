@@ -15,7 +15,9 @@ import { Floor } from '../shared/model/floor.model';
 import { Wing } from '../shared/model/wing.model';
 import { Location } from '../shared/model/location.model';
 import { DefaultLocation } from '../shared/model/default-location.model';
+import { UserService } from '../shared/service/user.service';
 import {Role} from "../shared/model/role";
+import { ReservationService } from '../shared/service/reservation.service';
 
 @Component({
   selector: 'app-home',
@@ -33,15 +35,18 @@ import {Role} from "../shared/model/role";
 })
 export class HomeComponent implements OnInit {
   public notifications: Notification[] = [];
-  public upcomingReservations: Reservation[] = [];
+  public reservations: Reservation[] = [];
+  public user!: User;
 
   public favoriteLocation!: DefaultLocation;
 
-  constructor(private notificationService: NotificationService, private createReservationService: CreateReservationService) {}
+  constructor(private notificationService: NotificationService, private createReservationService: CreateReservationService, private userService: UserService, private reservationService: ReservationService) {}
 
   ngOnInit(): void {
     this.getNotifications()
     this.getFavoriteLocation()
+    this.getUpcomingReservations();
+    this.getUserInfo()
   }
 
 
@@ -51,6 +56,22 @@ export class HomeComponent implements OnInit {
 
   private getFavoriteLocation(): void {
     this.favoriteLocation = this.createReservationService.getDefaultLocation();
+  }
+
+  async getUpcomingReservations(): Promise<void> {
+    let allReservations = await this.reservationService.getAllReservations();
+    let now = new Date();
+
+    let upcomingReservations = allReservations.filter((reservation) => {
+      let startDateTime = new Date(reservation.startDateTime);
+      return startDateTime >= now;
+    });
+    
+    this.reservations = upcomingReservations.sort((a, b) => new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime()).slice(0, 3);
+  }
+
+  private async getUserInfo(): Promise<void> {
+    this.user = await this.userService.getUserInfo();
   }
 
 }

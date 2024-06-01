@@ -1,18 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ApiService, ApiResponse } from './api.service';
 import { Reservation } from '../model/reservation.model';
+import { User } from '../model/user.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class ReservationService {
   
-    constructor(private apiService: ApiService) {
-    const currentLocation = {
-      location: 'Amsterdam',
-      address: 'De Entree 21',
-      city: 'Amsterdam',
-      zip: '1101 BH',
-    };
-  }
+    constructor(private apiService: ApiService, private toastr: ToastrService) {}
 
   getAllReservations(): Promise<Reservation[]> {
     return this.apiService.get<any>('/reservations/all')
@@ -21,7 +16,7 @@ export class ReservationService {
         return response.payload;
       })
       .catch((error) => {
-        console.error(error);
+        error.error ? this.toastr.error(error.error.message) : this.toastr.error('Fout bij het ophalen van reserveringen');
         return [];
       });
   }
@@ -33,7 +28,7 @@ export class ReservationService {
         return response.payload;
       })
       .catch((error) => {
-        console.error(error);
+        error.error ? this.toastr.error(error.error.message) : this.toastr.error('Fout bij het ophalen van reservering');
         return [];
       });
   }
