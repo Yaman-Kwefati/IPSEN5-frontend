@@ -22,6 +22,9 @@ import { ResetPasswordService } from './shared/service/requests/reset-password.s
 import { NgxEchartsModule } from 'ngx-echarts';
 import { UserService } from './shared/service/user.service';
 import {AuthInterceptor} from "./shared/service/requests/intetceptor";
+import { registerLocaleData } from '@angular/common';
+import localeNl from '@angular/common/locales/nl';
+import { LOCALE_ID } from '@angular/core';
 
 
 @NgModule({
@@ -45,6 +48,7 @@ import {AuthInterceptor} from "./shared/service/requests/intetceptor";
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: LOCALE_ID, useValue: 'nl-NL' },
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     AuthService,
     ApiService,
@@ -55,4 +59,9 @@ import {AuthInterceptor} from "./shared/service/requests/intetceptor";
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+
+  constructor() {
+    registerLocaleData(localeNl);
+  }
+}
