@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NoShowModel, ReportService, RoomOccupancyModel } from '../shared/service/report.service';
 import { Building } from '../shared/model/building.model';
+import { ApiResponse } from '../shared/service/api.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-report-dashboard',
@@ -17,43 +19,32 @@ import { Building } from '../shared/model/building.model';
   templateUrl: './report-dashboard.component.html',
   styleUrl: './report-dashboard.component.scss'
 })
-export class ReportDashboardComponent implements OnInit {
+export class ReportDashboardComponent implements OnInit, OnDestroy {
   public selectedYear: number = new Date().getFullYear();
+  public buildings: Building[] = []
   public selectedBuilding!: string;
-
-  // TODO: remove testdata when connecting with backend
-  public buildings: Building[] = [
-    new Building("testId1", "De Entree 21 1101 BH", "Amsterdam"),
-    new Building("testId2", "Utrechtseweg 310 / gebouw B42 6812 AR", "Arhem"),
-    new Building("testId3", "DHigh Tech Campus 5 5656 AE", "Eindhoven"),
-    new Building("testId4", "Eemsgolaan 1 9727 DW", "Groningen"),
-    new Building("testId5", "Stationsplein 12 6221 BT", "Maastricht"),
-    new Building("testId5", "George Hintzenweg 89 3068 AX", "Rotterdam"),
-  ];
-
-  public years: number[] = [
-    this.selectedYear,
-    (this.selectedYear - 1),
-    (this.selectedYear - 2),
-  ];
-  
+  public years: number[] = [];
   public roomOccupancyData: RoomOccupancyModel[] = [];
-
-  // TODO: Remove this when connecting to backend
-  public filteredRoomData: RoomOccupancyModel[] = [];
   public noShowData: NoShowModel[] = [];
-
   public mostUsagesPieOptions!: EChartsOption;
   public leasUsagesPieOptions!: EChartsOption;
   public heatmapOptions!: EChartsOption;
   private maxDataValue: number = 0;
+  private unsubscribe$: Subject<void> = new Subject<void>();
     
-  constructor(private reportService: ReportService) {}
+  constructor(private reportService: ReportService) {
+    for (let i = 0; i < 3; i++) {
+      this.years.push(this.selectedYear - i);
+    }
+  }
 
   ngOnInit(): void {
     this.getBuildings();
-    this.getRoomOccupancyData();
-    this.getNoShowData();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   private setChartOptions(): void {
@@ -63,21 +54,31 @@ export class ReportDashboardComponent implements OnInit {
   }
   
   public getRoomOccupancyData(): void {
-    this.roomOccupancyData = this.reportService.getRoomOccupancyData(this.selectedBuilding, this.selectedYear);
-
-    // TODO: remove this when connecting to backend
-    this.filteredRoomData = this.roomOccupancyData.filter(data => {
-      return data.date.getFullYear() === this.selectedYear && data.building === this.selectedBuilding
-    })
-    this.setChartOptions();
+    this.reportService.getRoomOccupancyData(this.selectedBuilding, this.selectedYear)
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((response: ApiResponse<RoomOccupancyModel[]>) => {
+      this.roomOccupancyData = response.payload;
+      this.setChartOptions();
+    });
   }
 
   public getNoShowData(): void {
-    this.noShowData = this.reportService.getNoShowData(this.selectedBuilding, this.selectedYear);
+    this.reportService.getNoShowData(this.selectedBuilding, this.selectedYear)
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((response: ApiResponse<NoShowModel[]>) => {
+      this.noShowData = response.payload;
+    });
   }
 
   public getBuildings(): void {
-    this.selectedBuilding = this.buildings[0].name;
+    this.reportService.getBuildings()
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((response: ApiResponse<Building[]>) => {
+      this.buildings = response.payload;
+      this.selectedBuilding = this.buildings[0].name;
+      this.getRoomOccupancyData();
+      this.getNoShowData();
+    });
   }
 
   public onChangeFilter(): void {
@@ -86,22 +87,27 @@ export class ReportDashboardComponent implements OnInit {
   }
 
   private setHeatmapOptions(): void {
-    const months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december']
-    const rooms: string[] = this.filteredRoomData.map(item => item.room)
+    const months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
+    const rooms: string[] = this.roomOccupancyData.map(item => item.room);
     const heatmapData = this.createHeatmapData(rooms, months);
 
     this.heatmapOptions = {
       title: {
-        text: 'Heatmap van ruimtebezetting',
+        text: 'Heatmap van de ruimtebezetting',
+        top: '5%',
         left: 'center',
+        textStyle: {
+          color: 'black'
+        }
       },
       tooltip: {
         position: 'top',
       },
       grid: {
-        height: '50%',
+        height: '60%',
         top: '15%',
-      },
+        containLabel: true,
+    },
       xAxis: {
         type: 'category',
         data: rooms,
@@ -116,13 +122,29 @@ export class ReportDashboardComponent implements OnInit {
           show: true
         }
       },
+      dataZoom: [
+        {
+          type: 'slider',
+          xAxisIndex: 0,
+          start: 35,
+          end: 65, 
+          height: 20,
+          bottom: 0,
+        },
+        {
+          type: 'inside',
+          xAxisIndex: 0,
+          start: 0,
+          end: 100,
+      }
+      ],
       visualMap: {
         min: 0,
         max: this.maxDataValue,
         calculable: true,
         orient: 'horizontal',
         left: 'center',
-        bottom: '10%'
+        bottom: '10%',
       },
       series: [{
         name: 'Bezetting',
@@ -146,18 +168,17 @@ export class ReportDashboardComponent implements OnInit {
     const data: number[][] = [];
     this.maxDataValue = 0;
 
-    this.filteredRoomData.forEach((item) => {
+    this.roomOccupancyData.forEach((item) => {
       const room = rooms.indexOf(item.room);
-      const month = item.date.getMonth();
+      const month = new Date(item.date).getMonth();
       matrix[room][month] += item.numberOfUsages;
     });
 
     for (let i = 0; i < rooms.length; i++) {
       for (let j = 0; j < months.length; j++) {
-        data.push([i, j, matrix[i][j]]);
-        if (matrix[i][j] > this.maxDataValue) {
-          this.maxDataValue = matrix[i][j];
-        }
+        let value = matrix[i][j];
+        data.push([i, j, value]);
+        this.maxDataValue = Math.max(this.maxDataValue, value);
       }
     }
 
@@ -165,13 +186,13 @@ export class ReportDashboardComponent implements OnInit {
   }
 
   private setMostUsagesPieChartOptions(): void {
-    const chartData = this.filteredRoomData.sort((a, b) => b.numberOfUsages - a.numberOfUsages);
+    const chartData = this.roomOccupancyData.sort((a, b) => b.numberOfUsages - a.numberOfUsages);
     const top5 = chartData.slice(0, 5);
     this.mostUsagesPieOptions = this.setPieChartOptions('Meest gebruikte ruimtes', top5);
   }
 
   private setLeastUsagesPieChartOptions(): void {
-    const chartData = this.filteredRoomData.sort((a, b) => a.numberOfUsages - b.numberOfUsages);
+    const chartData = this.roomOccupancyData.sort((a, b) => a.numberOfUsages - b.numberOfUsages);
     const bottom5 = chartData.slice(0, 5);
     this.leasUsagesPieOptions = this.setPieChartOptions('Minst gebruikte ruimtes', bottom5);
   }
@@ -185,14 +206,18 @@ export class ReportDashboardComponent implements OnInit {
     return {
       title: {
         text: title,
-        left: 'center'
+        left: 'center',
+        top: '5%',
+        textStyle: {
+          color: 'black'
+        }
       },
       tooltip: {
         trigger: 'item'
       },
       legend: {
         orient: 'horizontal',
-        top: '10%',
+        top: '15%',
       },
       series: [
         {
