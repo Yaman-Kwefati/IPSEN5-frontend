@@ -12,6 +12,7 @@ import {RequestResetPasswordComponent} from "./login/reset-password/request-rese
 import {ResetPasswordComponent} from "./login/reset-password/reset-password.component";
 import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
 import {CreateReservationComponent} from "./reservation/create-reservation/create-reservation.component";
+import {ReserveSuccessComponent} from "./shared/utilities/reserve-success/reserve-success.component";
 
 export const routes: Routes = [
   {
@@ -54,11 +55,15 @@ export const routes: Routes = [
       },
       {
         path: 'reservation/create',
-        component: CreateReservationComponent1
+        component: CreateReservationComponent1,
       },
       {
         path: 'create-reservation',
-        component: CreateReservationComponent
+        component: CreateReservationComponent,
+      },
+      {
+        path: 'create-reservation/success',
+        component: ReserveSuccessComponent
       },
       {
         path: 'reports',
