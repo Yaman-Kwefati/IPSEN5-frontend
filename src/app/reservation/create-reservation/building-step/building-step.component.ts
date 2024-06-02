@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatStepper, MatStepperModule} from "@angular/material/stepper";
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {
@@ -49,7 +49,7 @@ import {SwiperContainer} from "swiper/element";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class BuildingStepComponent implements OnInit{
-  protected firstFormGroup!: FormGroup;
+  buildingForm: FormGroup;
   protected buildings!: Building[];
   @Output() selectedBuilding = new EventEmitter<Building>()
   @Input() stepper!: MatStepper;
@@ -61,9 +61,18 @@ export class BuildingStepComponent implements OnInit{
               private breakpointObserver: BreakpointObserver,
               private cdRef: ChangeDetectorRef,
               private ngZone: NgZone) {
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
+    this.buildingForm = this._formBuilder.group({
+      selectedBuilding: new FormControl(null, Validators.required)
     });
+  }
+
+  ngOnInit(): void {
+    this.fetchBuildings();
+    this.changeSlidesPerView();
+  }
+
+
+  private fetchBuildings() {
     this.buildingService.getBuildings().subscribe(
       data => {
         this.buildings = data.payload;
@@ -71,7 +80,7 @@ export class BuildingStepComponent implements OnInit{
     );
   }
 
-  ngOnInit(): void {
+  private changeSlidesPerView() {
     this.breakpointObserver.observe('(min-width: 800px)').subscribe(result => {
       this.ngZone.run(() => {
         this.slidesPerView = result.matches ? 3 : 1;
@@ -84,9 +93,10 @@ export class BuildingStepComponent implements OnInit{
     });
   }
 
-
   protected addSelectedBuilding(value: Building) {
     this.selectedBuilding.emit(value);
+    this.buildingForm.get('selectedBuilding')!.setValue(value);
+    this.stepper.next();
   }
 
   protected toggleActive(selectedBuilding: Building) {

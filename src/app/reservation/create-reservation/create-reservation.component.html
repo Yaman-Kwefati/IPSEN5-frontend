@@ -1,7 +1,8 @@
 <mat-stepper [orientation]="(stepperOrientation | async)!" linear #stepper>
-  <mat-step>
+  <mat-step [stepControl]="step1.buildingForm">
     <ng-template matStepLabel>Kies een gebouw</ng-template>
-    <app-building-step [stepper]="stepper" (selectedBuilding)="addSelectedBuilding($event)"></app-building-step>
+    <app-building-step [stepper]="stepper" (selectedBuilding)="addSelectedBuilding($event)"
+    #step1></app-building-step>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Kies Type</ng-template>
