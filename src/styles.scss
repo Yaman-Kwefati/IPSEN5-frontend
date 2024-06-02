@@ -65,3 +65,38 @@ html {
 .fc .fc-toolbar.fc-header-toolbar{
   @apply flex flex-col-reverse md:flex-row;
 }
+
+//Styling for the timepicker
+.timepicker {
+  $bg-color: #5236AA;
+
+  .timepicker__header {
+    background-color: $bg-color !important;
+    border-radius: 12px 12px 0px 0px;
+  }
+  .timepicker__actions[_ngcontent-ng-c2055447140]{
+    border-radius: 0px 0px 12px 12px;
+  }
+
+  .clock-face__clock-hand {
+    background-color: $bg-color !important;
+
+    &::after {
+      background-color: $bg-color !important;
+    }
+
+    &::before {
+      border-color: $bg-color !important;
+    }
+  }
+
+  .clock-face__number {
+    > span.active {
+      background-color: $bg-color !important;
+    }
+  }
+
+  button:not(.timepicker-dial__item) {
+    color: $bg-color !important;
+  }
+}
