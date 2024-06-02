@@ -14,9 +14,9 @@
                              (selectedWing)="addSelectedWing($event)"
                              (selectedFloor)="addSelectedFloor($event)" #step3></app-floor-and-wing-step>
   </mat-step>
-  <mat-step>
+  <mat-step [stepControl]="step4.dateAndTimeFormGroup">
     <ng-template matStepLabel>Selecteer datum en tijd</ng-template>
-    <app-date-and-time-step (reservationDateAndTime)="addReservationDateAndTime($event)"></app-date-and-time-step>
+    <app-date-and-time-step (reservationDateAndTime)="addReservationDateAndTime($event)" #step4></app-date-and-time-step>
   </mat-step>
   @if (allAssigned | async) {
     <mat-step>
