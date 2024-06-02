@@ -5,6 +5,7 @@ import { User } from '../../shared/model/user.model';
 import { CommonModule, NgForOf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { SearchPipe } from '../../shared/pipe/searchItem.pipe';
 
 @Component({
@@ -14,6 +15,8 @@ import { SearchPipe } from '../../shared/pipe/searchItem.pipe';
   templateUrl: './building.component.html',
 })
 export class BuildingComponent implements OnInit {
+  faChevronDown = faChevronDown;
+
   constructor(private userService: UserService) {}
 
   ngOnInit() {
