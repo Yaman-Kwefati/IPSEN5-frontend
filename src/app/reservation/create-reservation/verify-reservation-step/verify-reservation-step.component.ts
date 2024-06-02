@@ -7,6 +7,7 @@ import {Floor} from "../../../shared/model/floor.model";
 import {Building} from "../../../shared/model/building.model";
 import {ReservationType} from "../../../shared/model/reservering-type.enum";
 import {DatePipe} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-verify-reservation-step',
@@ -25,7 +26,8 @@ export class VerifyReservationStepComponent {
   @Input() endDate = new Date();
   @Input() reservationType!: ReservationType;
 
-  constructor(private reservationService: ReservationService){
+  constructor(private reservationService: ReservationService,
+              private router: Router){
   }
 
   formatDate(date: Date): string {
@@ -46,6 +48,7 @@ export class VerifyReservationStepComponent {
     }).subscribe(
       data => {
         console.log(data.statusCode);
+        this.router.navigate(['/create-reservation/success']);
       }
     );
   }
