@@ -8,11 +8,11 @@
     <ng-template matStepLabel>Kies Type</ng-template>
     <app-reservation-type-step (reservationType)="addReservationType($event)" #step2></app-reservation-type-step>
   </mat-step>
-  <mat-step>
+  <mat-step [stepControl]="step3.floorAndWingFormGroup">
     <ng-template matStepLabel>Kies verdieping en vleugel</ng-template>
     <app-floor-and-wing-step [selectedBuilding]="selectedBuilding.getValue()!"
                              (selectedWing)="addSelectedWing($event)"
-                             (selectedFloor)="addSelectedFloor($event)"></app-floor-and-wing-step>
+                             (selectedFloor)="addSelectedFloor($event)" #step3></app-floor-and-wing-step>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Selecteer datum en tijd</ng-template>

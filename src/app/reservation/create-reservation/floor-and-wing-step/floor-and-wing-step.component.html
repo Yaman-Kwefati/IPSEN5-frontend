@@ -1,9 +1,9 @@
-<form [formGroup]="secondFormGroup" class="pt-24">
+<form class="pt-0 md:pt-24">
   <ng-template matStepLabel>Kies verdieping en vleugel</ng-template>
   <h4 class="text-2xl font-extrabold">Verdieping:</h4>
   <mat-form-field>
     <mat-label>Kies verdieping</mat-label>
-    <mat-select formControlName="secondCtrl">
+    <mat-select formControlName="floorCtl">
       @for (floor of floors; track floor){
         <mat-option value="{{floor.number}}"
                     (onSelectionChange)="onFloorSelectionChange(floor); getWingsByFloorId(floor.id)"
