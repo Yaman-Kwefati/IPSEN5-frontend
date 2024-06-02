@@ -63,11 +63,6 @@ import {VerifyReservationStepComponent} from "./verify-reservation-step/verify-r
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CreateReservationComponent {
-  protected secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-    wingCtrl: [{ value: '', disabled: true }, Validators.required],
-  });
-  protected isEditable = true;
   @ViewChild('stepper') stepper!: MatStepper;
   protected selectedBuilding = new BehaviorSubject<Building | null>(null);
   protected selectedWing = new BehaviorSubject<Wing | null>(null);
@@ -116,6 +111,4 @@ export class CreateReservationComponent {
   addSelectedFloor(value: Floor) {
     this.selectedFloor.next(value);
   }
-
-  protected readonly Number = Number;
 }

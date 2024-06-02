@@ -4,9 +4,9 @@
     <app-building-step [stepper]="stepper" (selectedBuilding)="addSelectedBuilding($event)"
     #step1></app-building-step>
   </mat-step>
-  <mat-step>
+  <mat-step [stepControl]="step2.typeFormGroup">
     <ng-template matStepLabel>Kies Type</ng-template>
-    <app-reservation-type-step (reservationType)="addReservationType($event)"></app-reservation-type-step>
+    <app-reservation-type-step (reservationType)="addReservationType($event)" #step2></app-reservation-type-step>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Kies verdieping en vleugel</ng-template>
