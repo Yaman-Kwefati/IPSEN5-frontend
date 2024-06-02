@@ -1,10 +1,9 @@
-import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import {MatStepperModule} from "@angular/material/stepper";
+import {ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild} from '@angular/core';
+import {MatStepper, MatStepperModule, StepperOrientation} from "@angular/material/stepper";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatButtonModule} from "@angular/material/button";
 import {MatInputModule} from "@angular/material/input";
-import {BuildingService} from "../../shared/service/building.service";
 import {
   MatCard,
   MatCardContent,
@@ -13,8 +12,23 @@ import {
   MatCardSubtitle,
   MatCardTitle
 } from "@angular/material/card";
-import {NgClass} from "@angular/common";
+import {AsyncPipe, NgClass} from "@angular/common";
 import {Building} from "../../shared/model/building.model";
+import {BuildingStepComponent} from "./building-step/building-step.component";
+import {MatOption, MatSelect} from "@angular/material/select";
+import {FloorService} from "../../shared/service/floor.service";
+import {Floor} from "../../shared/model/floor.model";
+import {WingService} from "../../shared/service/wing.service";
+import {Wing} from "../../shared/model/wing.model";
+import {MatIcon} from "@angular/material/icon";
+import {ReservationType} from "../../shared/model/reservering-type.enum";
+import {ReservationTypeStepComponent} from "./reservation-type-step/reservation-type-step.component";
+import {FloorAndWingStepComponent} from "./floor-and-wing-step/floor-and-wing-step.component";
+import {DateAndTimeStepComponent} from "./date-and-time-step/date-and-time-step.component";
+import {BehaviorSubject, combineLatest, Observable} from "rxjs";
+import {BreakpointObserver} from "@angular/cdk/layout";
+import {map} from "rxjs/operators";
+import {VerifyReservationStepComponent} from "./verify-reservation-step/verify-reservation-step.component";
 
 
 @Component({
@@ -34,42 +48,74 @@ import {Building} from "../../shared/model/building.model";
     MatCardTitle,
     MatCardSubtitle,
     NgClass,
+    BuildingStepComponent,
+    MatSelect,
+    MatOption,
+    MatIcon,
+    ReservationTypeStepComponent,
+    FloorAndWingStepComponent,
+    DateAndTimeStepComponent,
+    AsyncPipe,
+    VerifyReservationStepComponent,
   ],
   templateUrl: './create-reservation.component.html',
   styleUrl: './create-reservation.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CreateReservationComponent {
-  firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
-  });
-  secondFormGroup = this._formBuilder.group({
+  protected secondFormGroup = this._formBuilder.group({
     secondCtrl: ['', Validators.required],
+    wingCtrl: [{ value: '', disabled: true }, Validators.required],
   });
-  buildings!: Building[];
-  isEditable = true;
+  protected isEditable = true;
+  @ViewChild('stepper') stepper!: MatStepper;
+  protected selectedBuilding = new BehaviorSubject<Building | null>(null);
+  protected selectedWing = new BehaviorSubject<Wing | null>(null);
+  protected selectedFloor = new BehaviorSubject<Floor | null>(null);
+  protected reservationDateAndTime = new BehaviorSubject<{ startDate: Date, endDate: Date } | null>(null);
+  protected reservationType = new BehaviorSubject<ReservationType | null>(null);
+  protected stepperOrientation!: Observable<StepperOrientation>;
+  protected allAssigned = combineLatest([
+    this.selectedBuilding,
+    this.selectedWing,
+    this.selectedFloor,
+    this.reservationDateAndTime,
+    this.reservationType
+  ]).pipe(
+    map(([building, wing, floor, dateAndTime, type]) =>
+      building !== null && wing !== null && floor !== null && dateAndTime !== null && type !== null
 
-  toggleActive(selectedBuilding: Building) {
-    this.buildings.forEach(building => {
-      building.isActive = false;
-    });
+    )
 
-    selectedBuilding.isActive = true;
-  }
+  );
 
   constructor(private _formBuilder: FormBuilder,
-              private buildingService: BuildingService) {
-    this.buildingService.getBuildings().subscribe(
-      data => {
-        this.buildings = data.payload;
-        console.log(this.buildings);
-      }
-    )
+              breakpointObserver: BreakpointObserver,
+              private crf: ChangeDetectorRef,){
+    this.stepperOrientation = breakpointObserver
+      .observe('(min-width: 800px)')
+      .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
   }
-  onSwiper(swiper: any) {
-    console.log(swiper);
+
+  addSelectedBuilding(value: Building) {
+    this.selectedBuilding.next(value);
   }
-  onSlideChange() {
-    console.log('slide change');
+
+  addSelectedWing(value: Wing) {
+    this.selectedWing.next(value);
   }
+
+  addReservationDateAndTime(value: { startDate: Date, endDate: Date }) {
+    this.reservationDateAndTime.next(value);
+  }
+
+  addReservationType(value: ReservationType) {
+    this.reservationType.next(value);
+  }
+
+  addSelectedFloor(value: Floor) {
+    this.selectedFloor.next(value);
+  }
+
+  protected readonly Number = Number;
 }

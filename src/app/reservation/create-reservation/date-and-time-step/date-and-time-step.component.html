@@ -1,0 +1,29 @@
+<section class="w-full flex flex-col justify-center space-y-5">
+  <mat-form-field class="">
+    <mat-label class="text-2xl font-extrabold">Kies start en eind datum</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate placeholder="Start Datum" [(ngModel)]="startDate">
+      <input matEndDate placeholder="Eind Datum" [(ngModel)]="endDate">
+    </mat-date-range-input>
+    <mat-hint>MM/DD/JJJJ – MM/DD/JJJJ</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+  <section>
+    <h1 class="text-2xl font-extrabold">Selecteer start tijd:</h1>
+    <div class="ngx-timepicker-field-example">
+      <ngx-timepicker-field [format]="24" [defaultTime]="currentTime" [(ngModel)]="startTime"></ngx-timepicker-field>
+    </div>
+  </section>
+  <section>
+    <h1 class="text-2xl font-extrabold">Selecteer eind tijd:</h1>
+    <div class="ngx-timepicker-field-example">
+      <ngx-timepicker-field [format]="24" [defaultTime]="currentTime" [(ngModel)]="endTime"></ngx-timepicker-field>
+    </div>
+  </section>
+  <div class="w-full flex justify-center items-center space-x-4">
+    <button class="border-2 border-primary-dark-purple rounded-2xl w-fit h-fit px-3 py-0.5 text-2xl text-primary-dark-purple" matStepperPrevious>Vorige</button>
+    <button class="bg-primary-dark-purple rounded-2xl w-fit h-fit px-3 py-1 text-2xl text-white" matStepperNext
+    (click)="addReservationDateAndTime()">Volgende</button>
+  </div>
+</section>
