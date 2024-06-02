@@ -14,7 +14,7 @@ import { NoShow } from "../../src/app/shared/model/no-show.model";
 
 export class MockReportService {
   public getRoomOccupancyData(buildingName: string, year: number): Observable<ApiResponse<RoomOccupancy[]>> {
-    return of({payload: [new RoomOccupancy('A1', 35, new Date())], message: '', statusCode: ''});
+    return of({payload: [new RoomOccupancy('A1', 35, new Date(2023, 11, 31))], message: '', statusCode: ''});
   }
 
   public getNoShowData(buildingName: string, year: number): Observable<ApiResponse<NoShow[]>> {
@@ -57,12 +57,8 @@ describe('ReportDashboardComponent', () => {
   });
 
   context('ReportService tests', () => {
-    const mockRoomOccupancyData = [
-      { room: 'A1', numberOfUsages: 35, date: new Date(2024, 5, 21) },
-    ];
-    const mockNoShowData = [
-      { employeeName: 'Charlie White', numberOfReservations: 40, numberOfNoShows: 2 },
-    ];
+    const mockRoomOccupancyData = [new RoomOccupancy('A1', 35, new Date(2023, 11, 31))];
+    const mockNoShowData = [new NoShow('Test employee', 40, 2)];
 
     let mockReportService: MockReportService;
 
