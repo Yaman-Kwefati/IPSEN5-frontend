@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatOption} from "@angular/material/autocomplete";
@@ -29,10 +29,7 @@ import {Building} from "../../../shared/model/building.model";
   styleUrl: './floor-and-wing-step.component.scss'
 })
 export class FloorAndWingStepComponent implements OnInit{
-  protected secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-    wingCtrl: [{ value: '', disabled: true }, Validators.required],
-  });
+  floorAndWingFormGroup: FormGroup;
   floors!: Floor[];
   wings!: Wing[];
   floorId: string | null = null;
@@ -43,6 +40,10 @@ export class FloorAndWingStepComponent implements OnInit{
   constructor(private _formBuilder: FormBuilder,
               private floorService: FloorService,
               private wingService: WingService) {
+    this.floorAndWingFormGroup = this._formBuilder.group({
+      selectedFloor: new FormControl(null, Validators.required),
+      selectedWing: new FormControl(null, Validators.required)
+    });
   }
 
   ngOnInit(): void {
@@ -75,15 +76,10 @@ export class FloorAndWingStepComponent implements OnInit{
   onFloorSelectionChange(event: Floor) {
     this.floorId = event.id;
     this.selectedFloor.emit(event);
-    const wingCtrl = this.secondFormGroup.get('wingCtrl');
-    if (this.floorId) {
-      wingCtrl?.enable();
-    } else {
-      wingCtrl?.disable();
-    }
   }
 
   onWingSelectionChange(event: Wing) {
     this.selectedWing.emit(event);
+    this.floorAndWingFormGroup.setValue({selectedFloor: this.selectedFloor, selectedWing: event});
   }
 }
