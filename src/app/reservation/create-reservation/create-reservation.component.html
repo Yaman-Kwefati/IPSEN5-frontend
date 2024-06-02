@@ -1,4 +1,4 @@
-<mat-stepper [orientation]="(stepperOrientation | async)!" linear #stepper>
+<mat-stepper matStepper [orientation]="(stepperOrientation | async)!" linear #stepper>
   <mat-step [stepControl]="step1.buildingForm">
     <ng-template matStepLabel>Kies een gebouw</ng-template>
     <app-building-step [stepper]="stepper" (selectedBuilding)="addSelectedBuilding($event)"
