@@ -49,7 +49,7 @@ export class ResetPasswordComponent implements OnInit {
 
   onSubmit(): void {
     if (this.resetForm.invalid) {
-      this.toastr.error('Formulier is ongeldig. Controleer de velden.');
+      this.toastr.error('De ingevulde gegevens zijn onvolledig. Controleer de velden.');
       return;
     }
 
@@ -70,16 +70,7 @@ export class ResetPasswordComponent implements OnInit {
       return;
     }
 
-    this.resetService.resetPassword(username.toLowerCase(), password, this._token).then(success => {
-      if (success) {
-        this.toastr.success('Wachtwoord succesvol gewijzigd.');
-      } else {
-        this.toastr.error('Er is een fout opgetreden bij het wijzigen van het wachtwoord.');
-      }
-    }).catch(error => {
-      this.toastr.error('Er is een fout opgetreden bij het wijzigen van het wachtwoord.');
-      console.error(error);
-    });
+    this.resetService.resetPassword(username.toLowerCase(), password, this._token);
   }
 
   private passwordsMatchValidator: ValidatorFn = (form: AbstractControl): ValidationErrors | null => {
