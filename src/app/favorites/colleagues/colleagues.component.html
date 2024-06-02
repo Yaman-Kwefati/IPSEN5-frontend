@@ -1,31 +1,121 @@
-<article class="rounded-lg p-4 border-2 border-secondary-purple-light space-y-4 mb-5">
-    <div class="flex justify-between items-center">
-        <h2 class="text-xl font-semibold">Favoriete collega's</h2>
+<!-- Add 2 buttons one to display all colleagues and one to display the favorites. the buttons should have a border on the bottom that is colored in the primary dark purple color -->
+<article
+  class="w-full rounded-lg p-4 border-2 border-secondary-purple-light space-y-4 mb-5"
+>
+  <div class="flex justify-between items-center">
+    <h2 class="text-xl font-semibold">Collega's</h2>
+  </div>
+
+  <div class="flex space-x-4">
+    <button
+      (click)="this.favoriteListSelected = false"
+      [ngClass]="{ 'text-primary-dark-purple border-b-primary-dark-purple': !favoriteListSelected }"
+      class="border-b-2 border-b-gray-300 hover:border-secondary-dark-pink duration-300"
+    >
+      Alle collega's
+    </button>
+    <button
+      (click)="this.favoriteListSelected = true"
+      [ngClass]="{ 'text-primary-dark-purple border-b-primary-dark-purple': favoriteListSelected }"
+      class="border-b-2 border-b-gray-300 hover:border-secondary-dark-pink duration-300"
+    >
+      Favoriete collega's
+    </button>
+  </div>
+
+  <!--SEARCH BAR start -->
+  <form class="max-w-md">
+    <label
+      for="default-search"
+      class="mb-2 text-sm font-medium text-gray-900 sr-only"
+      >Search</label
+    >
+    <div class="relative">
+      <div
+        class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+      >
+        <svg
+          class="w-4 h-4 text-gray-500"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 20 20"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+          />
+        </svg>
+      </div>
+      <input
+        type="search"
+        name="searchText"
+        [(ngModel)]="searchText"
+        id="default-search"
+        class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-dark-purple focus:border-primary-dark-purple duration-300"
+        placeholder="Vul een naam in..."
+        required
+      />
     </div>
+  </form>
+  <!--SEARCH BAR end -->
+  <ul class="space-y-4" *ngIf="!this.favoriteListSelected">
+    <li
+      *ngIf="allUsers.length === 0"
+      class="flex justify-center items-center p-4 border-2 border-secondary-purple-light rounded-lg"
+    >
+      <p>Er zijn geen collega's gevonden</p>
+    </li>
+    <li
+      class="flex justify-between items-center p-4 border-2 border-secondary-purple-light rounded-lg"
+      *ngFor="let user of allUsers | searchItem : searchText; index as i"
+    >
+      <div>
+        <h3 class="font-bold">{{ user.firstName }} {{ user.lastName }}</h3>
+        <p>Aanwezig vandaag om 09:00 - 17:00</p>
+      </div>
+      <button
+        (click)="toggleFavorite(user)"
+        [class.text-red-500]="this.favoriteUsers.includes(user)"
+        [class.text-black]="!this.favoriteUsers.includes(user)"
+        class="flex bg-secondary-purple-light p-2 rounded-lg space-x-2 hover:bg-gray-300 cursor-pointer duration-300"
+      >
+        <fa-icon class="px-2" [icon]="faHeart"></fa-icon>
+      </button>
+    </li>
+  </ul>
 
-    <!--SEARCH BAR start -->
-    <form class="max-w-md mx-auto">
-        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-        <div class="relative">
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                </svg>
-            </div>
-            <input type="search" id="default-search" class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Vul een naam in..." required />
-        </div>
-    </form>
-    <!--SEARCH BAR end -->
-
-    <ul class="space-y-4">
-        <li class="flex justify-between items-center p-4 border-2 border-secondary-purple-light rounded-lg" *ngFor="let user of allUsers">
-            <div>
-                <h3 class="font-bold">{{ user.firstName }} {{ user.lastName}}</h3>
-                <p>Aanwezig vandaag om 09:00 - 17:00</p>
-            </div>
-            <button routerLink=" " class="flex bg-secondary-purple-light p-2 rounded-lg space-x-2 hover:bg-gray-300">
-                <lucide-icon name="heart"></lucide-icon>
-            </button>
-        </li>
-    </ul>
+  <ul class="space-y-4" *ngIf="this.favoriteListSelected">
+    <li
+      *ngIf="favoriteUsers.length === 0"
+      class="flex justify-center items-center p-4 border-2 border-secondary-purple-light rounded-lg"
+    >
+      <p>U heeft nog geen favoriete collega</p>
+    </li>
+    <li
+      class="flex justify-between items-center p-4 border-2 border-secondary-purple-light rounded-lg"
+      *ngFor="
+        let favoriteUser of favoriteUsers | searchItem : searchText;
+        index as i
+      "
+    >
+      <div>
+        <h3 class="font-bold">
+          {{ favoriteUser.firstName }} {{ favoriteUser.lastName }}
+        </h3>
+        <p>Aanwezig vandaag om 09:00 - 17:00</p>
+      </div>
+      <button
+        (click)="toggleFavorite(favoriteUser)"
+        [class.text-red-500]="this.favoriteUsers.includes(favoriteUser)"
+        [class.text-black]="!this.favoriteUsers.includes(favoriteUser)"
+        class="flex bg-secondary-purple-light p-2 rounded-lg space-x-2 hover:bg-gray-300 cursor-pointer duration-300"
+      >
+        <fa-icon class="px-2" [icon]="faHeart"></fa-icon>
+      </button>
+    </li>
+  </ul>
 </article>

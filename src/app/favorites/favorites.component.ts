@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import {DatePipe, NgForOf} from "@angular/common";
 import {LucideAngularModule} from "lucide-angular";
 import {RouterLink} from "@angular/router";
-import {ColleaguesComponent} from "./colleagues/colleagues.component";
+import {ColleguesComponent} from "./colleagues/colleagues.component";
+import { BuildingComponent } from "./building/building.component";
 
 @Component({
   selector: 'app-favorites',
@@ -12,7 +13,8 @@ import {ColleaguesComponent} from "./colleagues/colleagues.component";
     LucideAngularModule,
     NgForOf,
     RouterLink,
-    ColleaguesComponent
+    ColleguesComponent,
+    BuildingComponent
   ],
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.scss'
