@@ -3,10 +3,12 @@ import { EChartsOption } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NoShowModel, ReportService, RoomOccupancyModel } from '../shared/service/report.service';
+import { ReportService } from '../shared/service/report.service';
 import { Building } from '../shared/model/building.model';
 import { ApiResponse } from '../shared/service/api.service';
 import { Subject, takeUntil } from 'rxjs';
+import { RoomOccupancy } from '../shared/model/room-occupancy.model';
+import { NoShow } from '../shared/model/no-show.model';
 
 @Component({
   selector: 'app-report-dashboard',
@@ -24,8 +26,8 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
   public buildings: Building[] = []
   public selectedBuilding!: string;
   public years: number[] = [];
-  public roomOccupancyData: RoomOccupancyModel[] = [];
-  public noShowData: NoShowModel[] = [];
+  public roomOccupancyData: RoomOccupancy[] = [];
+  public noShowData: NoShow[] = [];
   public mostUsagesPieOptions!: EChartsOption;
   public leasUsagesPieOptions!: EChartsOption;
   public heatmapOptions!: EChartsOption;
@@ -56,7 +58,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
   public getRoomOccupancyData(): void {
     this.reportService.getRoomOccupancyData(this.selectedBuilding, this.selectedYear)
     .pipe(takeUntil(this.unsubscribe$))
-    .subscribe((response: ApiResponse<RoomOccupancyModel[]>) => {
+    .subscribe((response: ApiResponse<RoomOccupancy[]>) => {
       this.roomOccupancyData = response.payload;
       this.setChartOptions();
     });
@@ -65,7 +67,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
   public getNoShowData(): void {
     this.reportService.getNoShowData(this.selectedBuilding, this.selectedYear)
     .pipe(takeUntil(this.unsubscribe$))
-    .subscribe((response: ApiResponse<NoShowModel[]>) => {
+    .subscribe((response: ApiResponse<NoShow[]>) => {
       this.noShowData = response.payload;
     });
   }
@@ -197,7 +199,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     this.leasUsagesPieOptions = this.setPieChartOptions('Minst gebruikte ruimtes', bottom5);
   }
 
-  private setPieChartOptions(title: string, chartData: RoomOccupancyModel[]): EChartsOption {
+  private setPieChartOptions(title: string, chartData: RoomOccupancy[]): EChartsOption {
     const data = chartData.map(item => ({
       name: item.room,
       value: item.numberOfUsages
