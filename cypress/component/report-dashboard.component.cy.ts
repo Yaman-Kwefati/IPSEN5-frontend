@@ -5,18 +5,20 @@ import { CreateReservationService } from "../../src/app/shared/service/create-re
 import { ToastrModule, ToastrService } from "ngx-toastr";
 import { AuthService } from "../../src/app/shared/service/auth.service";
 import { NgxEchartsModule } from "ngx-echarts";
-import { NoShowModel, ReportService, RoomOccupancyModel } from "../../src/app/shared/service/report.service";
+import { ReportService } from "../../src/app/shared/service/report.service";
 import { Observable, of } from "rxjs";
 import { Building } from "../../src/app/shared/model/building.model";
 import { ApiResponse } from "../../src/app/shared/service/api.service";
+import { RoomOccupancy } from "../../src/app/shared/model/room-occupancy.model";
+import { NoShow } from "../../src/app/shared/model/no-show.model";
 
 export class MockReportService {
-  public getRoomOccupancyData(buildingName: string, year: number): Observable<ApiResponse<RoomOccupancyModel[]>> {
-    return of({payload: [{ room: 'A1', numberOfUsages: 35, date: new Date(2024, 5, 21) }], message: '', statusCode: ''});
+  public getRoomOccupancyData(buildingName: string, year: number): Observable<ApiResponse<RoomOccupancy[]>> {
+    return of({payload: [new RoomOccupancy('A1', 35, new Date())], message: '', statusCode: ''});
   }
 
-  public getNoShowData(buildingName: string, year: number): Observable<ApiResponse<NoShowModel[]>> {
-    return of({payload: [{ employeeName: 'Charlie White', numberOfReservations: 40, numberOfNoShows: 2 }], message: '', statusCode: ''});
+  public getNoShowData(buildingName: string, year: number): Observable<ApiResponse<NoShow[]>> {
+    return of({payload: [new NoShow('Test employee', 40, 2)], message: '', statusCode: ''});
   }
 
   public getBuildings(): Observable<ApiResponse<Building[]>> {
