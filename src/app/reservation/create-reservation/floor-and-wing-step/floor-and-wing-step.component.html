@@ -6,7 +6,8 @@
     <mat-select formControlName="floorCtl">
       @for (floor of floors; track floor){
         <mat-option value="{{floor.number}}"
-                    (onSelectionChange)="onFloorSelectionChange(floor); getWingsByFloorId(floor.id)"
+                    (onSelectionChange)="
+                    onFloorSelectionChange(floor);"
         >{{floor.number}}</mat-option>
       }
     </mat-select>

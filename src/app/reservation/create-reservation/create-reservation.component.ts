@@ -29,6 +29,7 @@ import {BehaviorSubject, combineLatest, Observable} from "rxjs";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {map} from "rxjs/operators";
 import {VerifyReservationStepComponent} from "./verify-reservation-step/verify-reservation-step.component";
+import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 
 
 @Component({
@@ -61,6 +62,12 @@ import {VerifyReservationStepComponent} from "./verify-reservation-step/verify-r
   templateUrl: './create-reservation.component.html',
   styleUrl: './create-reservation.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: {showError: true},
+    },
+  ],
 })
 export class CreateReservationComponent {
   @ViewChild('stepper') stepper!: MatStepper;
