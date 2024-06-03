@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {ApiService} from "../api.service";
 import {ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
 import {Role, User} from "../../model/user.model";
 import { z } from 'zod';
 import {Observable} from "rxjs";
@@ -28,7 +27,7 @@ const UsersResponseSchema = z.object({
 })
 export class UserService {
 
-    constructor(private apiService: ApiService, private toastr: ToastrService, private router: Router) {
+    constructor(private apiService: ApiService, private toastr: ToastrService) {
     }
 
 

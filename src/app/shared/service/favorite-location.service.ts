@@ -9,9 +9,7 @@ import { Floor } from '../model/floor.model';
 @Injectable({
   providedIn: 'root',
 })
-export class FavoriteColleaguesService {
-  //TODO
-
+export class FavoriteLocationService {
   constructor(private apiService: ApiService) {}
 
   public getBuildingList(): Observable<ApiResponse<Building[]>> {
