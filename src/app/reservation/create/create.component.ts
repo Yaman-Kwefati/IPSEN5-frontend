@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CreateReservationService } from '../../shared/service/create-reservation.service';
 import { Form, FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Building } from '../../shared/model/building.model';
-import { DefaultLocation } from '../../shared/model/default-location.model';
+import { StandardLocation } from '../../shared/model/standard-location.model';
 import { NgModule, OnInit} from '@angular/core';
 import { NgFor, CommonModule } from '@angular/common';
 import { CreateReservationModule } from './create.module';
@@ -33,7 +33,7 @@ export class CreateReservationComponent {
     });
   }
 
-  defaultLocation: DefaultLocation = this.createReservationService.getDefaultLocation();
+  defaultLocation: StandardLocation = this.createReservationService.getDefaultLocation();
   buildings: Building[] = this.createReservationService.getBuildings();
 
   selectedLocation: string = this.defaultLocation.wing.floor.building.name;

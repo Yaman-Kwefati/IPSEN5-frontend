@@ -43,6 +43,7 @@ describe('ReportDashboardComponent', () => {
     cy.mount(ReportDashboardComponent).then((componentRef) => {
       const component = componentRef.component;
 
+      // @ts-ignore
       cy.spy(component, 'getLocationData').as('getLocationDataSpy');
       cy.spy(component, 'getRoomOccupancyData').as('getRoomOccupancyDataSpy');
       cy.spy(component, 'getNoShowData').as('getNoShowDataSpy');
@@ -52,7 +53,7 @@ describe('ReportDashboardComponent', () => {
       cy.get('@getLocationDataSpy').should('have.been.called');
       cy.get('@getRoomOccupancyDataSpy').should('have.been.called');
       cy.get('@getNoShowDataSpy').should('have.been.called');
-    }); 
+    });
   });
 
   context('ReportService tests', () => {
@@ -88,7 +89,7 @@ describe('ReportDashboardComponent', () => {
 
     it('should return no show data', () => {
       cy.spy(mockReportService, 'getNoShowData').as('noShowSpy');
-  
+
       mountComponent(mockReportService).then((component) => {
         component.ngOnInit();
 
