@@ -31,7 +31,7 @@
           </div>
         </li>
 
-        <li class="flex justify-between items-center">
+        <li class="flex justify-between items-center" *ngIf="this.favoriteLocationForm.get('building')?.valid">
           <p class="w-1/2">Vleugel</p>
           <div class="w-1/2">
             <div class="relative w-full">
@@ -40,10 +40,9 @@
                 formControlName="wing"
               >
                 <option disabled selected>Selecteer een vleugel</option>
-                <!-- NgFor over the list of Buildings, use id as value and content is name -->
                 <option
                   *ngFor="let wing of filteredWingList"
-                  [value]="wing.id"
+                  [value]="wing.name"
                 >
                   {{ wing.name }}
                 </option>
@@ -55,7 +54,7 @@
           </div>
         </li>
 
-        <li class="flex justify-between items-center">
+        <li class="flex justify-between items-center" *ngIf="this.favoriteLocationForm.get('building')?.valid && this.favoriteLocationForm.get('wing')?.validef">
           <p class="w-1/2">Verdieping</p>
           <div class="w-1/2">
             <div class="relative w-full">

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../shared/service/requests/user.service';
 import { User } from '../../shared/model/user.model';
@@ -7,7 +7,8 @@ import {
   FormBuilder,
   FormGroup,
   FormsModule,
-  ReactiveFormsModule, Validators,
+  ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -16,8 +17,8 @@ import { Building } from '../../shared/model/building.model';
 import { Wing } from '../../shared/model/wing.model';
 import { Floor } from '../../shared/model/floor.model';
 import { FavoriteLocationService } from '../../shared/service/favorite-location.service';
-import {StandardLocation} from "../../shared/model/standard-location.model";
-import {ToastrService} from "ngx-toastr";
+import { StandardLocation } from '../../shared/model/standard-location.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-building',
@@ -70,16 +71,14 @@ export class LocationComponent implements OnInit {
       .get('building')
       ?.valueChanges.subscribe((value) => {
         this.getWingInformation(value);
-        this.favoriteLocationForm.get("wing")?.patchValue(null)
-        this.favoriteLocationForm.get("floor")?.patchValue(null)
+
+        this.favoriteLocationForm.get('wing')?.patchValue(null);
+        this.favoriteLocationForm.get('floor')?.patchValue(null);
       });
 
     this.favoriteLocationForm.get('wing')?.valueChanges.subscribe((value) => {
-      this.getFloorInformation(
-        value,
-        this.favoriteLocationForm.get('building')?.value
-      );
-      this.favoriteLocationForm.get("floor")?.patchValue(null)
+      this.getFloorInformation(value);
+      this.favoriteLocationForm.get('floor')?.patchValue(null);
     });
   }
 
@@ -113,25 +112,30 @@ export class LocationComponent implements OnInit {
     );
   }
 
-  getFloorInformation(wingName: string, buildingId: string) {
-    let tempFilteredWingList = this.wingList.filter((wing) => wing.name === wingName)
+  getFloorInformation(wingName: string) {
+    let tempFilteredWingList = this.wingList.filter(
+      (wing) => wing.name === wingName
+    );
 
-    console.log(tempFilteredWingList)
+    let tempFloorList: Floor[] = [];
 
-    for (let i = 0; i < tempFilteredWingList.length; i++){
-      let wing = tempFilteredWingList[i];
-      console.log(wing.floor);
-      this.floorList.push(wing.floor)
-      break;
+    for (let i = 0; i < tempFilteredWingList.length; i++) {
+      tempFloorList.push(tempFilteredWingList[i].floor);
     }
+
+    this.floorList = tempFloorList;
   }
 
   submitFavoritesForm() {
-    if (this.favoriteLocationForm.get('building')?.value == this.favoriteLocation.floor.building.id &&
-      this.favoriteLocationForm.get('wing')?.value == this.favoriteLocation.id &&
-      this.favoriteLocationForm.get('floor')?.value == this.favoriteLocation.floor.id
+    if (
+      this.favoriteLocationForm.get('building')?.value ==
+        this.favoriteLocation.floor.building.id &&
+      this.favoriteLocationForm.get('wing')?.value ==
+        this.favoriteLocation.id &&
+      this.favoriteLocationForm.get('floor')?.value ==
+        this.favoriteLocation.floor.id
     ) {
-      this.toastr.info("Geen wijzigingen gedetecteerd")
+      this.toastr.info('Geen wijzigingen gedetecteerd');
     }
   }
 }
