@@ -5,10 +5,9 @@ import {RouterLink} from "@angular/router";
 import {ColleguesComponent} from "./colleagues/colleagues.component";
 import { LocationComponent } from "./building/location.component";
 import { User } from "../shared/model/user.model"
-import { Building } from "../shared/model/building.model"
 import {FavoriteUserService} from "../shared/service/favorite-user.service";
 import {FavoriteLocationService} from "../shared/service/favorite-location.service";
-import {DefaultLocation} from "../shared/model/default-location.model";
+import {StandardLocation} from "../shared/model/standard-location.model";
 import {ToastrService} from "ngx-toastr";
 
 @Component({
@@ -28,9 +27,11 @@ import {ToastrService} from "ngx-toastr";
 
 export class FavoritesComponent implements OnInit {
   favoriteColleaguesList!: User[];
-  favoriteBuildingList!: DefaultLocation;
+  favoriteBuildingList!: StandardLocation;
 
-  constructor(private favoriteUserService: FavoriteUserService, private favoriteLocationService: FavoriteLocationService, private toastr: ToastrService) {
+  constructor(private favoriteUserService: FavoriteUserService,
+              private favoriteLocationService: FavoriteLocationService,
+              private toastr: ToastrService) {
   }
 
   ngOnInit() {

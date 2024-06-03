@@ -16,7 +16,7 @@ import { Building } from '../../shared/model/building.model';
 import { Wing } from '../../shared/model/wing.model';
 import { Floor } from '../../shared/model/floor.model';
 import { FavoriteLocationService } from '../../shared/service/favorite-location.service';
-import {DefaultLocation} from "../../shared/model/default-location.model";
+import {StandardLocation} from "../../shared/model/standard-location.model";
 import {ToastrService} from "ngx-toastr";
 
 @Component({
@@ -46,7 +46,7 @@ export class LocationComponent implements OnInit {
   public floorList!: Floor[];
 
   constructor(
-    private favoriteColleaguesService: FavoriteLocationService,
+    private favoriteLocationService: FavoriteLocationService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService
   ) {}
@@ -81,7 +81,7 @@ export class LocationComponent implements OnInit {
   }
 
   getBuildingInformation() {
-    this.favoriteColleaguesService.getBuildingList().subscribe(
+    this.favoriteLocationService.getBuildingList().subscribe(
       (response) => {
         this.buildingList = response.payload;
       },
@@ -92,7 +92,7 @@ export class LocationComponent implements OnInit {
   }
 
   getWingInformation(buildingId: string) {
-    this.favoriteColleaguesService.getWingList(buildingId).subscribe(
+    this.favoriteLocationService.getWingList(buildingId).subscribe(
       (response) => {
         this.wingList = response.payload;
         this.filterWingList(response.payload);
