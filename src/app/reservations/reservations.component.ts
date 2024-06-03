@@ -27,7 +27,6 @@ export class ReservationsComponent implements OnInit{
     this.reservationService.getAllReservations2().subscribe(
       data => {
         this.reservations = data.payload;
-        console.log(this.reservations);
       }, error => {
         if (error && (error as any).error) {
           this.toastr.error((error as any).error.message);
