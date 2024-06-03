@@ -70,15 +70,16 @@ export class LocationComponent implements OnInit {
     this.favoriteLocationForm
       .get('building')
       ?.valueChanges.subscribe((value) => {
-        this.getWingInformation(value);
+        if (this.favoriteLocationForm.get('wing')?.value != null) { 
+          this.getFloorInformation(this.filteredWingList[0].name); 
+          this.favoriteLocationForm.get('wing')?.setValue(this.filteredWingList[0].name);
+        }
 
-        this.favoriteLocationForm.get('wing')?.patchValue(null);
-        this.favoriteLocationForm.get('floor')?.patchValue(null);
+        this.getWingInformation(value);
       });
 
     this.favoriteLocationForm.get('wing')?.valueChanges.subscribe((value) => {
       this.getFloorInformation(value);
-      this.favoriteLocationForm.get('floor')?.patchValue(null);
     });
   }
 
@@ -113,6 +114,12 @@ export class LocationComponent implements OnInit {
   }
 
   getFloorInformation(wingName: string) {
+    console.log('Wing name: ', wingName);
+
+    if (wingName == null) {
+      return;
+    }
+
     let tempFilteredWingList = this.wingList.filter(
       (wing) => wing.name === wingName
     );
@@ -124,6 +131,8 @@ export class LocationComponent implements OnInit {
     }
 
     this.floorList = tempFloorList;
+
+    console.log('Floor list: ', this.floorList);
   }
 
   submitFavoritesForm() {
