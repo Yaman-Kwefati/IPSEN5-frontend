@@ -128,7 +128,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         {
           type: 'slider',
           xAxisIndex: 0,
-          start: 35,
+          start: 45,
           end: 65, 
           height: 20,
           bottom: 0,
@@ -163,6 +163,18 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         }
       }]
     };
+  }
+  
+  public onHeatmapInit(chart: any): void {
+    chart.on('dataZoom', () => {
+      const option = chart.getOption();
+      const zoom = option.dataZoom[0];
+      const labelVisabilityStart = 20;
+      const isZoomedIn = zoom.end - zoom.start <= labelVisabilityStart; 
+
+      option.series[0].label.show = isZoomedIn;
+      chart.setOption(option);
+    });
   }
 
   private createHeatmapData(rooms: string[], months: string[]): number[][] {
