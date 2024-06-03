@@ -3,7 +3,7 @@ import {DatePipe, NgForOf} from "@angular/common";
 import {LucideAngularModule} from "lucide-angular";
 import {RouterLink} from "@angular/router";
 import {ColleguesComponent} from "./colleagues/colleagues.component";
-import { LocationComponent } from "./building/location.component";
+import { LocationComponent } from "./location/location.component";
 import { User } from "../shared/model/user.model"
 import {FavoriteUserService} from "../shared/service/favorite-user.service";
 import {FavoriteLocationService} from "../shared/service/favorite-location.service";
