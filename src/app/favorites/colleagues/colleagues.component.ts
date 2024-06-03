@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../shared/service/requests/user.service';
 import { User } from '../../shared/model/user.model';
@@ -7,6 +7,7 @@ import { SearchPipe } from '../../shared/pipe/searchItem.pipe';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import {FavoriteUserService} from "../../shared/service/favorite-user.service";
 
 @Component({
   selector: 'app-collegues',
@@ -23,7 +24,10 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
   styleUrl: './colleagues.component.scss',
 })
 export class ColleguesComponent implements OnInit {
-  faHeart = faHeart;
+  @Input()
+  public favoriteColleagues!: User[];
+
+  public faHeart = faHeart;
 
   public searchText: string = '';
   public allUsers: User[] = [];
@@ -31,7 +35,7 @@ export class ColleguesComponent implements OnInit {
 
   public favoriteListSelected: boolean = false;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private favoriteUserService: FavoriteUserService) {}
 
   ngOnInit() {
     this.userService.getAllUsers().subscribe((users) => {
@@ -41,11 +45,24 @@ export class ColleguesComponent implements OnInit {
 
   public toggleFavorite(user: User): void {
     if (this.favoriteUsers.includes(user)) {
-      this.favoriteUsers = this.favoriteUsers.filter((u) => u !== user);
+      this.favoriteUserService.removeFavoriteUser(user).subscribe(
+        (response) => {
+          this.favoriteUsers = this.favoriteUsers.filter((u) => u !== user);
+        },
+        (error) => {
+          console.error('Error removing favorite colleague: ', error);
+        }
+      );
     } else {
-      this.favoriteUsers.push(user);
-    }
+      this.favoriteUserService.addFavoriteUser(user).subscribe(
+        (response) => {
+          this.favoriteUsers.push(user);
+        },
+        (error) => {
+          console.error('Error adding favorite colleague: ', error);
+        }
+      );
 
-    console.log(this.favoriteUsers);
+    }
   }
 }

@@ -7,7 +7,7 @@ import {
   FormBuilder,
   FormGroup,
   FormsModule,
-  ReactiveFormsModule,
+  ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -124,6 +124,11 @@ export class LocationComponent implements OnInit {
   }
 
   submitFavoritesForm() {
-    console.log(this.favoriteLocationForm.value);
+    if (this.favoriteLocationForm.get('building')?.value == this.favoriteLocation.floor.building.id &&
+      this.favoriteLocationForm.get('wing')?.value == this.favoriteLocation.id &&
+      this.favoriteLocationForm.get('floor')?.value == this.favoriteLocation.floor.id
+    ) {
+      this.toastr.info("Geen wijzigingen gedetecteerd")
+    }
   }
 }

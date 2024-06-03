@@ -5,12 +5,22 @@ import { Observable, catchError } from 'rxjs';
 import { error } from 'cypress/types/jquery';
 import { Wing } from '../model/wing.model';
 import { Floor } from '../model/floor.model';
+import {DefaultLocation} from "../model/default-location.model";
 
 @Injectable({
   providedIn: 'root',
 })
 export class FavoriteLocationService {
   constructor(private apiService: ApiService) {}
+
+  public getStandardLocation(): Observable<ApiResponse<DefaultLocation>> {
+    return this.apiService.get<ApiResponse<DefaultLocation>>('/user/standard-location').pipe(
+      catchError((error) => {
+        console.error('Error fetching building list: ', error);
+        throw error;
+      })
+    );
+  }
 
   public getBuildingList(): Observable<ApiResponse<Building[]>> {
     return this.apiService.get<ApiResponse<Building[]>>('/building').pipe(
