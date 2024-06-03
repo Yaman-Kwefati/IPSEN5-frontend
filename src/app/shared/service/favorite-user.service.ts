@@ -17,7 +17,7 @@ export class FavoriteUserService{
   public getAllFavoriteUsers(): Observable<ApiResponse<User[]>> {
     return this.apiService.get<ApiResponse<User[]>>('/user/favorite-colleagues').pipe(
       catchError((error) => {
-        console.error('Error fetching building list: ', error);
+        console.error('Error fetching favorite list: ', error);
         throw error;
       })
     );
@@ -26,7 +26,7 @@ export class FavoriteUserService{
   public addFavoriteUser(user: User): Observable<ApiResponse<any>> {
     return this.apiService.post<ApiResponse<any>>('/user/favorite-colleagues').pipe(
       catchError((error) => {
-        console.error('Error fetching building list: ', error);
+        console.error('Error adding favorite user: ', error);
         throw error;
       })
     );

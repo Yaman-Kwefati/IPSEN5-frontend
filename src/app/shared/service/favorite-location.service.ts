@@ -16,7 +16,7 @@ export class FavoriteLocationService {
   public getStandardLocation(): Observable<ApiResponse<Wing>> {
     return this.apiService.get<ApiResponse<Wing>>('/user/standard-location').pipe(
       catchError((error) => {
-        console.error('Error fetching building list: ', error);
+        console.error('Error fetching standard location: ', error);
         throw error;
       })
     );
