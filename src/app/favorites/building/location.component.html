@@ -43,7 +43,7 @@
                 <!-- NgFor over the list of Buildings, use id as value and content is name -->
                 <option
                   *ngFor="let wing of filteredWingList"
-                  [value]="wing.name"
+                  [value]="wing.id"
                 >
                   {{ wing.name }}
                 </option>
@@ -81,6 +81,7 @@
       </ul>
       <!-- Add a button to the bottom right that says: "Opslaan" with white text and dark-primary-purple background. -->
       <button
+        [disabled]="!this.favoriteLocationForm.valid"
         class="bg-primary-dark-purple text-white py-2 px-4 rounded-lg float-right mt-4"
       >
         Opslaan
