@@ -14,7 +14,7 @@ import { BuildingComponent } from "./building/building.component";
     NgForOf,
     RouterLink,
     ColleguesComponent,
-    BuildingComponent
+    LocationComponent
   ],
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.scss'

@@ -39,7 +39,7 @@ export class ColleguesComponent implements OnInit {
     });
   }
 
-  toggleFavorite(user: User) {
+  public toggleFavorite(user: User): void {
     if (this.favoriteUsers.includes(user)) {
       this.favoriteUsers = this.favoriteUsers.filter((u) => u !== user);
     } else {

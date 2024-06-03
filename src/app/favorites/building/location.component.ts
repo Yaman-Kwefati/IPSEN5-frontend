@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../shared/service/requests/user.service';
 import { User } from '../../shared/model/user.model';
@@ -15,7 +15,9 @@ import { SearchPipe } from '../../shared/pipe/searchItem.pipe';
 import { Building } from '../../shared/model/building.model';
 import { Wing } from '../../shared/model/wing.model';
 import { Floor } from '../../shared/model/floor.model';
-import { FavoriteColleaguesService } from '../../shared/service/favorite-colleagues.service';
+import { FavoriteLocationService } from '../../shared/service/favorite-location.service';
+import {DefaultLocation} from "../../shared/model/default-location.model";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-building',
@@ -28,9 +30,12 @@ import { FavoriteColleaguesService } from '../../shared/service/favorite-colleag
     CommonModule,
     ReactiveFormsModule,
   ],
-  templateUrl: './building.component.html',
+  templateUrl: './location.component.html',
 })
-export class BuildingComponent implements OnInit {
+export class LocationComponent implements OnInit {
+  @Input()
+  public favoriteLocation!: Wing;
+
   public faChevronDown = faChevronDown;
 
   public favoriteLocationForm!: FormGroup;
@@ -41,8 +46,9 @@ export class BuildingComponent implements OnInit {
   public floorList!: Floor[];
 
   constructor(
-    private favoriteColleaguesService: FavoriteColleaguesService,
-    private formBuilder: FormBuilder
+    private favoriteColleaguesService: FavoriteLocationService,
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -52,15 +58,17 @@ export class BuildingComponent implements OnInit {
 
   initiateForm() {
     this.favoriteLocationForm = this.formBuilder.group({
-      building: [''],
-      wing: [''],
-      floor: [''],
+      building: [this.favoriteLocation.floor.building.id || null, Validators.required],
+      wing: [this.favoriteLocation.id || null, Validators.required],
+      floor: [this.favoriteLocation.floor.id || null, Validators.required],
     });
 
     this.favoriteLocationForm
       .get('building')
       ?.valueChanges.subscribe((value) => {
         this.getWingInformation(value);
+        this.favoriteLocationForm.get("wing")?.patchValue(null)
+        this.favoriteLocationForm.get("floor")?.patchValue(null)
       });
 
     this.favoriteLocationForm.get('wing')?.valueChanges.subscribe((value) => {
@@ -68,6 +76,7 @@ export class BuildingComponent implements OnInit {
         value,
         this.favoriteLocationForm.get('building')?.value
       );
+      this.favoriteLocationForm.get("floor")?.patchValue(null)
     });
   }
 
@@ -102,9 +111,14 @@ export class BuildingComponent implements OnInit {
   }
 
   getFloorInformation(wingName: string, buildingId: string) {
-    for (let wing of this.wingList.filter((wing) => wing.name === wingName)) {
-      console.log(wing);
+    let tempFilteredWingList = this.wingList.filter((wing) => wing.name === wingName)
+
+    console.log(tempFilteredWingList)
+
+    for (let i = 0; i < tempFilteredWingList.length; i++){
+      let wing = tempFilteredWingList[i];
       console.log(wing.floor);
+      this.floorList.push(wing.floor)
       break;
     }
   }
