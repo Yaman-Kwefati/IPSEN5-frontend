@@ -9,6 +9,7 @@ import {FavoriteUserService} from "../shared/service/favorite-user.service";
 import {FavoriteLocationService} from "../shared/service/favorite-location.service";
 import {StandardLocation} from "../shared/model/standard-location.model";
 import {ToastrService} from "ngx-toastr";
+import { Wing } from '../shared/model/wing.model';
 
 @Component({
   selector: 'app-favorites',
@@ -27,7 +28,7 @@ import {ToastrService} from "ngx-toastr";
 
 export class FavoritesComponent implements OnInit {
   favoriteColleaguesList!: User[];
-  favoriteBuildingList!: StandardLocation;
+  favoriteBuildingList!: Wing;
 
   constructor(private favoriteUserService: FavoriteUserService,
               private favoriteLocationService: FavoriteLocationService,

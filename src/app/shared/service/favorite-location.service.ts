@@ -13,8 +13,8 @@ import {StandardLocation} from "../model/standard-location.model";
 export class FavoriteLocationService {
   constructor(private apiService: ApiService) {}
 
-  public getStandardLocation(): Observable<ApiResponse<StandardLocation>> {
-    return this.apiService.get<ApiResponse<StandardLocation>>('/user/standard-location').pipe(
+  public getStandardLocation(): Observable<ApiResponse<Wing>> {
+    return this.apiService.get<ApiResponse<Wing>>('/user/standard-location').pipe(
       catchError((error) => {
         console.error('Error fetching building list: ', error);
         throw error;

@@ -54,15 +54,18 @@ export class LocationComponent implements OnInit {
   ngOnInit() {
     this.getBuildingInformation();
     this.initiateForm();
+    this.addEventListeners();
   }
 
   initiateForm() {
     this.favoriteLocationForm = this.formBuilder.group({
-      building: [this.favoriteLocation.floor.building.id || null, Validators.required],
-      wing: [this.favoriteLocation.id || null, Validators.required],
-      floor: [this.favoriteLocation.floor.id || null, Validators.required],
+      building: [null, Validators.required],
+      wing: [null, Validators.required],
+      floor: [null, Validators.required],
     });
+  }
 
+  addEventListeners(): void {
     this.favoriteLocationForm
       .get('building')
       ?.valueChanges.subscribe((value) => {
