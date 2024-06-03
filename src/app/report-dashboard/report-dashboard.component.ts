@@ -34,13 +34,10 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
   private maxDataValue: number = 0;
   private unsubscribe$: Subject<void> = new Subject<void>();
     
-  constructor(private reportService: ReportService) {
-    for (let i = 0; i < 3; i++) {
-      this.years.push(this.selectedYear - i);
-    }
-  }
+  constructor(private reportService: ReportService) {}
 
   ngOnInit(): void {
+    this.getYears();
     this.getBuildings();
   }
 
@@ -81,6 +78,12 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
       this.getRoomOccupancyData();
       this.getNoShowData();
     });
+  }
+
+  private getYears(): void {
+    for (let i = 0; i < 3; i++) {
+      this.years.push(this.selectedYear - i);
+    }
   }
 
   public onChangeFilter(): void {
