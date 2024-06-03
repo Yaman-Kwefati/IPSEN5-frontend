@@ -1,5 +1,5 @@
 # IPSEN5-frontend
-De front-end van het IPSEN project, ontwikkeld met Angular 17.
+De front-end van het IPSEN project, ontwikkeld met Angular 17 en Tailwind CSS.
 
 ## Voorvereisten
 Zorg ervoor dat de volgende software is geïnstalleerd:
