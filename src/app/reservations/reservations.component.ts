@@ -16,7 +16,7 @@ import {ToastrService} from "ngx-toastr";
   styleUrl: './reservations.component.scss'
 })
 export class ReservationsComponent implements OnInit{
-  isDeleteModalVisible: boolean = false;
+  protected isDeleteModalVisible: boolean = false;
   protected reservations: Reservation[] = [];
 
   constructor(private reservationService: ReservationService,
@@ -38,17 +38,17 @@ export class ReservationsComponent implements OnInit{
     );
   }
 
-  getDate(dateToFormat: Date) {
+  protected getDate(dateToFormat: Date) {
     const date = new Date(dateToFormat);
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   }
 
-  getTime(dateToFormat: Date) {
+  protected getTime(dateToFormat: Date) {
     const date = new Date(dateToFormat);
     return `${date.getHours()}:${date.getMinutes()}`;
   }
 
-  openDeleteModal() {
+  protected openDeleteModal() {
     this.isDeleteModalVisible = !this.isDeleteModalVisible;
   }
 }
