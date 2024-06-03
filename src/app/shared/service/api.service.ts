@@ -22,7 +22,7 @@ export interface ApiResponse<T> {
 
 @Injectable({
   providedIn: 'root',
-}) 
+})
 export class ApiService {
   public static API_URL = 'http://localhost:8080/api/v1';
 
