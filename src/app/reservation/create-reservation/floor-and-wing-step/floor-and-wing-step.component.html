@@ -1,29 +1,28 @@
-<form class="pt-0 md:pt-24">
-  <ng-template matStepLabel>Kies verdieping en vleugel</ng-template>
-  <h4 class="text-2xl font-extrabold">Verdieping:</h4>
-  <mat-form-field>
-    <mat-label>Kies verdieping</mat-label>
-    <mat-select>
-      @for (floor of floors; track floor){
-        <mat-option value="{{floor.number}}"
+<section class="pt-0 md:pt-24 w-full">
+    <h4 class="text-2xl font-extrabold">Verdieping:</h4>
+    <mat-form-field class="w-full">
+      <mat-label>Kies verdieping</mat-label>
+      <mat-select class="w-full">
+        @for (floor of floors; track floor){
+        <mat-option class="w-screen" value="{{floor.number}}"
                     (onSelectionChange)="
                     onFloorSelectionChange(floor);"
         >{{floor.number}}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-  <h4 class="text-2xl font-extrabold">Vleugel:</h4>
-  <mat-form-field>
-    <mat-label>Kies vleugel</mat-label>
-    <mat-select [disabled]="!floorId">
-      @for (wing of wings; track wing){
+        }
+      </mat-select>
+    </mat-form-field>
+    <h4 class="text-2xl font-extrabold">Vleugel:</h4>
+    <mat-form-field class="w-full">
+      <mat-label>Kies vleugel</mat-label>
+      <mat-select [disabled]="!floorId">
+        @for (wing of wings; track wing){
         <mat-option value="{{wing.name}}"
         (onSelectionChange)="onWingSelectionChange(wing)">{{wing.name}}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-  <div class="w-full flex justify-center items-center space-x-4">
-    <button class="border-2 border-primary-dark-purple rounded-2xl w-fit h-fit px-3 py-0.5 text-2xl text-primary-dark-purple" matStepperPrevious>Vorige</button>
-    <button class="bg-primary-dark-purple rounded-2xl w-fit h-fit px-3 py-1 text-2xl text-white" matStepperNext>Volgende</button>
-  </div>
-</form>
+        }
+      </mat-select>
+    </mat-form-field>
+    <div class="w-full flex justify-center items-center space-x-4">
+      <button class="border-2 border-primary-dark-purple rounded-2xl w-fit h-fit px-3 py-0.5 text-2xl text-primary-dark-purple" matStepperPrevious>Vorige</button>
+      <button class="bg-primary-dark-purple rounded-2xl w-fit h-fit px-3 py-1 text-2xl text-white" matStepperNext>Volgende</button>
+    </div>
+</section>

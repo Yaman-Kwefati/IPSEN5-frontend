@@ -5,7 +5,7 @@
     #step1></app-building-step>
   </mat-step>
   <mat-step [stepControl]="step2.typeFormGroup">
-    <ng-template matStepLabel>Kies Type</ng-template>
+    <ng-template matStepLabel>Kies type ruimte</ng-template>
     <app-reservation-type-step (reservationType)="addReservationType($event)" #step2></app-reservation-type-step>
   </mat-step>
   <mat-step [stepControl]="step3.floorAndWingFormGroup">
@@ -20,7 +20,7 @@
   </mat-step>
   @if (allAssigned | async) {
     <mat-step>
-      <ng-template matStepLabel>Reservering Bevestigen</ng-template>
+      <ng-template matStepLabel>Reservering bevestigen</ng-template>
       <app-verify-reservation-step
         [building]="(selectedBuilding | async)!"
         [floor]="(selectedFloor | async)!"

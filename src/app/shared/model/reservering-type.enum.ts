@@ -1,4 +1,4 @@
 export enum ReservationType {
   FLEXPLEK,
-  LOKAAL
+  VERGADERRUIMTE
 }

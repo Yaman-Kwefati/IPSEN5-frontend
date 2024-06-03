@@ -5,6 +5,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {provideNativeDateAdapter} from "@angular/material/core";
 import {NgxMaterialTimepickerModule, TIME_LOCALE} from "ngx-material-timepicker";
 import {FormControl, FormGroup, FormsModule, Validators} from "@angular/forms";
+import {MatInputModule} from "@angular/material/input";
 
 @Component({
   selector: 'app-date-and-time-step',
@@ -15,7 +16,8 @@ import {FormControl, FormGroup, FormsModule, Validators} from "@angular/forms";
     MatFormFieldModule,
     MatDatepickerModule,
     NgxMaterialTimepickerModule,
-    FormsModule
+    FormsModule,
+    MatInputModule,
   ],
   templateUrl: './date-and-time-step.component.html',
   styleUrl: './date-and-time-step.component.scss',
@@ -23,9 +25,8 @@ import {FormControl, FormGroup, FormsModule, Validators} from "@angular/forms";
 })
 export class DateAndTimeStepComponent {
   dateAndTimeFormGroup: FormGroup;
-  protected startDate = new Date();
+  protected selectedDate!: Date;
   protected startTime = '';
-  protected endDate = new Date();
   protected endTime = '';
   protected readonly Date = Date;
   protected currentTime!: string;
@@ -35,9 +36,8 @@ export class DateAndTimeStepComponent {
     const now = new Date();
     this.currentTime = `${now.getHours()}:${now.getMinutes()}`;
     this.dateAndTimeFormGroup = new FormGroup({
-      startDate: new FormControl(null, Validators.required),
+      selectedDate: new FormControl(null, Validators.required),
       startTime: new FormControl(null, Validators.required),
-      endDate: new FormControl(null, Validators.required),
       endTime: new FormControl(null, Validators.required)
     });
   }
@@ -50,9 +50,9 @@ export class DateAndTimeStepComponent {
   }
 
   protected addReservationDateAndTime(): void {
-    const startDate = this.getStartFormattedDateAndTime(this.startDate, this.startTime);
-    const endDate = this.getStartFormattedDateAndTime(this.endDate, this.endTime);
+    const startDate = this.getStartFormattedDateAndTime(this.selectedDate, this.startTime);
+    const endDate = this.getStartFormattedDateAndTime(this.selectedDate, this.endTime);
     this.reservationDateAndTime.emit({startDate, endDate});
-    this.dateAndTimeFormGroup.setValue({startDate, startTime: this.startTime, endDate, endTime: this.endTime});
+    this.dateAndTimeFormGroup.setValue({selectedDate: this.selectedDate, startTime: this.startTime, endTime: this.endTime});
   }
 }
