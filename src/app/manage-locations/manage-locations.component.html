@@ -13,11 +13,12 @@
           <option *ngFor="let building of buildings" [ngValue]="building">{{ building.name }}</option>
         </select>
       </div>
-      <button class="bg-primary-dark-purple text-white p-2 rounded-lg">
+      <button class="bg-primary-dark-purple text-white p-2 rounded-lg" (click)="onChangeCreateMode()">
         <lucide-icon name="plus" title="werkplek toevoegen"></lucide-icon>
       </button>
     </div>
   </section>
+  <app-create-location *ngIf="isCreateMode" [buildings]="buildings" (exitCreateMode)="onChangeCreateMode()"></app-create-location>
   <section class="flex pl-5 justify-between w-full font-bold">
     <p class="min-w-[100px]">Naam</p>
     <p class="min-w-[100px]">Type</p>
@@ -35,5 +36,4 @@
       <p>Er zijn geen werkplekken gevonden</p>
     </div>
   </ng-template>
-  
 </article>

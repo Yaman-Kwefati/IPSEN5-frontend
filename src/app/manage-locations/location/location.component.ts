@@ -39,6 +39,11 @@ export class LocationComponent implements OnInit {
   }
 
   public onSubmitForm(): void {
+    if(this.locationForm.invalid){
+      this.toastr.error('Vul alle velden in');
+      return;
+    }
+
     this.editLocation()
   }
 
