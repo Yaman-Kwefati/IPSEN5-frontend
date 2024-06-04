@@ -54,7 +54,7 @@ export class ColleguesComponent implements OnInit {
         }
       );
     } else {
-      this.favoriteUserService.addFavoriteUser(user).subscribe(
+      this.favoriteUserService.addFavoriteUser(user).then(
         (response) => {
           this.favoriteUsers.push(user);
         },

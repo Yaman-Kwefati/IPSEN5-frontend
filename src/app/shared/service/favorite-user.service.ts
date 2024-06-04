@@ -5,6 +5,7 @@ import {catchError, map} from "rxjs/operators";
 import {ApiResponse, ApiService} from "./api.service";
 import {ToastrService} from "ngx-toastr";
 import {HttpHeaders} from "@angular/common/http";
+import {UserService} from "./requests/user.service";
 
 
 @Injectable({
@@ -12,12 +13,14 @@ import {HttpHeaders} from "@angular/common/http";
 })
 export class FavoriteUserService{
 
-  constructor(private apiService: ApiService) {
+
+  constructor(private apiService: ApiService,
+              private userService: UserService) {
 
   }
 
-  public getIdOfFavoriteUsers(): Observable<ApiResponse<string[]>> {
-        return this.apiService.get<ApiResponse<string[]>>('/user/favorite-colleagues').pipe(
+  public getFavoriteColleagues(): Observable<ApiResponse<User[]>> {
+        return this.apiService.get<ApiResponse<User[]>>('/user/favorite-colleagues').pipe(
       catchError((error) => {
         console.error('Error fetching favorite list: ', error);
         throw error;
@@ -25,20 +28,17 @@ export class FavoriteUserService{
     );
   }
 
-
-  public addFavoriteUser(user: User): Observable<ApiResponse<any>> {
+  public addFavoriteUser(user: User): Promise<string> {
     const body = { user };
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.apiService.post<ApiResponse<any>>('/user/favorite-colleagues', { headers, body }).pipe(
-      catchError((error) => {
-        console.error('Error adding favorite user: ', error);
-        throw error;
-      })
-    );
+    return this.apiService.post('/user/favorite-colleagues', { headers, body }).toPromise()
+      .then(() => 'Favoriete collega is toegevoegd.')
+      .catch(error => error.toString());
   }
 
   public removeFavoriteUser(user: User): Observable<ApiResponse<any>> {
+    const body = { user };
     return this.apiService.delete<ApiResponse<any>>('/user/favorite-colleagues').pipe(
       catchError((error) => {
         console.error('Error fetching building list: ', error);
