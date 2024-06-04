@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ApiResponse, ApiService } from './api.service';
 import { Building } from '../model/building.model';
-import { Observable, catchError } from 'rxjs';
+import {Observable, catchError, Subscription} from 'rxjs';
 import { error } from 'cypress/types/jquery';
 import { Wing } from '../model/wing.model';
 import { Floor } from '../model/floor.model';
 import {StandardLocation} from "../model/standard-location.model";
+import {HttpHeaders} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,14 @@ export class FavoriteLocationService {
         throw error;
       })
     );
+  }
+
+  public saveStandardLocation(standardWing: Wing): Subscription{
+    //todo integrate
+      const body = { standardWing };
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+      return this.apiService.post('/user/standard-location', { headers, body }).subscribe();
   }
 
   public getBuildingList(): Observable<ApiResponse<Building[]>> {

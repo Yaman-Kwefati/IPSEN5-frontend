@@ -4,51 +4,53 @@ import {Role, User} from "../model/user.model";
 import {catchError, map} from "rxjs/operators";
 import {ApiResponse, ApiService} from "./api.service";
 import {ToastrService} from "ngx-toastr";
-import {HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UserService} from "./requests/user.service";
 
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
-export class FavoriteUserService{
+export class FavoriteUserService {
 
 
-  constructor(private apiService: ApiService,
-              private userService: UserService) {
+    constructor(private apiService: ApiService,
+                private http: HttpClient,) {
 
-  }
-
-  public getFavoriteColleagues(): Observable<ApiResponse<User[]>> {
-        return this.apiService.get<ApiResponse<User[]>>('/user/favorite-colleagues').pipe(
-      catchError((error) => {
-        console.error('Error fetching favorite list: ', error);
-        throw error;
-      })
-    );
-  }
-
-  public addFavoriteUser(userToFavorite: User): Promise<string> {
-    if(!userToFavorite.id){
-        throw new Error('user cannot be added');
     }
-    const id: string = userToFavorite.id
-    const body = { id };
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.apiService.post('/user/favorite-colleagues', { headers, body }).toPromise()
-      .then(() => 'Favoriete collega is toegevoegd.')
-      .catch(error => error.toString());
-  }
 
-  public removeFavoriteUser(user: User): Observable<ApiResponse<any>> {
-    const body = { user };
-    return this.apiService.delete<ApiResponse<any>>('/user/favorite-colleagues').pipe(
-      catchError((error) => {
-        console.error('Error fetching building list: ', error);
-        throw error;
-      })
-    );
-  }
+    public getFavoriteColleagues(): Observable<ApiResponse<User[]>> {
+        return this.apiService.get<ApiResponse<User[]>>('/user/favorite-colleagues').pipe(
+            catchError((error) => {
+                console.error('Error fetching favorite list: ', error);
+                throw error;
+            })
+        );
+    }
+
+    public addFavoriteUser(userToFavorite: User): Promise<string> {
+        const body = this.createBodyOfFavoriteDto(userToFavorite);
+        return this.apiService.post('/user/favorite-colleagues', { body }).toPromise()
+            .then(() => 'Favoriete collega is toegevoegd.')
+            .catch(error => error.toString());
+    }
+
+    public removeFavoriteUser(user: User): Observable<any> {
+        const body = this.createBodyOfFavoriteDto(user);
+
+        return this.apiService.put('/user/favorite-colleagues',
+            {body}).pipe();
+    }
+
+    private createBodyOfFavoriteDto(user: User): { id: string } {
+        if (!user.id) {
+            console.error('cannot create body')
+            throw new Error('user cannot be found');
+        } else {
+            const id: string = user.id
+            return {id};
+        }
+    }
 
 }
