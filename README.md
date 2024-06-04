@@ -10,8 +10,8 @@ Zorg ervoor dat de volgende software is geïnstalleerd:
 Volg deze stappen om de applicatie te installeren:
 1. Clone de repository
 ```bash
-git clone https://github.com/jouw-gebruikersnaam/werkplek-reserveringsapp-frontend.git
-cd werkplek-reserveringsapp-frontend
+git clone https://github.com/76eren/IPSEN5-frontend.git
+cd ipsen5-frontend
 ```
 2. Installeer de dependencies
 ```bash
