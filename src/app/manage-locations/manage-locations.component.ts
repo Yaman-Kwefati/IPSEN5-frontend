@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { LocationComponent } from "./location/location.component";
 import { LocationService } from '../shared/service/location.service';
 import { ApiResponse, ApiService, Endpoint } from '../shared/service/api.service';
@@ -17,14 +17,13 @@ import { ToastrService } from 'ngx-toastr';
     styleUrl: './manage-locations.component.scss',
     imports: [LocationComponent, CommonModule, FormsModule, LucideAngularModule]
 })
-export class ManageLocationsComponent implements OnInit{
+export class ManageLocationsComponent implements OnInit {
     public locations: Location[] = [];
     public searchQuery: string = '';
-    public filteredLocations: Location[] = [];
     public buildings: Building[] = [];
     public selectedBuilding!: Building;
 
-    constructor(private locationService: LocationService, private apiService: ApiService, private toastr: ToastrService) {}
+    constructor(private locationService: LocationService, private apiService: ApiService, private toastr: ToastrService) { }
 
     ngOnInit(): void {
         this.getBuildings();
@@ -32,23 +31,24 @@ export class ManageLocationsComponent implements OnInit{
 
     public getBuildings(): void {
         this.getAllBuildings()
-        .subscribe((response: ApiResponse<Building[]>) => {
-            this.buildings = response.payload;
-            this.selectedBuilding = this.buildings[0];
-            this.getLocationsByBuilding();
-        })
+            .subscribe((response: ApiResponse<Building[]>) => {
+                this.buildings = response.payload;
+                this.selectedBuilding = this.buildings[0];
+                this.getLocationsByBuilding();
+            })
     }
 
     private getLocationsByBuilding(): void {
         this.locationService.getLocationsByBuilding(this.selectedBuilding)
-        .subscribe((response: ApiResponse<Location[]>) => {
-            this.locations = response.payload;
-        })
+            .subscribe((response: ApiResponse<Location[]>) => {
+                this.locations = response.payload;
+            })
     }
 
-    public filterItemsBySearch(): void {
-
-    }
+    public filteredLocations(): Location[] {
+        return this.locations.filter(location => 
+          location.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+      }
 
     public onChangeFilter(): void {
         this.getLocationsByBuilding();
@@ -58,12 +58,12 @@ export class ManageLocationsComponent implements OnInit{
     // TODO: put this in buildingService
     public getAllBuildings(): Observable<ApiResponse<Building[]>> {
         return this.apiService.get<ApiResponse<Building[]>>(Endpoint.BUILDING)
-        .pipe(
-          catchError((error) => {
-            this.toastr.error('Er is iets misgegaan bij het ophalen van de data', 'Error');
-            throw error;
-          })
-        );
-      }
+            .pipe(
+                catchError((error) => {
+                    this.toastr.error('Er is iets misgegaan bij het ophalen van de data', 'Error');
+                    throw error;
+                })
+            );
+    }
 
 }

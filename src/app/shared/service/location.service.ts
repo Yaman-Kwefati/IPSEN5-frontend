@@ -36,4 +36,14 @@ export class LocationService {
       })
     )
   }
+
+  public updateLocation(id: string, requestBody: Object): Observable<ApiResponse<Location>> {
+    return this.apiService.put<ApiResponse<any>>(Endpoint.LOCATION + "/"+id+"/edit", {body: requestBody})
+    .pipe(
+      catchError((error) => {
+        this.toastr.error('Er is iets misgegaan bij het opslaan van de werkplek', 'Error');
+        throw error;
+      })
+    )
+  }
 }

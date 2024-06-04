@@ -1,8 +1,8 @@
 import {Wing} from "./wing.model";
 
 export enum LocationType {
-  FLEXPLEK,
-  LOKAAL
+  FLEXPLEK = "FLEXPLEK",
+  LOKAAL = "LOKAAL"
 }
 
 export class Location {
@@ -13,6 +13,7 @@ export class Location {
   private _capacity: number;
   private _multireservable: boolean;
   private _createdAt: Date;
+  private _isEdit: boolean = false;
 
   constructor(id: string, wing: Wing, name: string, type: LocationType, capacity: number, multireservable: boolean, createdAt: Date) {
     this._id = id;
@@ -78,5 +79,13 @@ export class Location {
 
   set createdAt(value: Date) {
     this._createdAt = value;
+  }
+
+  get isEdit(): boolean {
+    return this._isEdit;
+  }
+
+  set isEdit(value: boolean) {
+    this._isEdit = value;
   }
 }

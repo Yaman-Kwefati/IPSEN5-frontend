@@ -26,7 +26,7 @@
           <h3 class="font-bold">Locatie</h3>
           <p class="font-extralight">Vleugel: {{ reservation.location.wing.name}}</p>
           <p class="font-extralight">Verdieping: {{ reservation.location.wing.floor.number}} </p>
-          <p *ngIf="reservation.location.type != 'WORKPLACE'" class="font-extralight">Ruimte: {{ reservation.location.name }} </p>
+          <p *ngIf="reservation.location.type != 'FLEXPLEK'" class="font-extralight">Ruimte: {{ reservation.location.name }} </p>
         </div>
         <div>
           <h3 class="font-bold">Aantal personen</h3>
