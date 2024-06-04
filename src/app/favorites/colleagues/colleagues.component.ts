@@ -31,7 +31,6 @@ export class ColleguesComponent implements OnInit {
 
   public searchText: string = '';
   public allUsers: User[] = [];
-  public favoriteUsers: User[] = [];
 
   public favoriteListSelected: boolean = false;
 
@@ -41,6 +40,13 @@ export class ColleguesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.getAllUsers();
+
+    console.log('Favorite colleagues: ', this.favoriteColleagues);
+    console.log('All users: ', this.allUsers);
+  }
+
+  private getAllUsers(): void {
     this.userService.getAllUsers().subscribe((users) => {
       this.userService.getCurrentSignedInUser().subscribe((response) => {
         let currentUser: User = response.payload;
@@ -50,16 +56,13 @@ export class ColleguesComponent implements OnInit {
         this.allUsers = allUsersExceptForCurrentUser;
       });
     });
-    this.favoriteUserService.getFavoriteColleagues().subscribe((users) => {
-      this.favoriteUsers = users.payload;
-    });
   }
 
   public toggleFavorite(user: User): void {
-    if (this.favoriteUsers.includes(user)) {
+    if (this.favoriteColleagues.includes(user)) {
       this.favoriteUserService.removeFavoriteUser(user).subscribe(
         (response) => {
-          this.favoriteUsers = this.favoriteUsers.filter((u) => u !== user);
+          this.favoriteColleagues = this.favoriteColleagues.filter((u) => u !== user);
         },
         (error) => {
           console.error('Error removing favorite colleague: ', error);
@@ -68,12 +71,24 @@ export class ColleguesComponent implements OnInit {
     } else {
       this.favoriteUserService.addFavoriteUser(user).then(
         (response) => {
-          this.favoriteUsers.push(user);
+          this.favoriteColleagues.push(user);
         },
         (error) => {
           console.error('Error adding favorite colleague: ', error);
         }
       );
     }
+  }
+
+  public isUserFavorite(user: User): boolean {
+    let isFavorite = false;
+    
+    this.favoriteColleagues.forEach((favoriteUser: User) => {
+      if (favoriteUser.id === user.id) {
+        isFavorite = true;
+      }
+    });
+
+    return isFavorite;
   }
 }

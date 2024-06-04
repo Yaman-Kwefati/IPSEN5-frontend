@@ -79,8 +79,8 @@
             </div>
             <button
                     (click)="toggleFavorite(user)"
-                    [class.text-red-500]="this.favoriteUsers.includes(user)"
-                    [class.text-black]="!this.favoriteUsers.includes(user)"
+                    [class.text-red-500]="this.isUserFavorite(user)"
+                    [class.text-black]="!this.isUserFavorite(user)"
                     class="flex bg-secondary-purple-light p-2 rounded-lg space-x-2 hover:bg-gray-300 cursor-pointer duration-300"
             >
                 <fa-icon class="px-2" [icon]="faHeart"></fa-icon>
@@ -90,7 +90,7 @@
 
     <ul class="space-y-4" *ngIf="this.favoriteListSelected">
         <li
-                *ngIf="favoriteUsers.length === 0"
+                *ngIf="favoriteColleagues.length === 0"
                 class="flex justify-center items-center p-4 border-2 border-secondary-purple-light rounded-lg"
         >
             <p>U heeft nog geen favoriete collega</p>
@@ -98,7 +98,7 @@
         <li
                 class="flex justify-between items-center p-4 border-2 border-secondary-purple-light rounded-lg"
                 *ngFor="
-        let favoriteUser of favoriteUsers | searchItem : searchText;
+        let favoriteUser of favoriteColleagues | searchItem : searchText;
         index as i
       "
         >
@@ -109,8 +109,8 @@
             </div>
             <button
                     (click)="toggleFavorite(favoriteUser)"
-                    [class.text-red-500]="this.favoriteUsers.includes(favoriteUser)"
-                    [class.text-black]="!this.favoriteUsers.includes(favoriteUser)"
+                    [class.text-red-500]="this.isUserFavorite(favoriteUser)"
+                    [class.text-black]="!this.isUserFavorite(favoriteUser)"
                     class="flex bg-secondary-purple-light p-2 rounded-lg space-x-2 hover:bg-gray-300 cursor-pointer duration-300"
             >
                 <fa-icon class="px-2" [icon]="faHeart"></fa-icon>
