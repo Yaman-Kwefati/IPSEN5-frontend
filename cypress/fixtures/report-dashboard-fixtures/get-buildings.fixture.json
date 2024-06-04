@@ -1,0 +1,29 @@
+{
+  "payload": [
+      {
+          "name": "Amsterdam",
+          "address": "De Entree 21 1101 BH"
+      },
+      {
+          "name": "Arhem",
+          "address": "Utrechtseweg 310 / gebouw B42 6812 AR"
+      },
+      {
+          "name": "Eindhoven",
+          "address": "DHigh Tech Campus 5 5656 AE"
+      },
+      {
+          "name": "Groningen",
+          "address": "Eemsgolaan 1 9727 DW"
+      },
+      {
+          "name": "Maastricht",
+          "address": "Stationsplein 12 6221 BT"
+      },
+      {
+          "name": "Rotterdam",
+          "address": "George Hintzenweg 89 3068 AX"
+      }
+  ],
+  "message": null
+}

@@ -17,29 +17,33 @@
     </div>
   </section>
 
-  <section class="flex flex-row w-full h-full space-x-6">
+  <section *ngIf="roomOccupancyData.length > 0" class="flex flex-row w-full h-full space-x-6">
     <div echarts [options]="mostUsagesPieOptions" class="w-3/6 h-[400px] border-2 border-secondary-purple-light p-4 rounded-lg shadow-lg"></div>
     <div echarts [options]="leasUsagesPieOptions" class="w-3/6 h-[400px] border-2 border-secondary-purple-light p-4 rounded-lg shadow-lg"></div>    
   </section>
-  <div echarts [options]="heatmapOptions" class="h-[500px] border-2 border-secondary-purple-light p-4 rounded-lg shadow-lg"></div>
-  <div class="flex w-full border-2 border-secondary-purple-light p-10 rounded-lg shadow-lg">
+  <div *ngIf="roomOccupancyData.length > 0" echarts [options]="heatmapOptions" (chartInit)="onHeatmapInit($event)" class="h-[500px] border-2 border-secondary-purple-light p-4 rounded-lg shadow-lg overflow-x-auto"></div>
+  <div *ngIf="noShowData.length > 0" class="flex flex-col w-full h-[400px] border-2 border-secondary-purple-light p-10 rounded-lg shadow-lg items-center space-y-4">
+    <h2 class="text-lg font-bold">Werknemers met de meeste no-shows</h2>
     <table class="table-auto w-full">
       <thead class="bg-secondary-purple-light p-2">
         <tr>
           <th class="border-2 border-gray-300 p-2 ">Werknemer</th>
           <th class="border-2 border-gray-300 p-2">Aantal reserveringen</th>
           <th class="border-2 border-gray-300 p-2">Aantal no-shows</th>
-          <th class="border-2 border-gray-300 p-2">Percentage</th>
+          <th class="border-2 border-gray-300 p-2">Percentage no-shows</th>
         </tr>
       </thead>
       <tbody *ngFor="let data of noShowData" >
         <tr>
-          <td class="border-2 border-gray-300 p-2">{{ data.employee }}</td>
+          <td class="border-2 border-gray-300 p-2">{{ data.employeeName }}</td>
           <td class="border-2 border-gray-300 p-2">{{ data.numberOfReservations }}</td>
           <td class="border-2 border-gray-300 p-2">{{ data.numberOfNoShows }}</td>
-          <td class="border-2 border-gray-300 p-2">{{ (data.numberOfNoShows / data.numberOfReservations) * 100 }}</td>
+          <td class="border-2 border-gray-300 p-2">{{ (data.numberOfNoShows / data.numberOfReservations) * 100 | number : '1.2-2' }}%</td>
         </tr>
       </tbody>
     </table>
+  </div>
+  <div *ngIf="roomOccupancyData.length <= 0 && noShowData.length <= 0" class="flex justify-center">
+    <p>Er is op dit moment geen data om te weergeven</p>
   </div>
 </article>
