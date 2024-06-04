@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {ApiService} from "../api.service";
+import {ApiResponse, ApiService} from "../api.service";
 import {ToastrService} from "ngx-toastr";
 import {Role, User} from "../../model/user.model";
 import { z } from 'zod';
@@ -54,5 +54,14 @@ export class UserService {
                 })
             );
     }
+
+    public getCurrentSignedInUser(): Observable<ApiResponse<User>> {
+        return this.apiService.get<ApiResponse<User>>('/user/me').pipe(
+          catchError((error) => {
+            console.error('Error fetching standard location: ', error);
+            throw error;
+          })
+        );
+      }
 
 }
