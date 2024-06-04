@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {RouterLink} from '@angular/router';
-import {CommonModule, NgForOf} from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { CommonModule, NgForOf } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
@@ -8,13 +8,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
-import {Building} from '../../shared/model/building.model';
-import {Wing} from '../../shared/model/wing.model';
-import {Floor} from '../../shared/model/floor.model';
-import {FavoriteLocationService} from '../../shared/service/favorite-location.service';
-import {ToastrService} from 'ngx-toastr';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { Building } from '../../shared/model/building.model';
+import { Wing } from '../../shared/model/wing.model';
+import { Floor } from '../../shared/model/floor.model';
+import { FavoriteLocationService } from '../../shared/service/favorite-location.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-building',
@@ -46,8 +46,7 @@ export class LocationComponent implements OnInit {
     private favoriteLocationService: FavoriteLocationService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.getBuildingInformation();
@@ -67,13 +66,15 @@ export class LocationComponent implements OnInit {
     this.favoriteLocationForm
       .get('building')
       ?.valueChanges.subscribe((value) => {
-      if (this.favoriteLocationForm.get('wing')?.value != null) {
-        this.getFloorInformation(this.filteredWingList[0].name);
-        this.favoriteLocationForm.get('wing')?.setValue(this.filteredWingList[0].name);
-      }
+        if (this.favoriteLocationForm.get('wing')?.value != null) {
+          this.getFloorInformation(this.filteredWingList[0].name);
+          this.favoriteLocationForm
+            .get('wing')
+            ?.setValue(this.filteredWingList[0].name);
+        }
 
-      this.getWingInformation(value);
-    });
+        this.getWingInformation(value);
+      });
 
     this.favoriteLocationForm.get('wing')?.valueChanges.subscribe((value) => {
       this.getFloorInformation(value);
@@ -111,8 +112,6 @@ export class LocationComponent implements OnInit {
   }
 
   getFloorInformation(wingName: string) {
-    console.log('Wing name: ', wingName);
-
     if (wingName == null) {
       return;
     }
@@ -128,20 +127,23 @@ export class LocationComponent implements OnInit {
     }
 
     this.floorList = tempFloorList;
-
-    console.log('Floor list: ', this.floorList);
   }
 
   submitFavoritesForm() {
-    if (
-      this.favoriteLocationForm.get('building')?.value ==
-      this.favoriteLocation.floor.building.id &&
-      this.favoriteLocationForm.get('wing')?.value ==
-      this.favoriteLocation.id &&
-      this.favoriteLocationForm.get('floor')?.value ==
-      this.favoriteLocation.floor.id
-    ) {
-      this.toastr.info('Geen wijzigingen gedetecteerd');
-    }
+    let WingId = this.wingList.find(
+      (wing) =>
+        wing.floor.building.id ===
+          this.favoriteLocationForm.get('building')?.value &&
+        wing.floor.id === this.favoriteLocationForm.get('floor')?.value
+    )?.id;
+
+    this.favoriteLocationService.saveStandardLocation(WingId).subscribe(
+      (response) => {
+        this.toastr.success('Favorite location saved successfully');
+      },
+      (error) => {
+        this.toastr.error('Error saving favorite location');
+      }
+    );
   }
 }

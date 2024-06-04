@@ -23,12 +23,16 @@ export class FavoriteLocationService {
     );
   }
 
-  public saveStandardLocation(standardWing: Wing): Subscription{
-    //todo integrate
-      const body = { standardWing };
+  public saveStandardLocation(wingId: any): Observable<ApiResponse<any>> {
+      const body = { wingId };
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-      return this.apiService.post('/user/standard-location', { headers, body }).subscribe();
+      return this.apiService.put<ApiResponse<any>>('/user/standard-location', { headers, body }).pipe(
+          catchError((error) => {
+              console.error('Error saving standard location: ', error);
+              throw error;
+          })
+      );
   }
 
   public getBuildingList(): Observable<ApiResponse<Building[]>> {

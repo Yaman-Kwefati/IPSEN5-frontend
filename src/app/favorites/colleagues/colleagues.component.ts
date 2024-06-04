@@ -41,9 +41,6 @@ export class ColleguesComponent implements OnInit {
 
   ngOnInit() {
     this.getAllUsers();
-
-    console.log('Favorite colleagues: ', this.favoriteColleagues);
-    console.log('All users: ', this.allUsers);
   }
 
   private getAllUsers(): void {
