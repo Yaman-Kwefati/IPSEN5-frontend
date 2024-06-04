@@ -41,10 +41,16 @@ export class ColleguesComponent implements OnInit {
     this.userService.getAllUsers().subscribe((users) => {
       this.allUsers = users;
     });
+    this.favoriteUserService.getFavoriteColleagues().subscribe(
+      (users) => {
+        this.favoriteUsers = users.payload;
+      }
+    )
   }
 
   public toggleFavorite(user: User): void {
     if (this.favoriteUsers.includes(user)) {
+
       this.favoriteUserService.removeFavoriteUser(user).subscribe(
         (response) => {
           this.favoriteUsers = this.favoriteUsers.filter((u) => u !== user);
