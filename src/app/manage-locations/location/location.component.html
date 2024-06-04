@@ -1,0 +1,19 @@
+<li class="pl-1 bg-gradient-to-b from-primary-red to-primary-dark-purple rounded-lg border-2 border-secondary-purple-light">
+  <div class="flex w-full justify-between bg-white rounded-md p-4">
+    <p class="w-3/12">{{ location.name }}</p>
+    <p>{{ location.wing.floor.building.name }}</p>
+    <p class="w-2/12">{{ location.type }}</p>
+    <p class="w-1/12">{{ location.wing.name }}</p>
+    <p class="w-1/12">{{ location.wing.floor.number }}</p>
+    <p class="w-1/12">{{ location.capacity }}</p>
+    <p class="w-2/12">{{ location.createdAt | date:'shortDate' }}</p>
+    <div class="flex space-x-5">
+      <button>
+        <lucide-icon name="pencil" title="bewerken"></lucide-icon>
+      </button>
+      <button>
+        <lucide-icon name="trash-2" title="verwijderen"></lucide-icon>
+      </button>
+    </div>
+  </div>
+</li>

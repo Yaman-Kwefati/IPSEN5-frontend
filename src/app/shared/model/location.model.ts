@@ -1,15 +1,20 @@
 import {Wing} from "./wing.model";
 
+export enum LocationType {
+  FLEXPLEK,
+  LOKAAL
+}
+
 export class Location {
   private _id: string;
   private _wing: Wing;
   private _name: string;
-  private _type: string;
+  private _type: LocationType;
   private _capacity: number;
   private _multireservable: boolean;
   private _createdAt: Date;
 
-  constructor(id: string, wing: Wing, name: string, type: string, capacity: number, multireservable: boolean, createdAt: Date) {
+  constructor(id: string, wing: Wing, name: string, type: LocationType, capacity: number, multireservable: boolean, createdAt: Date) {
     this._id = id;
     this._wing = wing;
     this._name = name;
@@ -43,11 +48,11 @@ export class Location {
     this._name = value;
   }
 
-  get type(): string {
+  get type(): LocationType {
     return this._type;
   }
 
-  set type(value: string) {
+  set type(value: LocationType) {
     this._type = value;
   }
 

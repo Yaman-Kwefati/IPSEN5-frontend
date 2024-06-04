@@ -6,6 +6,8 @@ import { CookieService } from 'ngx-cookie-service';
 export enum Endpoint {
   LOGIN = '/login',
   REPORTS = '/reservation/report',
+  LOCATION = '/location',
+  BUILDING = '/building',
 }
 
 export interface ApiResponse<T> {

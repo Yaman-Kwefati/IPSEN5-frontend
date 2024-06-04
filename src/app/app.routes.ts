@@ -11,6 +11,7 @@ import { AuthGuard } from './shared/guard/auth.guard';
 import { RequestResetPasswordComponent } from './login/reset-password/request-reset/request-reset-password.component';
 import { ResetPasswordComponent } from './login/reset-password/reset-password.component';
 import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
+import { ManageLocationsComponent } from './manage-locations/manage-locations.component';
 
 export const routes: Routes = [
   {
@@ -60,6 +61,10 @@ export const routes: Routes = [
       {
         path: 'reports',
         component: ReportDashboardComponent,
+      },
+      {
+        path: 'manage/locations',
+        component: ManageLocationsComponent,
       },
       {
         path: '',
