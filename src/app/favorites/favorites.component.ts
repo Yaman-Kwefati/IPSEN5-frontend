@@ -42,7 +42,7 @@ export class FavoritesComponent implements OnInit {
 
   getFavoriteColleagues(): void {
     // TODO!: Get all the colleagues from the backend
-    this.favoriteUserService.getAllFavoriteUsers().subscribe(
+    this.favoriteUserService.getIdOfFavoriteUsers().subscribe(
       (response) => {
         this.favoriteColleaguesList = response.payload;
       },
