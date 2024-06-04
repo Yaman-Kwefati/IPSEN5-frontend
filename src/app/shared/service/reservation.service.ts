@@ -45,7 +45,7 @@ export class ReservationService {
     wingId: string,
     startDateTime: Date,
     endDateTime: Date, }){
-    return this.apiService.post<ApiResponse<any>>('/reservations/reserve-workplace', {
+    return this.apiService.post<ApiResponse<Reservation>>('/reservations/reserve-workplace', {
       body: {
         ...reservation,
         startDateTime: this.formatDate(reservation.startDateTime),
