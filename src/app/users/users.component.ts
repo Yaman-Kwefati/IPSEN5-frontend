@@ -3,6 +3,7 @@ import {UserService} from "../shared/service/requests/user.service";
 import {User} from "../shared/model/user.model";
 import {NgForOf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {UserItemComponent} from "./user-item/user-item.component";
 
 @Component({
   selector: '' +
@@ -10,7 +11,8 @@ import {FormsModule} from "@angular/forms";
   standalone: true,
   imports: [
     NgForOf,
-    FormsModule
+    FormsModule,
+    UserItemComponent
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'

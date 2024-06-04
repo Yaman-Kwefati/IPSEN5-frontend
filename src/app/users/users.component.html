@@ -23,24 +23,18 @@
     </div>
   </div>
 
-  <div class="overflow-auto max-h-[600px] w-full">
-    <table class="w-full">
-      <thead class="bg-purple-300 text-white">
-      <tr>
-        <th class="border border-gray-300 p-2">Naam</th>
-        <th class="border border-gray-300 p-2">Email</th>
-        <th class="border border-gray-300 p-2">Telefoonnummer</th>
-        <th class="border border-gray-300 p-2">Rol</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let item of usersToShow">
-        <td class="border border-gray-300 p-2">{{ item.firstName + " " + item.lastName }}</td>
-        <td class="border border-gray-300 p-2">{{ item.email }}</td>
-        <td class="border border-gray-300 p-2">{{ item.phoneNumber }}</td>
-        <td class="border border-gray-300 p-2">{{ item.role }}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+  <article class="flex flex-col h-full w-full space-y-6">
+    <h1 class="w-min whitespace-nowrap text-3xl font-bold">Gebruikers beheren</h1>
+    <section></section>
+    <section class="flex pl-5 justify-between w-full font-bold">
+      <p class="w-3/12">Naam</p>
+      <p class="w-2/12">Email</p>
+      <p class="w-1/12">Telefoonnummer</p>
+      <p class="w-1/12">Rol</p>
+      <p></p>
+    </section>
+    <ul class="space-x-1 h-[550px] overflow-auto">
+      <app-user-item *ngFor="let user of usersToShow" [user]="user"></app-user-item>
+    </ul>
+  </article>
 </div>

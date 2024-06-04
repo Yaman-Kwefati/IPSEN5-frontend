@@ -16,6 +16,7 @@ export class AuthService {
     return this.apiService.get<any>(endpoint)
       .pipe(
         map(response => {
+          console.log(response.payload)
           if (response.payload && response.payload.authenticated) { // TODO: validate response payload
             return true;
           }
