@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
@@ -28,7 +28,7 @@ import {Building} from "../../../shared/model/building.model";
   templateUrl: './floor-and-wing-step.component.html',
   styleUrl: './floor-and-wing-step.component.scss'
 })
-export class FloorAndWingStepComponent implements OnInit{
+export class FloorAndWingStepComponent{
   floorAndWingFormGroup: FormGroup;
   floors!: Floor[];
   wings!: Wing[];
@@ -45,9 +45,6 @@ export class FloorAndWingStepComponent implements OnInit{
       selectedFloor: new FormControl(null, Validators.required),
       selectedWing: new FormControl(null, Validators.required)
     });
-  }
-
-  ngOnInit(): void {
   }
 
   ngOnChanges(changes: SimpleChanges) {
