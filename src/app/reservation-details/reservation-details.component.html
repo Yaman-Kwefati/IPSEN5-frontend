@@ -1,35 +1,81 @@
-<div class="md:container md:mx-auto">
-  <img           [src]="
-                    './assets/locations/' +
-                      reservation.location.wing.floor.building.name.toLowerCase() +
-                      '.png' || './assets/CGI_logo.png'
-                  "
-       class="w-full h-auto aspect-square object-cover"
-       id="img" alt="gebouw van CGI in Maastricht">
-
-</div>
-<div class="container mx-auto pt-3 pb-4">
-  <h2 class="text-3xl font-bold ps-0">{{ reservation.status }} - {{ formattedDateTime }}</h2>
-  <div class="mt-6 border-t border-gray-100">
-    <dl class="divide-y divide-gray-100">
-      <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Ruimte</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.location.name }}</dd>
+<div class="md:container md:mx-auto h-full">
+  <article
+    class="rounded-lg p-4 border-2 border-slate-300 bg-secondary-purple-light space-y-4 mb-5 flex flex-col md:flex-row md:space-y-0 md:space-x-4 justify-center content-center gap-8"
+  >
+    <div class="flex-1">
+      <img
+        [src]="'./assets/locations/' + reservation.location.wing.floor.building.name.toLowerCase() + '.png'"
+        alt="Locatie van {{ reservation.location.wing.floor.building.name }}"
+        onerror="this.src = './assets/CGI_logo.png'; this.onerror = null;"
+        class="w-full h-full object-cover rounded-lg"
+      />
+    </div>
+    <div class="flex-1 space-y-4 flex flex-col">
+      <h2 class="text-2xl font-semibold">
+        Uw reservering op
+        {{
+          reservation.startDateTime
+            | date : "d MMMM y" || "Onbekende startdatum"
+        }}
+      </h2>
+      <h5 class="text-xl font-light">Status: {{ reservation.status }}</h5>
+      <div class="space-y-4">
+        <div>
+          <h3 class="font-bold">Type</h3>
+          <p>{{ reservation.location.type }}</p>
+        </div>
+        <div>
+          <h3 class="font-bold">Datum en Tijd</h3>
+          <p>
+            {{
+              reservation.startDateTime
+                | date : "d MMMM y 'om' HH:mm" || "Onbekende startdatum"
+            }}
+          </p>
+        </div>
+        <div>
+          <h3 class="font-bold">Adres</h3>
+          <p class="font-extralight">
+            {{ reservation.location.wing.floor.building.address }}
+            <span class="font-medium">{{
+              reservation.location.wing.floor.building.name
+            }}</span>
+          </p>
+        </div>
+        <div>
+          <h3 class="font-bold">Locatie</h3>
+          <p class="font-extralight">
+            Vleugel: {{ reservation.location.wing.name }}
+          </p>
+          <p class="font-extralight">
+            Verdieping: {{ reservation.location.wing.floor.number }}
+          </p>
+          <p
+            *ngIf="reservation.location.type != 'WORKPLACE'"
+            class="font-extralight"
+          >
+            Ruimte: {{ reservation.location.name }}
+          </p>
+        </div>
+        <div>
+          <h3 class="font-bold">Aantal personen</h3>
+          <p>
+            {{ reservation.numberOfPeople || "Onbekend aantal personen" }}
+          </p>
+        </div>
       </div>
-      <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Locatie</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.location.wing.floor.building.address}}</dd>
+      <div class="flex-1 space-x-4 self-end">
+        <button
+          class="bg-primary-dark-purple text-white p-2 rounded-lg hover:bg-secondary-purple duration-300 mr-2"
+        >
+          Wijzigen
+        </button>
+        <button
+          class="bg-primary-red text-white p-2 rounded-lg hover:bg-secondary-dark-pink duration-300 mr-2 lg:mx-2"
+        >
+          Annuleren
+        </button>
       </div>
-
-      <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Verdieping</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.location.wing.floor.number }}</dd>
-      </div>
-      <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Vleugel</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ reservation.location.wing.name }}</dd>
-      </div>
-
-    </dl>
-  </div>
+    </div>
+  </article>
 </div>

@@ -20,7 +20,11 @@ import {ReservationService} from "./shared/service/reservation.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ResetPasswordService } from './shared/service/requests/reset-password.service';
 import { NgxEchartsModule } from 'ngx-echarts';
-import {MyInterceptor} from "./shared/service/requests/intetceptor";
+import { UserService } from './shared/service/user.service';
+import {AuthInterceptor} from "./shared/service/requests/intetceptor";
+import { registerLocaleData } from '@angular/common';
+import localeNl from '@angular/common/locales/nl';
+import { LOCALE_ID } from '@angular/core';
 
 
 @NgModule({
@@ -44,13 +48,20 @@ import {MyInterceptor} from "./shared/service/requests/intetceptor";
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy },
-    {provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true},
+    { provide: LOCALE_ID, useValue: 'nl-NL' },
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     AuthService,
     ApiService,
     ResetPasswordService,
     ReservationService,
+    UserService,
     DatePipe
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+
+  constructor() {
+    registerLocaleData(localeNl);
+  }
+}

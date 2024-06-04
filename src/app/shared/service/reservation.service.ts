@@ -1,27 +1,35 @@
-import {Injectable} from "@angular/core";
-import {Reservation} from "../model/reservation.model";
-import { Building } from "../model/building.model";
-import { Floor } from "../model/floor.model";
-import { Wing } from "../model/wing.model";
-import { Role, User } from "../model/user.model";
-import { Location } from "../model/location.model";
+import { Injectable } from '@angular/core';
+import { ApiService, ApiResponse } from './api.service';
+import { Reservation } from '../model/reservation.model';
+import { User } from '../model/user.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class ReservationService {
-    currentReservation!: Reservation;
-
-    constructor() {
-      const building = new Building('testId', "De Entree 21 1101 BH", "Amsterdam");
-      const floor = new Floor('testId', building, '4');
-      const wing = new Wing('testId', floor, 'A');
-      const user = new User('test@cgi.com', 'lastName', 'firstName', '0612345678', Role.USER);
-      const location = new Location('testId', wing, 'A123', 'Meeting room', 6, false, new Date());
   
-      this.currentReservation = new Reservation('testId1', user, location, 'NOT_CHECKED_IN', new Date(), new Date(), 5, new Date())
-    }
+    constructor(private apiService: ApiService, private toastr: ToastrService) {}
 
-    getReservation(){
-      //TODO get from API using id (add to param) instead of hardcoded
-      return this.currentReservation;
-    }
+  getAllReservations(): Promise<Reservation[]> {
+    return this.apiService.get<any>('/reservations/all')
+      .toPromise()
+      .then((response) => {
+        return response.payload;
+      })
+      .catch((error) => {
+        error.error ? this.toastr.error(error.error.message) : this.toastr.error('Fout bij het ophalen van reserveringen');
+        return [];
+      });
+  }
+
+  getReservationById(id: string): Promise<Reservation> {
+    return this.apiService.get<any>(`/reservations/${id}`)
+      .toPromise()
+      .then((response) => {
+        return response.payload;
+      })
+      .catch((error) => {
+        error.error ? this.toastr.error(error.error.message) : this.toastr.error('Fout bij het ophalen van reservering');
+        return [];
+      });
+  }
 }
