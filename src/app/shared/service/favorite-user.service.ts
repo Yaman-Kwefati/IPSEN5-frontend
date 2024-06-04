@@ -28,8 +28,12 @@ export class FavoriteUserService{
     );
   }
 
-  public addFavoriteUser(user: User): Promise<string> {
-    const body = { user };
+  public addFavoriteUser(userToFavorite: User): Promise<string> {
+    if(!userToFavorite.id){
+        throw new Error('user cannot be added');
+    }
+    const id: string = userToFavorite.id
+    const body = { id };
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.apiService.post('/user/favorite-colleagues', { headers, body }).toPromise()
