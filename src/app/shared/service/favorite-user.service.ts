@@ -4,6 +4,7 @@ import {Role, User} from "../model/user.model";
 import {catchError, map} from "rxjs/operators";
 import {ApiResponse, ApiService} from "./api.service";
 import {ToastrService} from "ngx-toastr";
+import {HttpHeaders} from "@angular/common/http";
 
 
 @Injectable({
@@ -12,10 +13,11 @@ import {ToastrService} from "ngx-toastr";
 export class FavoriteUserService{
 
   constructor(private apiService: ApiService) {
+
   }
 
-  public getAllFavoriteUsers(): Observable<ApiResponse<User[]>> {
-    return this.apiService.get<ApiResponse<User[]>>('/user/favorite-colleagues').pipe(
+  public getIdOfFavoriteUsers(): Observable<ApiResponse<string[]>> {
+        return this.apiService.get<ApiResponse<string[]>>('/user/favorite-colleagues').pipe(
       catchError((error) => {
         console.error('Error fetching favorite list: ', error);
         throw error;
@@ -23,8 +25,12 @@ export class FavoriteUserService{
     );
   }
 
+
   public addFavoriteUser(user: User): Observable<ApiResponse<any>> {
-    return this.apiService.post<ApiResponse<any>>('/user/favorite-colleagues').pipe(
+    const body = { user };
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.apiService.post<ApiResponse<any>>('/user/favorite-colleagues', { headers, body }).pipe(
       catchError((error) => {
         console.error('Error adding favorite user: ', error);
         throw error;
