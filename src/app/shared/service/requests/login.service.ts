@@ -20,11 +20,10 @@ export class LoginService {
     this.apiService.post<any>('/auth/login', { body: loginData })
       .subscribe({
         next: (response) => {
-          this.toastr.success('Login successful!');
           this.router.navigate(['/home']);
         },
         error: (error) => {
-          this.toastr.error('Login failed. Please check your credentials.');
+          this.toastr.error('Er is iets misgegaan bij het inloggen. Probeer het opnieuw.');
         }
       });
   }
