@@ -1,12 +1,16 @@
 <div class="rounded-lg p-4 border-2 border-secondary-purple-light space-y-2 ">
   <div class="flex justify-between items-center">
     <h2 class="text-xl font-semibold">Standaard locatie</h2>
-    <button class="bg-primary-dark-purple text-white p-2 rounded-lg hover:bg-purple-950 duration-300">Reserveer</button>
+    <button *ngIf="defaultLocation" class="bg-primary-dark-purple text-white p-2 rounded-lg hover:bg-purple-950 duration-300" [routerLink]='"/create-reservation"'>Reserveer</button>
   </div>
-  <div >
-    <h3>Locatie: {{ defaultLocation.wing.floor.building.name }}</h3>
-    <p>Verdieping: {{ defaultLocation.wing.floor.number }}</p>
-    <p>Vleugel: {{ defaultLocation.wing.name }}</p>
+  <div *ngIf="defaultLocation">
+    <h3>Locatie: {{ defaultLocation.floor.building.name }}</h3>
+    <p>Verdieping: {{ defaultLocation.floor.number }}</p>
+    <p>Vleugel: {{ defaultLocation.name }}</p>
+  </div>
+  <div *ngIf="!defaultLocation">
+    <p>U heeft nog geen standaard locatie ingesteld</p>
+    <button [routerLink]="'/favorites'" class="bg-primary-dark-purple text-white p-2 rounded-lg hover:bg-purple-950 duration-300 mt-2">Stel standaard locatie in</button>
   </div>
 
 </div>
