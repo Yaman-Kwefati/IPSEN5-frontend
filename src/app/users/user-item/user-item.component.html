@@ -3,6 +3,11 @@
     <p class="w-1/4">{{ user!.firstName + " " + user!.lastName }}</p>
     <p class="w-1/4">{{ user!.email }}</p>
     <p class="w-1/4">{{ user!.phoneNumber }}</p>
-    <p class="w-1/4">{{ user!.role }}</p>
+    @if (user!.role === 1) {
+      <p class="w-1/4">Admin</p>
+    }
+    @if (user!.role === 0) {
+      <p class="w-1/4">User</p>
+    }
   </div>
 </li>
