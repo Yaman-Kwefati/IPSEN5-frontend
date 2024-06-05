@@ -14,8 +14,15 @@ import { NavbarItemComponent } from './navbar-item/navbar-item.component';
 })
 export class NavbarComponent {
   public collapsed: boolean = true;
+  public isAdmin: boolean = false;
 
   constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.isAdmin().subscribe(isAdmin => {
+      this.isAdmin = isAdmin;
+    });
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(): void {
@@ -30,6 +37,6 @@ export class NavbarComponent {
 
   signout(): void {
     this.authService.signout();
-    
+
   }
 }

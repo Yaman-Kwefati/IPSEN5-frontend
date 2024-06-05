@@ -1,7 +1,9 @@
+
 export class Building {
   private _id: string;
   private _address: string;
   private _name: string;
+  private _isActive: boolean = false;
 
   constructor(id: string, address: string, name: string) {
     this._id = id;
@@ -31,5 +33,14 @@ export class Building {
 
   set name(value: string) {
     this._name = value;
+  }
+
+
+  get isActive(): boolean {
+    return this._isActive;
+  }
+
+  set isActive(value: boolean) {
+    this._isActive = value;
   }
 }

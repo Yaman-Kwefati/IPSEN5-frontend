@@ -31,6 +31,5 @@ export class ReservationDetailsComponent implements OnInit {
 
   async getReservation(): Promise<void> {
     this.reservation = await this.reservationService.getReservationById(this.id);
-    console.log(this.reservation.location);
   }
 }

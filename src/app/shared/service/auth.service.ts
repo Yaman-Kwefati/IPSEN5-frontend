@@ -2,9 +2,10 @@ import {Injectable} from "@angular/core";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
-import {ApiService} from "./api.service";
+import {ApiResponse, ApiService} from "./api.service";
 import { map, catchError } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
+import { User } from "../model/user.model";
 
 @Injectable()
 export class AuthService {
@@ -29,9 +30,23 @@ export class AuthService {
       );
   }
 
-  public isAdmin(): boolean {
-    // Implement after the API is ready to handle this
-    return true;
+  public isAdmin(): Observable<boolean> {
+    let endpoint = '/auth/isAdmin';
+
+    return this.apiService.get<any>(endpoint)
+      .pipe(
+        map(response => {
+          if (response.payload && response.payload.admin) {
+            return true;
+          }
+          else {
+            return false;
+          }
+        }),
+        catchError(error => {
+          return of(false);
+        })
+      );
   }
 
 

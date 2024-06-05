@@ -1,0 +1,90 @@
+<div class="flex flex-col md:flex-row md:space-x-4 justify-between">
+  <article
+    class="w-full rounded-lg p-4 border-2 border-secondary-purple-light space-y-4 mb-5"
+  >
+    <div class="flex justify-between items-center">
+      <h2 class="text-xl font-semibold">Favoriete locatie</h2>
+    </div>
+    <form [formGroup]="favoriteLocationForm" (ngSubmit)="submitFavoritesForm()">
+      <ul class="space-y-4">
+        <li class="flex justify-between items-center">
+          <p class="w-1/2">Locatie</p>
+          <div class="w-1/2">
+            <div class="relative w-full">
+              <select
+                class="w-full rounded-lg border-2 border-secondary-purple-light p-2 appearance-none"
+                formControlName="building"
+              >
+                <option disabled selected>Selecteer een gebouw</option>
+                <!-- NgFor over the list of Buildings, use id as value and content is name -->
+                <option
+                  *ngFor="let building of buildingList"
+                  [value]="building.id"
+                >
+                  {{ building.name }}
+                </option>
+              </select>
+              <div class="absolute right-2 top-1/2 transform -translate-y-1/2">
+                <fa-icon class="px-2" [icon]="faChevronDown"></fa-icon>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="flex justify-between items-center" *ngIf="this.favoriteLocationForm.get('building')?.valid">
+          <p class="w-1/2">Vleugel</p>
+          <div class="w-1/2">
+            <div class="relative w-full">
+              <select
+                class="w-full rounded-lg border-2 border-secondary-purple-light p-2 appearance-none"
+                formControlName="wing"
+              >
+                <option disabled selected>Selecteer een vleugel</option>
+                <option
+                  *ngFor="let wing of filteredWingList"
+                  [value]="wing.name"
+                >
+                  {{ wing.name }}
+                </option>
+              </select>
+              <div class="absolute right-2 top-1/2 transform -translate-y-1/2">
+                <fa-icon class="px-2" [icon]="faChevronDown"></fa-icon>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="flex justify-between items-center" *ngIf="this.favoriteLocationForm.get('building')?.valid && this.favoriteLocationForm.get('wing')?.valid">
+          <p class="w-1/2">Verdieping</p>
+          <div class="w-1/2">
+            <div class="relative w-full">
+              <select
+                class="w-full rounded-lg border-2 border-secondary-purple-light p-2 appearance-none"
+                formControlName="floor"
+              >
+                <option disabled selected>Selecteer een verdieping</option>
+                <!-- NgFor over the list of Buildings, use id as value and content is name -->
+                <option
+                  *ngFor="let floor of floorList"
+                  [value]="floor.id"
+                >
+                  {{ floor.number }}
+                </option>
+              </select>
+              <div class="absolute right-2 top-1/2 transform -translate-y-1/2">
+                <fa-icon class="px-2" [icon]="faChevronDown"></fa-icon>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <!-- Add a button to the bottom right that says: "Opslaan" with white text and dark-primary-purple background. -->
+      <button
+        [disabled]="!this.favoriteLocationForm.valid"
+        class="bg-primary-dark-purple text-white py-2 px-4 rounded-lg float-right mt-4 disabled:bg-gray-400 disabled:cursor-not-allowed"
+      >
+        Opslaan
+      </button>
+    </form>
+  </article>
+</div>

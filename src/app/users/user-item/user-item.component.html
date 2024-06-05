@@ -1,0 +1,13 @@
+<li class="pl-1 bg-gradient-to-b from-primary-red to-primary-dark-purple rounded-lg border-2 border-secondary-purple-light">
+  <div class="flex w-full justify-between bg-white rounded-md p-4">
+    <p class="w-1/4">{{ user!.firstName + " " + user!.lastName }}</p>
+    <p class="w-1/4">{{ user!.email }}</p>
+    <p class="w-1/4">{{ user!.phoneNumber }}</p>
+    @if (user!.role === 1) {
+      <p class="w-1/4">Admin</p>
+    }
+    @if (user!.role === 0) {
+      <p class="w-1/4">User</p>
+    }
+  </div>
+</li>

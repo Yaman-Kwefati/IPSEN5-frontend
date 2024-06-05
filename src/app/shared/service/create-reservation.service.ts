@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Building } from '../model/building.model';
-import { DefaultLocation } from '../model/default-location.model';
+import { StandardLocation } from '../model/standard-location.model';
 import { Floor } from '../model/floor.model';
 import { Wing } from '../model/wing.model';
 import { User } from '../model/user.model';
@@ -38,14 +38,14 @@ export class CreateReservationService {
     // TODO: Implement this after the API is ready to handle this
   }
 
-  public getDefaultLocation(): DefaultLocation {
+  public getDefaultLocation(): StandardLocation {
     // TODO: Implement this after the API is ready to handle this
     const building = new Building('testId', "De Entree 21 1101 BH", "Amsterdam");
     const floor = new Floor('testId', building, '4');
     const wing = new Wing('testId', floor, 'A');
     const user = new User('test@cgi.com', 'lastName', 'firstName', '0612345678', Role.USER);
 
-    return new DefaultLocation("testId1", wing, user);
+    return new StandardLocation("testId1", wing, user);
   }
 
   // Function to get all available buildings from the API

@@ -85,4 +85,10 @@ export class Reservation {
   set createdAt(value: Date) {
     this._createdAt = value;
   }
+
+  toJSON() {
+    return {
+      wingId: this._location.wing.id,
+    };
+  }
 }
