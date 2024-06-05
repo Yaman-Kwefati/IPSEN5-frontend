@@ -1,8 +1,8 @@
-import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, DoCheck, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { Notification } from '../../shared/models/notification.model';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationComponent } from './notification/notification.component';
 import { LucideAngularModule } from 'lucide-angular';
+import { Notification } from '../../shared/model/notification.model';
 
 @Component({
   selector: 'app-inbox',

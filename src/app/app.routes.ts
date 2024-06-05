@@ -13,6 +13,9 @@ import {ResetPasswordComponent} from "./login/reset-password/reset-password.comp
 import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
 import {UsersComponent} from "./users/users.component";
 import {AdminGuard} from "./shared/guard/admin.guard";
+import {ReserveSuccessComponent} from "./shared/utilities/reserve-success/reserve-success.component";
+import {FavoritesComponent} from "./favorites/favorites.component";
+import {CreateReservationComponent} from "./reservation/create-reservation/create-reservation.component";
 
 
 export const routes: Routes = [
@@ -38,30 +41,37 @@ export const routes: Routes = [
     children: [
       {
         path: 'home',
-        component: HomeComponent
+        component: HomeComponent,
       },
       {
         path: 'calendar',
         title: 'Calendar',
-        component: CalendarComponent
+        component: CalendarComponent,
       },
-
-      // TODO add id of reservation in path
-      {path: 'reservation/details',
-      component: ReservationDetailsComponent
+      {
+        path: 'reservation/details/:id',
+        component: ReservationDetailsComponent,
       },
       {
         path: 'reservations',
         title: 'Reservations',
-        component: ReservationsComponent
+        component: ReservationsComponent,
       },
       {
-        path: 'reservation/create',
-        component: CreateReservationComponent
+        path: 'create-reservation',
+        component: CreateReservationComponent,
+      },
+      {
+        path: 'create-reservation/success',
+        component: ReserveSuccessComponent
       },
       {
         path: 'reports',
-        component: ReportDashboardComponent
+        component: ReportDashboardComponent,
+      },
+      {
+        path: 'favorites',
+        component: FavoritesComponent,
       },
       {
         path: '',
@@ -78,5 +88,5 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: 'home',
-  }
+  },
 ];

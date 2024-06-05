@@ -1,24 +1,56 @@
 import {Injectable} from "@angular/core";
-import {ReservationModel} from "../models/reservation.model";
-import {locationsModel} from "../models/locations.model";
+import {Reservation} from "../model/reservation.model";
+import {ApiResponse, ApiService} from "./api.service";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable()
 export class ReservationService {
-    currentReservation: ReservationModel;
-
-    constructor() {
-        const currentLocation =  {
-            location: 'Amsterdam',
-            address: 'De Entree 21',
-            city: 'Amsterdam',
-            zip: '1101 BH',
-        }
-        this.currentReservation = new ReservationModel('testID', currentLocation, 'Z', 2, 'AMS2a',
-            'Flexplek', new Date(2024, 4, 7, 11, 30));
+    constructor(private apiService: ApiService, private toastr: ToastrService) {
     }
+  getAllReservations(): Promise<Reservation[]> {
+    return this.apiService.get<any>('/reservations/all')
+      .toPromise()
+      .then((response) => {
+        return response.payload;
+      })
+      .catch((error) => {
+        error.error ? this.toastr.error(error.error.message) : this.toastr.error('Fout bij het ophalen van reserveringen');
+        return [];
+      });
+  }
 
-    getReservation(){
-        //TODO get from API using id (add to param) instead of hardcoded
-        return this.currentReservation;
-    }
+  getReservationById(id: string): Promise<Reservation> {
+    return this.apiService.get<any>(`/reservations/${id}`)
+      .toPromise()
+      .then((response) => {
+        return response.payload;
+      })
+      .catch((error) => {
+        error.error ? this.toastr.error(error.error.message) : this.toastr.error('Fout bij het ophalen van reservering');
+        return [];
+      });
+  }
+  formatDate(date: Date) {
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+  }
+
+  makeReservation(reservation:{
+    wingId: string,
+    startDateTime: Date,
+    endDateTime: Date, }){
+    return this.apiService.post<ApiResponse<Reservation>>('/reservations/reserve-workplace', {
+      body: {
+        ...reservation,
+        startDateTime: this.formatDate(reservation.startDateTime),
+        endDateTime: this.formatDate(reservation.endDateTime)
+      }
+    });
+  }
 }

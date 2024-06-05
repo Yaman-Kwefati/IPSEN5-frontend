@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { locationsModel } from '../shared/models/locations.model';
-import { CreateReservationService } from '../shared/service/create-reservation.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NoShowModel, ReportService, RoomOccupancyModel } from '../shared/service/report.service';
+import { ReportService } from '../shared/service/report.service';
+import { Building } from '../shared/model/building.model';
+import { ApiResponse } from '../shared/service/api.service';
+import { Subject, takeUntil } from 'rxjs';
+import { RoomOccupancy } from '../shared/model/room-occupancy.model';
+import { NoShow } from '../shared/model/no-show.model';
 
 @Component({
   selector: 'app-report-dashboard',
@@ -18,34 +21,29 @@ import { NoShowModel, ReportService, RoomOccupancyModel } from '../shared/servic
   templateUrl: './report-dashboard.component.html',
   styleUrl: './report-dashboard.component.scss'
 })
-export class ReportDashboardComponent implements OnInit {
+export class ReportDashboardComponent implements OnInit, OnDestroy {
   public selectedYear: number = new Date().getFullYear();
-  public selectedLocation!: string;
-
-  public locations: locationsModel[] = [];
-  public years: number[] = [
-    this.selectedYear,
-    (this.selectedYear - 1),
-    (this.selectedYear - 2),
-  ];
-  
-  public roomOccupancyData: RoomOccupancyModel[] = [];
-
-  // TODO: Remove this when connecting to backend
-  public filteredRoomData: RoomOccupancyModel[] = [];
-  public noShowData: NoShowModel[] = [];
-
+  public buildings: Building[] = []
+  public selectedBuilding!: string;
+  public years: number[] = [];
+  public roomOccupancyData: RoomOccupancy[] = [];
+  public noShowData: NoShow[] = [];
   public mostUsagesPieOptions!: EChartsOption;
   public leasUsagesPieOptions!: EChartsOption;
   public heatmapOptions!: EChartsOption;
   private maxDataValue: number = 0;
+  private unsubscribe$: Subject<void> = new Subject<void>();
     
-  constructor(private reservationService: CreateReservationService, private reportService: ReportService) {}
+  constructor(private reportService: ReportService) {}
 
   ngOnInit(): void {
-    this.getLocationData();
-    this.getRoomOccupancyData();
-    this.getNoShowData();
+    this.getYears();
+    this.getBuildings();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   private setChartOptions(): void {
@@ -55,22 +53,37 @@ export class ReportDashboardComponent implements OnInit {
   }
   
   public getRoomOccupancyData(): void {
-    this.roomOccupancyData = this.reportService.getRoomOccupancyData(this.selectedLocation, this.selectedYear);
-
-    // TODO: remove this when connecting to backend
-    this.filteredRoomData = this.roomOccupancyData.filter(data => {
-      return data.date.getFullYear() === this.selectedYear && data.building === this.selectedLocation
-    })
-    this.setChartOptions();
+    this.reportService.getRoomOccupancyData(this.selectedBuilding, this.selectedYear)
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((response: ApiResponse<RoomOccupancy[]>) => {
+      this.roomOccupancyData = response.payload;
+      this.setChartOptions();
+    });
   }
 
   public getNoShowData(): void {
-    this.noShowData = this.reportService.getNoShowData(this.selectedLocation, this.selectedYear);
+    this.reportService.getNoShowData(this.selectedBuilding, this.selectedYear)
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((response: ApiResponse<NoShow[]>) => {
+      this.noShowData = response.payload;
+    });
   }
 
-  public getLocationData(): void {
-    this.locations = this.reservationService.getLocations();
-    this.selectedLocation = this.locations[0].location;
+  public getBuildings(): void {
+    this.reportService.getBuildings()
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((response: ApiResponse<Building[]>) => {
+      this.buildings = response.payload;
+      this.selectedBuilding = this.buildings[0].name;
+      this.getRoomOccupancyData();
+      this.getNoShowData();
+    });
+  }
+
+  private getYears(): void {
+    for (let i = 0; i < 3; i++) {
+      this.years.push(this.selectedYear - i);
+    }
   }
 
   public onChangeFilter(): void {
@@ -79,22 +92,27 @@ export class ReportDashboardComponent implements OnInit {
   }
 
   private setHeatmapOptions(): void {
-    const months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december']
-    const rooms: string[] = this.filteredRoomData.map(item => item.room)
+    const months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
+    const rooms: string[] = this.roomOccupancyData.map(item => item.room);
     const heatmapData = this.createHeatmapData(rooms, months);
 
     this.heatmapOptions = {
       title: {
-        text: 'Heatmap van ruimtebezetting',
+        text: 'Heatmap van de ruimtebezetting',
+        top: '5%',
         left: 'center',
+        textStyle: {
+          color: 'black'
+        }
       },
       tooltip: {
         position: 'top',
       },
       grid: {
-        height: '50%',
+        height: '60%',
         top: '15%',
-      },
+        containLabel: true,
+    },
       xAxis: {
         type: 'category',
         data: rooms,
@@ -109,13 +127,29 @@ export class ReportDashboardComponent implements OnInit {
           show: true
         }
       },
+      dataZoom: [
+        {
+          type: 'slider',
+          xAxisIndex: 0,
+          start: 45,
+          end: 65, 
+          height: 20,
+          bottom: 0,
+        },
+        {
+          type: 'inside',
+          xAxisIndex: 0,
+          start: 0,
+          end: 100,
+      }
+      ],
       visualMap: {
         min: 0,
         max: this.maxDataValue,
         calculable: true,
         orient: 'horizontal',
         left: 'center',
-        bottom: '10%'
+        bottom: '10%',
       },
       series: [{
         name: 'Bezetting',
@@ -133,24 +167,35 @@ export class ReportDashboardComponent implements OnInit {
       }]
     };
   }
+  
+  public onHeatmapInit(chart: any): void {
+    chart.on('dataZoom', () => {
+      const option = chart.getOption();
+      const zoom = option.dataZoom[0];
+      const labelVisabilityStart = 20;
+      const isZoomedIn = zoom.end - zoom.start <= labelVisabilityStart; 
+
+      option.series[0].label.show = isZoomedIn;
+      chart.setOption(option);
+    });
+  }
 
   private createHeatmapData(rooms: string[], months: string[]): number[][] {
     const matrix: number[][] = Array.from({ length: rooms.length }, () => Array(months.length).fill(0));
     const data: number[][] = [];
     this.maxDataValue = 0;
 
-    this.filteredRoomData.forEach((item) => {
+    this.roomOccupancyData.forEach((item) => {
       const room = rooms.indexOf(item.room);
-      const month = item.date.getMonth();
+      const month = new Date(item.date).getMonth();
       matrix[room][month] += item.numberOfUsages;
     });
 
     for (let i = 0; i < rooms.length; i++) {
       for (let j = 0; j < months.length; j++) {
-        data.push([i, j, matrix[i][j]]);
-        if (matrix[i][j] > this.maxDataValue) {
-          this.maxDataValue = matrix[i][j];
-        }
+        let value = matrix[i][j];
+        data.push([i, j, value]);
+        this.maxDataValue = Math.max(this.maxDataValue, value);
       }
     }
 
@@ -158,18 +203,18 @@ export class ReportDashboardComponent implements OnInit {
   }
 
   private setMostUsagesPieChartOptions(): void {
-    const chartData = this.filteredRoomData.sort((a, b) => b.numberOfUsages - a.numberOfUsages);
+    const chartData = this.roomOccupancyData.sort((a, b) => b.numberOfUsages - a.numberOfUsages);
     const top5 = chartData.slice(0, 5);
     this.mostUsagesPieOptions = this.setPieChartOptions('Meest gebruikte ruimtes', top5);
   }
 
   private setLeastUsagesPieChartOptions(): void {
-    const chartData = this.filteredRoomData.sort((a, b) => a.numberOfUsages - b.numberOfUsages);
+    const chartData = this.roomOccupancyData.sort((a, b) => a.numberOfUsages - b.numberOfUsages);
     const bottom5 = chartData.slice(0, 5);
     this.leasUsagesPieOptions = this.setPieChartOptions('Minst gebruikte ruimtes', bottom5);
   }
 
-  private setPieChartOptions(title: string, chartData: RoomOccupancyModel[]): EChartsOption {
+  private setPieChartOptions(title: string, chartData: RoomOccupancy[]): EChartsOption {
     const data = chartData.map(item => ({
       name: item.room,
       value: item.numberOfUsages
@@ -178,14 +223,18 @@ export class ReportDashboardComponent implements OnInit {
     return {
       title: {
         text: title,
-        left: 'center'
+        left: 'center',
+        top: '5%',
+        textStyle: {
+          color: 'black'
+        }
       },
       tooltip: {
         trigger: 'item'
       },
       legend: {
         orient: 'horizontal',
-        top: '10%',
+        top: '15%',
       },
       series: [
         {

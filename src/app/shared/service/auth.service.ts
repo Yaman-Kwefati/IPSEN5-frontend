@@ -2,9 +2,10 @@ import {Injectable} from "@angular/core";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
-import {ApiService} from "./api.service";
+import {ApiResponse, ApiService} from "./api.service";
 import { map, catchError } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
+import { User } from "../model/user.model";
 
 @Injectable()
 export class AuthService {
