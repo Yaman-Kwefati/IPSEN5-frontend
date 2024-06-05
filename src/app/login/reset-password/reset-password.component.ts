@@ -1,99 +1,82 @@
 import {Component, OnInit} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ActivatedRoute, RouterLink} from "@angular/router";
-import {ToastrService} from "ngx-toastr";
-import {ResetPasswordService} from "../../shared/service/requests/reset-password.service";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule, ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
+import {ActivatedRoute, Params, RouterLink} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {ResetPasswordService} from '../../shared/service/requests/reset-password.service';
+import {CommonModule} from "@angular/common";
+
 
 @Component({
-    selector: 'app-reset-password',
-    standalone: true,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        RouterLink
-    ],
-    templateUrl: './reset-password.component.html',
-    styleUrls: ['./reset-password.component.scss']
+  selector: 'app-reset-password',
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    RouterLink
+  ],
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent implements OnInit {
-    public token?: string;
+  public resetForm: FormGroup;
+  private _token: string = '';
 
-    public username?: string;
-    public password?: string;
-    public passwordRepeat?: string;
+  constructor(private fb: FormBuilder,
+              private route: ActivatedRoute,
+              private resetService: ResetPasswordService,
+              private toastr: ToastrService) {
+    this.resetForm = this.fb.group({
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      passwordRepeat: ['', Validators.required]
+    }, {validators: this.passwordsMatchValidator});
+  }
 
-    public isPasswordInvalid = false;
-    public isPasswordRepeatInvalid = false;
-    public isUsernameInvalid = false;
+  ngOnInit() {
+    this.route.params.subscribe((params: Params) => {
+      this._token = params['token'];
+    });
+  }
 
-    constructor(private route: ActivatedRoute,
-                private resetService: ResetPasswordService,
-                private toastr: ToastrService) {
+  onSubmit(): void {
+    if (this.resetForm.invalid) {
+      this.toastr.error('De ingevulde gegevens zijn onvolledig. Controleer de velden.');
+      return;
     }
 
-    ngOnInit() {
-        const token = this.route.snapshot.paramMap.get('token');
-        if (token) {
-            this.token = token;
-        }
+    const {username, password} = this.resetForm.value;
+    if (this._token) {
+      this.changePassword(username, password);
+    }
+  }
+
+  public isControlInvalid(controlName: string): boolean {
+    const control = this.resetForm.get(controlName);
+    return control ? control.invalid && (control.dirty || control.touched) : false;
+  }
+
+  private changePassword(username: string, password: string): void {
+    if (!username || !this._token) {
+      this.toastr.error('Onvolledige gegevens.');
+      return;
     }
 
-    public async onSubmit():  Promise<void> {
-        const isFormValid = this.validateFormValues();
-        if (!isFormValid) {
-            return;
-        }
-        if (this.password && this.checkIfMatching()) {
-            await this.changePassword(this.password);
-        }
-    }
+    this.resetService.resetPassword(username.toLowerCase(), password, this._token);
+  }
 
-    private async changePassword(password: string): Promise<void> {
-        const email = this.username?.toLowerCase();
-        if (!email || !this.token) {
-            this.toastr.error('Onvolledige gegevens.');
-            return;
-        }
-
-        try {
-            const success = await this.resetService.resetPassword(email, password, this.token);
-            if (!success) {
-                this.toastr.info('Er is een fout opgetreden bij het wijzigen van het wachtwoord.');
-                return;
-            }
-            this.toastr.success('Wachtwoord succesvol gewijzigd.');
-        } catch (error) {
-            this.toastr.error('Er is een fout opgetreden bij het wijzigen van het wachtwoord.');
-            console.error(error);
-        }
-    }
-
-    private validateFormValues(): boolean {
-        this.isPasswordInvalid = !this.password;
-        this.isPasswordRepeatInvalid = !this.passwordRepeat;
-        this.isUsernameInvalid = !this.username ||
-            !/^(\S+@\S+\.\S+|(\*@gmail\.com)|(\*@student\.hsleiden\.nl)|(\*@cgi\.com))$/.test(this.username.trim());
-
-        if (this.isPasswordInvalid || this.isPasswordRepeatInvalid) {
-            this.toastr.error('Vul een wachtwoord in.');
-            return false;
-        }
-        if (!this.checkIfMatching()) {
-            this.isPasswordRepeatInvalid = true;
-            this.toastr.error('Wachtwoorden komen niet overeen.');
-            return false;
-        }
-        if (this.isUsernameInvalid) {
-            this.toastr.error('Ongeldige gebruikersnaam opgegeven.');
-            return false;
-        }
-        return true;
-    }
-
-
-    private checkIfMatching(): boolean {
-        return this.password === this.passwordRepeat;
-    }
-
+  private passwordsMatchValidator: ValidatorFn = (form: AbstractControl): ValidationErrors | null => {
+    const password = form.get('password');
+    const passwordRepeat = form.get('passwordRepeat');
+    return password && passwordRepeat && password.value !== passwordRepeat.value ? {mismatch: true} : null;
+  };
 
 }
