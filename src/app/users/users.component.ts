@@ -29,7 +29,6 @@ export class UsersComponent {
     this.userService.getAllUsers().subscribe(users => {
       this.users = users;
       this.usersToShow = users;
-      console.log(this.users)
     });
   }
 

@@ -17,7 +17,6 @@ export class AuthService {
     return this.apiService.get<any>(endpoint)
       .pipe(
         map(response => {
-          console.log(response.payload)
           if (response.payload && response.payload.authenticated) { // TODO: validate response payload
             return true;
           }
@@ -37,11 +36,10 @@ export class AuthService {
     return this.apiService.get<any>(endpoint)
       .pipe(
         map(response => {
-          if (response.payload && response.payload.admin) { // TODO: validate response payload
+          if (response.payload && response.payload.admin) {
             return true;
           }
           else {
-            console.log(response.payload)
             return false;
           }
         }),
