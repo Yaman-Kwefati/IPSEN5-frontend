@@ -53,7 +53,7 @@ describe('ReportDashboardComponent', () => {
       component.ngOnInit();
 
       cy.get('@getBuildingsSpy').should('have.been.called');
-    }); 
+    });
   });
 
   context('ReportService tests', () => {
@@ -85,7 +85,7 @@ describe('ReportDashboardComponent', () => {
 
     it('should return no show data', () => {
       cy.spy(mockReportService, 'getNoShowData').as('noShowSpy');
-  
+
       mountComponent(mockReportService).then((component) => {
         component.ngOnInit();
 
