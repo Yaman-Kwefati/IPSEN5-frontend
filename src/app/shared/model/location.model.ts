@@ -1,8 +1,8 @@
 import {Wing} from "./wing.model";
 
 export enum LocationType {
-  FLEXPLEK = "FLEXPLEK",
-  LOKAAL = "LOKAAL"
+  WORKPLACE = "WORKPLACE",
+  ROOM = "ROOM"
 }
 
 export class Location {

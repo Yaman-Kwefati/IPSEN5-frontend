@@ -24,8 +24,8 @@ export class CreateLocationComponent implements OnInit {
   public selectedBuilding: Building = this.buildings[0];
   public wings: Wing[] = [];
   public locationTypes: LocationType[] = [
-    LocationType.FLEXPLEK,
-    LocationType.LOKAAL
+    LocationType.WORKPLACE,
+    LocationType.ROOM
   ]
 
   constructor(private locationService: LocationService, private wingService: WingService, private toastr: ToastrService) {}

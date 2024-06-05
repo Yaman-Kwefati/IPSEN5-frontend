@@ -51,7 +51,7 @@
             Verdieping: {{ reservation.location.wing.floor.number }}
           </p>
           <p
-            *ngIf="reservation.location.type != 'FLEXPLEK'"
+            *ngIf="reservation.location.type != 'WORKPLACE'"
             class="font-extralight"
           >
             Ruimte: {{ reservation.location.name }}

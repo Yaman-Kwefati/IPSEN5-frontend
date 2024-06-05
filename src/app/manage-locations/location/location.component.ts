@@ -22,8 +22,8 @@ export class LocationComponent implements OnInit {
   public locationForm!: FormGroup;
   public wings: Wing[] = [];
   public locationTypes: LocationType[] = [
-    LocationType.FLEXPLEK,
-    LocationType.LOKAAL
+    LocationType.WORKPLACE,
+    LocationType.ROOM
   ]
 
   constructor(private locationService: LocationService, private wingService: WingService, private toastr: ToastrService) {}
