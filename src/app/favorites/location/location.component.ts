@@ -139,10 +139,10 @@ export class LocationComponent implements OnInit {
 
     this.favoriteLocationService.saveStandardLocation(WingId).subscribe(
       (response) => {
-        this.toastr.success('Favorite location saved successfully');
+        this.toastr.success('Standaard locatie is opgeslagen.');
       },
       (error) => {
-        this.toastr.error('Error saving favorite location');
+        this.toastr.error('Er is iets misgegaan bij het opslaan van de standaardlocatie. Probeer het later opnieuw.');
       }
     );
   }

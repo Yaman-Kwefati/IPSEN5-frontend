@@ -1,11 +1,8 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
-import {Role, User} from "../model/user.model";
-import {catchError, map} from "rxjs/operators";
+import {User} from "../model/user.model";
+import {catchError} from "rxjs/operators";
 import {ApiResponse, ApiService} from "./api.service";
-import {ToastrService} from "ngx-toastr";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {UserService} from "./requests/user.service";
 
 
 @Injectable({
@@ -13,12 +10,8 @@ import {UserService} from "./requests/user.service";
 })
 export class FavoriteUserService {
 
-
-    constructor(private apiService: ApiService,
-                private http: HttpClient,) {
-
+    constructor(private apiService: ApiService) {
     }
-
 
     public getFavoriteColleagues(): Observable<ApiResponse<User[]>> {
         return this.apiService.get<ApiResponse<User[]>>('/user/favorite-colleagues').pipe(

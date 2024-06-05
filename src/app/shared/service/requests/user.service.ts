@@ -1,10 +1,11 @@
 import {Injectable} from "@angular/core";
 import {ApiResponse, ApiService} from "../api.service";
 import {ToastrService} from "ngx-toastr";
-import {Role, User} from "../../model/user.model";
+import {User} from "../../model/user.model";
 import { z } from 'zod';
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
+import {Role} from "../../model/role";
 
 // The schema for the response data
 const RoleSchema = z.enum(['USER', 'ADMIN']);

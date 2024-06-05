@@ -12,55 +12,54 @@ import {ToastrService} from "ngx-toastr";
 import { Wing } from '../shared/model/wing.model';
 
 @Component({
-  selector: 'app-favorites',
-  standalone: true,
-  imports: [
-    DatePipe,
-    LucideAngularModule,
-    NgForOf,
-    RouterLink,
-    ColleguesComponent,
-    LocationComponent
-  ],
-  templateUrl: './favorites.component.html',
-  styleUrl: './favorites.component.scss'
+    selector: 'app-favorites',
+    standalone: true,
+    imports: [
+        DatePipe,
+        LucideAngularModule,
+        NgForOf,
+        RouterLink,
+        ColleguesComponent,
+        LocationComponent
+    ],
+    templateUrl: './favorites.component.html',
+    styleUrl: './favorites.component.scss'
 })
 
 export class FavoritesComponent implements OnInit {
-  favoriteColleaguesList!: User[];
-  favoriteBuildingList!: Wing;
+    favoriteColleaguesList!: User[];
+    favoriteBuildingList!: Wing;
 
-  constructor(private favoriteUserService: FavoriteUserService,
-              private favoriteLocationService: FavoriteLocationService,
-              private toastr: ToastrService) {
-  }
+    constructor(private favoriteUserService: FavoriteUserService,
+                private favoriteLocationService: FavoriteLocationService,
+                private toastr: ToastrService) {
+    }
 
-  ngOnInit() {
-    this.getFavoriteColleagues();
-    this.getFavoriteBuilding();
-  }
+    ngOnInit() {
+        this.getFavoriteColleagues();
+        this.getFavoriteBuilding();
+    }
 
-  getFavoriteColleagues(): void {
-    this.favoriteUserService.getFavoriteColleagues().subscribe(
-      (response) => {
-        this.favoriteColleaguesList = response.payload;
-      },
-      (error) => {
-        this.toastr.error("Probeer het later nog een keer", "Fout bij ophalen van favoriete collega's")
-      }
-    );
-  }
+    getFavoriteColleagues(): void {
+        this.favoriteUserService.getFavoriteColleagues().subscribe(
+            (response) => {
+                this.favoriteColleaguesList = response.payload;
+            },
+            (error) => {
+                this.toastr.error("Probeer het later nog een keer", "Fout bij ophalen van favoriete collega's")
+            }
+        );
+    }
 
-  getFavoriteBuilding(): void {
-    // TODO!: Get the favorite building from the backend
-    this.favoriteLocationService.getStandardLocation().subscribe(
-      (response) => {
-        this.favoriteBuildingList = response.payload;
-      },
-      (error) => {
-        this.toastr.error("Probeer het later nog een keer", "Fout bij ophalen van favoriete locatie")
-      }
-    );
-  }
-
+    getFavoriteBuilding(): void {
+        // TODO!: Get the favorite building from the backend
+        this.favoriteLocationService.getStandardLocation().subscribe(
+            (response) => {
+                this.favoriteBuildingList = response.payload;
+            },
+            (error) => {
+                this.toastr.error("Probeer het later nog een keer", "Fout bij ophalen van favoriete locatie")
+            }
+        );
+    }
 }

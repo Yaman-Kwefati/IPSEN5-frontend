@@ -32,7 +32,7 @@ export class ColleguesComponent implements OnInit {
   public searchText: string = '';
   public allUsers: User[] = [];
 
-  public favoriteListSelected: boolean = false;
+  public favoriteListSelected: boolean = true;
 
   constructor(
     private userService: UserService,
@@ -79,7 +79,7 @@ export class ColleguesComponent implements OnInit {
 
   public isUserFavorite(user: User): boolean {
     let isFavorite = false;
-    
+
     this.favoriteColleagues.forEach((favoriteUser: User) => {
       if (favoriteUser.id === user.id) {
         isFavorite = true;
