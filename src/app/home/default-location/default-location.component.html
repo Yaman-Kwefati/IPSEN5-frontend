@@ -9,7 +9,7 @@
     <p>Vleugel: {{ defaultLocation.name }}</p>
   </div>
   <div *ngIf="!defaultLocation">
-    <p>U heeft nog geen standaard locatie ingesteld</p>
+    <p>U heeft nog geen standaard locatie ingesteld.</p>
     <button [routerLink]="'/favorites'" class="bg-primary-dark-purple text-white p-2 rounded-lg hover:bg-purple-950 duration-300 mt-2">Stel standaard locatie in</button>
   </div>
 
