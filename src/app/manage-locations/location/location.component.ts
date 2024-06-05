@@ -6,9 +6,9 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { LocationService } from '../../shared/service/location.service';
 import { Building } from '../../shared/model/building.model';
 import { Wing } from '../../shared/model/wing.model';
-import { ApiResponse, ApiService, Endpoint } from '../../shared/service/api.service';
+import { ApiResponse } from '../../shared/service/api.service';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, catchError } from 'rxjs';
+import { WingService } from '../../shared/service/wing.service';
 
 @Component({
   selector: 'app-location',
@@ -26,7 +26,7 @@ export class LocationComponent implements OnInit {
     LocationType.LOKAAL
   ]
 
-  constructor(private locationService: LocationService, private apiService: ApiService, private toastr: ToastrService) {}
+  constructor(private locationService: LocationService, private wingService: WingService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.getWings();
@@ -49,20 +49,9 @@ export class LocationComponent implements OnInit {
 
   private getWings(): void {
     const building: Building = this.location.wing.floor.building
-    this.getWingsByBuildingId(building.id).subscribe((response: ApiResponse<Wing[]>) => {
+    this.wingService.getWingsByBuildingId(building.id).subscribe((response: ApiResponse<Wing[]>) => {
       this.wings = response.payload;
     });
-  }
-
-  // TODO: put this in wingservice
-  private getWingsByBuildingId(id: string): Observable<ApiResponse<Wing[]>> {
-    return this.apiService.get<ApiResponse<Wing[]>>(Endpoint.BUILDING+ "/"+ id + "/wing")
-    .pipe(
-      catchError((error) => {
-        this.toastr.error('Er is iets misgegaan bij het ophalen van de vleugels', 'Error');
-        throw error;
-      })
-    )
   }
 
   private editLocation(): void {

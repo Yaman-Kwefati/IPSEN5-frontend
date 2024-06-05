@@ -4,11 +4,11 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { LucideAngularModule } from 'lucide-angular';
 import { Location, LocationType } from '../../shared/model/location.model';
 import { Building } from '../../shared/model/building.model';
-import { Observable, catchError } from 'rxjs';
-import { ApiResponse, ApiService, Endpoint } from '../../shared/service/api.service';
+import { ApiResponse } from '../../shared/service/api.service';
 import { Wing } from '../../shared/model/wing.model';
 import { ToastrService } from 'ngx-toastr';
 import { LocationService } from '../../shared/service/location.service';
+import { WingService } from '../../shared/service/wing.service';
 
 @Component({
   selector: 'app-create-location',
@@ -28,7 +28,7 @@ export class CreateLocationComponent implements OnInit {
     LocationType.LOKAAL
   ]
 
-  constructor(private locationService: LocationService, private apiService: ApiService, private toastr: ToastrService) {}
+  constructor(private locationService: LocationService, private wingService: WingService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.getWings(this.buildings[0]);
@@ -42,22 +42,11 @@ export class CreateLocationComponent implements OnInit {
   }
 
   private getWings(building: Building): void {
-    this.getWingsByBuildingId(building.id)
+    this.wingService.getWingsByBuildingId(building.id)
     .subscribe((response: ApiResponse<Wing[]>) => {
       this.wings = response.payload;
       this.locationCreateForm.get('wing')?.setValue(this.wings[0]);
     });
-  }
-
-  // TODO: put this in wingservice
-  private getWingsByBuildingId(id: string): Observable<ApiResponse<Wing[]>> {
-    return this.apiService.get<ApiResponse<Wing[]>>(Endpoint.BUILDING+ "/"+ id + "/wing")
-    .pipe(
-      catchError((error) => {
-        this.toastr.error('Er is iets misgegaan bij het ophalen van de vleugels', 'Error');
-        throw error;
-      })
-    )
   }
 
   public onChangeBuilding(): void {
