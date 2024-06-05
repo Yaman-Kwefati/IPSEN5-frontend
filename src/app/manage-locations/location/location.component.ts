@@ -20,7 +20,7 @@ import { Observable, catchError } from 'rxjs';
 export class LocationComponent implements OnInit {
   @Input() location!: Location;
   public locationForm!: FormGroup;
-  public wings: Wing[] = []
+  public wings: Wing[] = [];
   public locationTypes: LocationType[] = [
     LocationType.FLEXPLEK,
     LocationType.LOKAAL
@@ -35,7 +35,7 @@ export class LocationComponent implements OnInit {
       'locationType': new FormControl(this.location.type, Validators.required),
       'wing': new FormControl(this.location.wing, Validators.required),
       'capacity': new FormControl(this.location.capacity, Validators.required)
-    })
+    });
   }
 
   public onSubmitForm(): void {
@@ -76,7 +76,9 @@ export class LocationComponent implements OnInit {
     this.locationService.updateLocation(this.location.id, requestBody)
     .subscribe((response: ApiResponse<Location>) => {
       this.location = response.payload;
+      this.locationForm.get('wing')?.setValue(this.location.wing)
       this.location.isEdit = false;
+      this.toastr.success('De werkplek is opgeslagen', 'Succes')
     })
   }
 }

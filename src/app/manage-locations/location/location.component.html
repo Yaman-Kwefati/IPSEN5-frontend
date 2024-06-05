@@ -24,7 +24,8 @@
           <option *ngFor="let type of locationTypes" [ngValue]="type">{{ type }}</option>
       </select>
       <p class="min-w-[100px]">{{ location.wing.floor.building.name }}</p>
-      <select name="wing" id="wing" formControlName="wing" class="w-[100px]">
+      <select name="wing" id="wing" formControlName="wing" class="w-[100px]" >
+        <option [ngValue]="location.wing">{{ location.wing.floor.number }}.{{ location.wing.name }}</option>
         <option *ngFor="let wing of wings" [ngValue]="wing">{{ wing.floor.number }}.{{ wing.name }}</option>
       </select>
       <input type="number" id="capacity" formControlName="capacity" class="w-[100px]">
