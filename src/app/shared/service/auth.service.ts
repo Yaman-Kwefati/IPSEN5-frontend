@@ -30,9 +30,23 @@ export class AuthService {
       );
   }
 
-  public isAdmin(): boolean {
-    // Implement after the API is ready to handle this
-    return true;
+  public isAdmin(): Observable<boolean> {
+    let endpoint = '/auth/isAdmin';
+
+    return this.apiService.get<any>(endpoint)
+      .pipe(
+        map(response => {
+          if (response.payload && response.payload.admin) {
+            return true;
+          }
+          else {
+            return false;
+          }
+        }),
+        catchError(error => {
+          return of(false);
+        })
+      );
   }
 
 

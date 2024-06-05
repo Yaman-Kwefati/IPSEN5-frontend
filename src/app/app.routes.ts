@@ -10,6 +10,8 @@ import { AuthGuard } from "./shared/guard/auth.guard";
 import {RequestResetPasswordComponent} from "./login/reset-password/request-reset/request-reset-password.component";
 import {ResetPasswordComponent} from "./login/reset-password/reset-password.component";
 import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
+import {UsersComponent} from "./users/users.component";
+import {AdminGuard} from "./shared/guard/admin.guard";
 import {ReserveSuccessComponent} from "./shared/utilities/reserve-success/reserve-success.component";
 import {FavoritesComponent} from "./favorites/favorites.component";
 import {CreateReservationComponent} from "./reservation/create-reservation/create-reservation.component";
@@ -74,6 +76,11 @@ export const routes: Routes = [
         path: '',
         redirectTo: 'home',
         pathMatch: 'full',
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        canActivate: [AdminGuard]
       }
     ]
   },

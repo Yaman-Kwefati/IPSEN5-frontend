@@ -17,7 +17,6 @@ import {Building} from "../../shared/model/building.model";
 import {BuildingStepComponent} from "./building-step/building-step.component";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {FloorService} from "../../shared/service/floor.service";
-import {Floor} from "../../shared/model/floor.model";
 import {WingService} from "../../shared/service/wing.service";
 import {Wing} from "../../shared/model/wing.model";
 import {MatIcon} from "@angular/material/icon";
@@ -30,6 +29,7 @@ import {BreakpointObserver} from "@angular/cdk/layout";
 import {map} from "rxjs/operators";
 import {VerifyReservationStepComponent} from "./verify-reservation-step/verify-reservation-step.component";
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
+import {Floor} from "../../shared/model/floor.model";
 
 
 @Component({

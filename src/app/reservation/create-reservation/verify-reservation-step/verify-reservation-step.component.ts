@@ -47,7 +47,6 @@ export class VerifyReservationStepComponent {
       endDateTime: this.endDate
     }).subscribe(
       data => {
-        console.log(data.statusCode);
         this.router.navigate(['/create-reservation/success']);
       }
     );
