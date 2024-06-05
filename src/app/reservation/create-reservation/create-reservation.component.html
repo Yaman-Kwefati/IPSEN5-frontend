@@ -1,0 +1,34 @@
+<mat-stepper matStepper [orientation]="(stepperOrientation | async)!" linear #stepper>
+  <mat-step [stepControl]="step1.buildingForm">
+    <ng-template matStepLabel>Kies een gebouw</ng-template>
+    <app-building-step [stepper]="stepper" (selectedBuilding)="addSelectedBuilding($event)"
+    #step1></app-building-step>
+  </mat-step>
+  <mat-step [stepControl]="step2.typeFormGroup">
+    <ng-template matStepLabel>Kies Type</ng-template>
+    <app-reservation-type-step (reservationType)="addReservationType($event)" #step2></app-reservation-type-step>
+  </mat-step>
+  <mat-step [stepControl]="step3.floorAndWingFormGroup">
+    <ng-template matStepLabel>Kies verdieping en vleugel</ng-template>
+    <app-floor-and-wing-step [selectedBuilding]="selectedBuilding.getValue()!"
+                             (selectedWing)="addSelectedWing($event)"
+                             (selectedFloor)="addSelectedFloor($event)" #step3></app-floor-and-wing-step>
+  </mat-step>
+  <mat-step [stepControl]="step4.dateAndTimeFormGroup">
+    <ng-template matStepLabel>Kies datum en tijd</ng-template>
+    <app-date-and-time-step (reservationDateAndTime)="addReservationDateAndTime($event)" #step4></app-date-and-time-step>
+  </mat-step>
+  @if (allAssigned | async) {
+    <mat-step>
+      <ng-template matStepLabel>Reservering Bevestigen</ng-template>
+      <app-verify-reservation-step
+        [building]="(selectedBuilding | async)!"
+        [floor]="(selectedFloor | async)!"
+        [wing]="(selectedWing | async)!"
+        [startDate]="(reservationDateAndTime | async)?.startDate!"
+        [endDate]="(reservationDateAndTime | async)?.endDate!"
+        [reservationType]="(reservationType | async)!"
+      ></app-verify-reservation-step>
+    </mat-step>
+  }
+</mat-stepper>

@@ -1,0 +1,14 @@
+<section>
+  <h1>Gebouw: <strong>{{building.name}}</strong></h1>
+  <h1>Verdieping: <strong>{{floor.number}}</strong></h1>
+  <h1>Vleugel: <strong>{{wing.name}}</strong></h1>
+  <h1>Start Datum en Tijd: <strong>{{formatDate(startDate)}}, {{formatTime(startDate)}}</strong></h1>
+  <h1>Eind Datum en Tijd: <strong>{{formatDate(endDate)}}, {{formatTime(endDate)}}</strong></h1>
+  <h1>Reservering Type: <strong>{{reservationType}}</strong></h1>
+  <section class="w-full flex justify-center">
+    <button class="w-40 h-12 bg-white cursor-pointer rounded-2xl border-2 border-[#5236AA] shadow-[inset_0px_-2px_0px_1px_#5236AA] group hover:bg-[#5236AA] transition duration-300 ease-in-out">
+      <span class="font-medium text-[#333] group-hover:text-white"
+      (click)="makeReservation()">Bevestig</span>
+    </button>
+  </section>
+</section>

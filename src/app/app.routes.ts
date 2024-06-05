@@ -4,13 +4,15 @@ import {CalendarComponent} from "./calendar/calendar.component";
 import {ReservationsComponent} from "./reservations/reservations.component";
 import { HomeComponent } from "./home/home.component";
 import { AppLayoutComponent } from "./app-layout/app-layout.component";
-import { CreateReservationComponent } from './reservation/create/create.component';
 import { LoginComponent } from "./login/login.component";
 import { loginGuard } from "./shared/guard/login.guard";
 import { AuthGuard } from "./shared/guard/auth.guard";
 import {RequestResetPasswordComponent} from "./login/reset-password/request-reset/request-reset-password.component";
 import {ResetPasswordComponent} from "./login/reset-password/reset-password.component";
 import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
+import {ReserveSuccessComponent} from "./shared/utilities/reserve-success/reserve-success.component";
+import {FavoritesComponent} from "./favorites/favorites.component";
+import {CreateReservationComponent} from "./reservation/create-reservation/create-reservation.component";
 
 
 export const routes: Routes = [
@@ -36,30 +38,37 @@ export const routes: Routes = [
     children: [
       {
         path: 'home',
-        component: HomeComponent
+        component: HomeComponent,
       },
       {
         path: 'calendar',
         title: 'Calendar',
-        component: CalendarComponent
+        component: CalendarComponent,
       },
-
-      // TODO add id of reservation in path
-      {path: 'reservation/details',
-      component: ReservationDetailsComponent
+      {
+        path: 'reservation/details/:id',
+        component: ReservationDetailsComponent,
       },
       {
         path: 'reservations',
         title: 'Reservations',
-        component: ReservationsComponent
+        component: ReservationsComponent,
       },
       {
-        path: 'reservation/create',
-        component: CreateReservationComponent
+        path: 'create-reservation',
+        component: CreateReservationComponent,
+      },
+      {
+        path: 'create-reservation/success',
+        component: ReserveSuccessComponent
       },
       {
         path: 'reports',
-        component: ReportDashboardComponent
+        component: ReportDashboardComponent,
+      },
+      {
+        path: 'favorites',
+        component: FavoritesComponent,
       },
       {
         path: '',
@@ -71,5 +80,5 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: 'home',
-  }
+  },
 ];

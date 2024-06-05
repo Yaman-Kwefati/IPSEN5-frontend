@@ -2,21 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InboxComponent } from './inbox/inbox.component';
 import { NotificationService } from '../shared/service/notification.service';
-import { Notification } from '../shared/models/notification.model';
 import { LucideAngularModule } from 'lucide-angular';
 import { UpcomingReservationsComponent } from './upcoming-reservations/upcoming-reservations.component';
 import { DefaultLocationComponent } from './default-location/default-location.component';
 import { RouterModule } from '@angular/router';
-import { userPreferencesModel } from '../shared/models/userpreferences.model';
 import { CreateReservationService } from '../shared/service/create-reservation.service';
+import { Reservation } from '../shared/model/reservation.model';
+import { Notification } from '../shared/model/notification.model';
+import { User } from '../shared/model/user.model';
+import { StandardLocation } from '../shared/model/standard-location.model';
+import { UserService } from '../shared/service/user.service';
+import { ReservationService } from '../shared/service/reservation.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
-    CommonModule, 
-    InboxComponent, 
-    LucideAngularModule, 
+    CommonModule,
+    InboxComponent,
+    LucideAngularModule,
     UpcomingReservationsComponent,
     DefaultLocationComponent,
     RouterModule
@@ -26,29 +30,18 @@ import { CreateReservationService } from '../shared/service/create-reservation.s
 })
 export class HomeComponent implements OnInit {
   public notifications: Notification[] = [];
-  public upcomingReservations: {
-    id: string,
-    location: {
-      location: string,
-      address: string,
-      city: string,
-      zip: string
-    },
-    wing: string,
-    floor: string,
-    room: string,
-    type: string, 
-    startDateTime: Date
-  }[] = [];
+  public reservations: Reservation[] = [];
+  public user!: User;
 
-  public favoriteLocation!: userPreferencesModel;
+  public favoriteLocation!: StandardLocation;
 
-  constructor(private notificationService: NotificationService, private createReservationService: CreateReservationService) {}
+  constructor(private notificationService: NotificationService, private createReservationService: CreateReservationService, private userService: UserService, private reservationService: ReservationService) {}
 
   ngOnInit(): void {
     this.getNotifications()
-    this.getUpcomingReservations()
     this.getFavoriteLocation()
+    this.getUpcomingReservations();
+    this.getUserInfo()
   }
 
 
@@ -56,56 +49,24 @@ export class HomeComponent implements OnInit {
     this.notifications = this.notificationService.getAllNotifications()
   }
 
-  private getUpcomingReservations(): void {
-    this.upcomingReservations = [
-      {
-        id: '',
-        location: {
-          location: 'George Hintzenweg 89, 3068 AX Rotterdam',
-          address: 'George Hintzenweg 89',
-          city: 'Rotterdam',
-          zip: '3068 AX'
-        },
-        wing: '',
-        floor: '',
-        room: '',
-        type: '', 
-        startDateTime: new Date()
-      },
-      {
-        id: '',
-        location: {
-          location: 'De Entree 21, 1101 BH Amsterdam',
-          address: 'De Entree 21',
-          city: 'Amsterdam',
-          zip: '1101 BH'
-        },
-        wing: '',
-        floor: '',
-        room: '',
-        type: '', 
-        startDateTime: new Date()
-      },
-      {
-        id: '',
-        location: {
-          location: 'George Hintzenweg 89, 3068 AX Rotterdam',
-          address: 'George Hintzenweg 89',
-          city: 'Rotterdam',
-          zip: '3068 AX'
-        },
-        wing: '',
-        floor: '',
-        room: '',
-        type: '', 
-        startDateTime: new Date()
-      },
-    ]
-    // TODO: connect this to the ReservationService
+  private getFavoriteLocation(): void {
+    this.favoriteLocation = this.createReservationService.getDefaultLocation();
   }
 
-  private getFavoriteLocation(): void {
-    this.favoriteLocation = this.createReservationService.getUserPrefs();
+  async getUpcomingReservations(): Promise<void> {
+    let allReservations = await this.reservationService.getAllReservations();
+    let now = new Date();
+
+    let upcomingReservations = allReservations.filter((reservation) => {
+      let startDateTime = new Date(reservation.startDateTime);
+      return startDateTime >= now;
+    });
+
+    this.reservations = upcomingReservations.sort((a, b) => new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime()).slice(0, 3);
+  }
+
+  private async getUserInfo(): Promise<void> {
+    this.user = await this.userService.getUserInfo();
   }
 
 }

@@ -1,0 +1,30 @@
+{
+  "payload": [
+      {
+          "date": "2024-06-01T13:10:51.477348",
+          "room": "1.C1",
+          "numberOfUsages": 2
+      },
+      {
+          "date": "2024-06-01T13:10:51.477348",
+          "room": "1.C2",
+          "numberOfUsages": 3
+      },
+      {
+          "date": "2024-06-01T13:10:51.478897",
+          "room": "2.D2",
+          "numberOfUsages": 1
+      },
+      {
+          "date": "2024-06-01T13:10:51.477882",
+          "room": "1.C7",
+          "numberOfUsages": 3
+      }, 
+      {
+        "date": "2024-06-01T13:10:51.477348",
+        "room": "1.B3",
+        "numberOfUsages": 3
+    }
+],
+"message": null
+}

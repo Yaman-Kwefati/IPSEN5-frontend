@@ -5,7 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 
 export enum Endpoint {
   LOGIN = '/login',
-  REPORTS = '/reservation/report',
+  REPORTS = '/reports',
 }
 
 export interface ApiResponse<T> {
@@ -22,7 +22,7 @@ export interface ApiResponse<T> {
 
 @Injectable({
   providedIn: 'root',
-}) 
+})
 export class ApiService {
   public static API_URL = 'http://localhost:8080/api/v1';
 
