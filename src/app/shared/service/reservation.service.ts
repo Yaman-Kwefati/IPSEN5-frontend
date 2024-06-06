@@ -5,8 +5,9 @@ import {ToastrService} from "ngx-toastr";
 
 @Injectable()
 export class ReservationService {
-    constructor(private apiService: ApiService, private toastr: ToastrService) {
-    }
+  constructor(private apiService: ApiService, private toastr: ToastrService) {
+  }
+
   getAllReservations(): Promise<Reservation[]> {
     return this.apiService.get<any>('/reservations/all')
       .toPromise()
@@ -17,6 +18,10 @@ export class ReservationService {
         error.error ? this.toastr.error(error.error.message) : this.toastr.error('Fout bij het ophalen van reserveringen');
         return [];
       });
+  }
+
+  getAllReservations2(){
+    return this.apiService.get<ApiResponse<Reservation[]>>("/reservations/all");
   }
 
   getReservationById(id: string): Promise<Reservation> {
@@ -30,6 +35,7 @@ export class ReservationService {
         return [];
       });
   }
+
   formatDate(date: Date) {
     const year = date.getUTCFullYear();
     const month = String(date.getUTCMonth() + 1).padStart(2, '0');

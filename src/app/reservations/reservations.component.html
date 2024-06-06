@@ -1,10 +1,11 @@
-<div class="flex flex-col items-center h-screen space-y-10 pt-24">
-  <h1 class="font-bold text-6xl">Reserveringen</h1>
-  <div class="w-full px-36">
-    <table class="table-auto w-full">
+<div class="flex flex-col items-center h-full w-full space-y-10 pt-10 md:pt-24">
+  <h1 class="font-bold text-3xl md:text-6xl">Reserveringen</h1>
+  <div class="w-full md:px-36">
+    <!-- Desktop View -->
+    <table class="table-auto w-full hidden md:table">
       <thead class="bg-gray-50 h-16">
       <tr class="text-left text-xl">
-        <th class="pl-2">Reservering</th>
+        <th class="pl-2">Datum</th>
         <th>Tijd</th>
         <th>Type</th>
         <th>Locatie</th>
@@ -12,27 +13,50 @@
       </tr>
       </thead>
       <tbody class="divide-y divide-gray-100">
-      <tr class="text-left text-xl h-16 text-gray-800">
-        <td class="pl-2">Apr 19, 2024</td>
-        <td>10:10</td>
-        <td>Lokaal</td>
-        <td>Gebouw Amsterdam</td>
-        <td><button (click)="openDeleteModal()"
-                    class="font-bold py-1 px-4 rounded-full bg-primary-red text-white hover:bg-red-700">Annuleer</button></td>
-      </tr>
-      <tr class="text-left text-xl h-16 text-gray-800">
-        <td class="pl-2">Apr 19, 2024</td>
-        <td>10:10</td>
-        <td>Lokaal</td>
-        <td>Gebouw Amsterdam</td>
-        <td><button (click)="openDeleteModal()"
-          class=" font-bold py-1 px-4 rounded-full bg-primary-red text-white hover:bg-red-700">Annuleer</button></td>
-      </tr>
+      @for(reservation of reservations; track reservation){
+        <tr class="text-left text-xl h-16 text-gray-800">
+          <td class="pl-2">{{getDate(reservation.startDateTime)}}</td>
+          <td>{{getTime(reservation.startDateTime)}}</td>
+          <td>{{reservation.location.type}}</td>
+          <td>{{reservation.location.wing.floor.building.name}}</td>
+          <td>
+            <button (click)="openDeleteModal()" class="font-bold py-1 px-4 rounded-full bg-primary-red text-white hover:bg-red-700">Annuleer</button>
+          </td>
+        </tr>
+      }
       </tbody>
     </table>
+    <!-- Mobile View -->
+    <div class="block md:hidden px-4 space-y-2">
+      <div class="w-full rounded-md flex justify-between items-center px-5 bg-gray-100 h-12 text-xl font-bold">
+        <h1>Datum</h1>
+        <h1>Tijd</h1>
+        <h1>Locatie</h1>
+      </div>
+      <div class="px-0.5">
+        <mat-accordion>
+          @for (reservation of reservations; track reservation){
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <div class="flex justify-between w-full text-lg">
+                    <span>{{getDate(reservation.startDateTime)}}</span>
+                    <span>{{getTime(reservation.startDateTime)}}</span>
+                    <span>{{reservation.location.wing.floor.building.name}}</span>
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class=" flex justify-between items-center">
+                <h1><strong>Type:</strong> {{reservation.location.type}}</h1>
+                <button (click)="openDeleteModal()" class="mt-4 font-bold py-1 px-4 rounded-full bg-primary-red text-white hover:bg-red-700">Annuleer</button>
+              </div>
+            </mat-expansion-panel>
+          }
+        </mat-accordion>
+      </div>
+    </div>
   </div>
-  @if (isDeleteModalVisible){
-    <app-delete-modal (closeModalEvent)="openDeleteModal()"
-    ></app-delete-modal>
+  @if (isDeleteModalVisible) {
+  <app-delete-modal (closeModalEvent)="openDeleteModal()"></app-delete-modal>
   }
 </div>

@@ -7,7 +7,7 @@ li {
 }
 
 .demo-app {
-  @apply flex min-h-full font-sans text-sm;
+  @apply flex h-full font-sans text-sm;
 }
 
 .demo-app-sidebar {
@@ -25,7 +25,7 @@ li {
 }
 
 .demo-app-main {
-  @apply flex-grow h-screen p-12;
+  @apply flex-grow h-full px-2;
 }
 
 
