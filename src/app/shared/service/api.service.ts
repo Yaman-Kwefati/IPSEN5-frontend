@@ -5,6 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
 
 export enum Endpoint {
   LOGIN = '/login',
+  LOCATION = '/location',
+  BUILDING = '/building',
   REPORTS = '/reports',
 }
 
