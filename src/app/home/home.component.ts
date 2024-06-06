@@ -13,6 +13,7 @@ import { User } from '../shared/model/user.model';
 import { StandardLocation } from '../shared/model/standard-location.model';
 import { UserService } from '../shared/service/user.service';
 import { ReservationService } from '../shared/service/reservation.service';
+import { Wing } from '../shared/model/wing.model';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +34,7 @@ export class HomeComponent implements OnInit {
   public reservations: Reservation[] = [];
   public user!: User;
 
-  public favoriteLocation!: StandardLocation;
+  public favoriteLocation!: Wing;
 
   constructor(private notificationService: NotificationService, private createReservationService: CreateReservationService, private userService: UserService, private reservationService: ReservationService) {}
 
@@ -50,7 +51,9 @@ export class HomeComponent implements OnInit {
   }
 
   private getFavoriteLocation(): void {
-    this.favoriteLocation = this.createReservationService.getDefaultLocation();
+    this.createReservationService.getDefaultLocation().subscribe((response) => {
+      this.favoriteLocation = response.payload;
+    })
   }
 
   async getUpcomingReservations(): Promise<void> {

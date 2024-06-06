@@ -1,9 +1,12 @@
 <article class="rounded-lg p-4 border-2 border-secondary-purple-light space-y-4 mb-5">
   <div class="flex justify-between items-center">
     <h2 class="text-xl font-semibold">Aankomende reserveringen</h2>
-    <button routerLink="/reservations" class="bg-primary-dark-purple text-white p-2 rounded-lg hover:bg-purple-950 duration-300">Bekijk alles</button>
+    <button routerLink="/reservations" class="bg-primary-dark-purple text-white p-2 rounded-lg hover:bg-purple-950 duration-300" *ngIf="this.reservations.length > 0">Bekijk alles</button>
   </div>
-  <ul class="space-y-4">
+  <div *ngIf="this.reservations.length == 0">
+    <p>U heeft geen aankomende reserveringen.</p>
+  </div>
+  <ul class="space-y-4" *ngIf="this.reservations.length > 0">
     <li class="flex justify-between items-center p-4 border-2 border-secondary-purple-light rounded-lg" *ngFor="let reservation of reservations">
       <div>
         <h3 class="font-bold">{{ reservation.startDateTime | date:'longDate' }}</h3>
